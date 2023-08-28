@@ -1,0 +1,3690 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Cuckoo Sandbox</title>
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-64x64.png" sizes="64x64">
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-32x32.png" sizes="32x32">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Cuckoo Sandbox">
+        <meta name="author" content="Cuckoo Sandbox">
+
+        <link href="static_files/vendor.css" rel="stylesheet" type="text/css">
+        <link href="static_files/main.css" rel="stylesheet" type="text/css">
+
+        
+          <script>
+            var task_id = '15';
+          </script>
+        
+
+        <script src="static_files/vendor.js"></script>
+
+        
+
+        <script src="static_files/handlebars-templates.js"></script>
+        <script src="static_files/hexdump.js"></script>
+        <script src="static_files/loader.js"></script>
+        <script src="static_files/sticky.js"></script>
+        <script src="static_files/analysis_sidebar.js"></script>
+        <script src="static_files/analysis_feedback.js"></script>
+        <script src="static_files/submission.js"></script>
+        <script src="static_files/process_tree.js"></script>
+        <script src="static_files/recent.js"></script>
+        <script src="static_files/analysis_network.js"></script>
+        <script src="static_files/rdp.js"></script>
+        <script src="static_files/app.js"></script>
+
+    </head>
+
+    <body id="analysis">
+
+    
+
+<nav class="app-nav" id="primary-nav">
+
+	<a href="http://localhost:8080/" class="logo">
+		<img src="static_files/cuckoo_inverse.png">
+	</a>
+
+	<ul class="app-nav__nav--primary">
+		<li><a title="Dashboard" href="http://localhost:8080/dashboard/"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+		<li><a href="http://localhost:8080/analysis/" title="Recent"><i class="fa fa-th-list"></i> Recent</a></li>
+		<li><a href="http://localhost:8080/analysis/pending/" title="Pending"><i class="fa fa-cogs"></i> Pending</a></li>
+		<li><a href="http://localhost:8080/analysis/search/" title="Search"><i class="fa fa-search"></i> Search</a></li>
+	</ul>
+
+	<ul class="app-nav__nav--right">
+		<li>
+			<a href="http://localhost:8080/submit/" class="button outline">
+				<span data-responsive="nav-expanded">Submit</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-upload"></i></span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/import/" class="button outline">
+				<span data-responsive="nav-expanded">Import</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-download"></i></span>
+			</a>
+		</li>
+		<li class="app-nav__dropdown--parent">
+			<a href="#" id="select-theme">
+				<i class="fa fa-paint-brush"></i>
+			</a>
+			<div class="app-nav__dropdown">
+				<h5>Select theme</h5>
+				<ul class="flex-distribute theme-selection">
+					<li><a class="active" href="theme:default">Default</a></li>
+					<li><a href="theme:cyborg">Cyborg</a></li>
+					<li><a href="theme:night">Night</a></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+
+</nav>
+
+
+    <div class="hidden csrf_placeholder"><input type="hidden" name="csrfmiddlewaretoken" value="c2r5fu2p0OzowenQzMLyuprDOumkU9Od"></div>
+
+<div class="app">
+	
+
+	<div class="app-message hidden" data-message="browser-recommendation">
+		<h5><i class="fa fa-warning"></i> Browser recommendation</h5>
+		<p>Hello, we noticed that you are using <span class="browser"></span>. For the best performance of this application, we recommend to use <a href="https://www.google.com/chrome/browser/desktop/index.html" title="Chrome" target="_blank">Chrome</a>, <a href="https://www.mozilla.org/nl/firefox/new/" title="Firefox" target="_blank">Firefox</a> or any browser that supports <a href="https://webkit.org/" title="WebKit" target="_blank">WebKit</a>.</p>
+		<div class="clearfix">
+			<a href="#dismiss" class="button pull-left">Dismiss</a>
+			<a href="#hide" class="button inversed pull-right">Don't show again</a>
+		</div>
+	</div>
+
+	
+    
+    <div class="flex-nav">
+        <nav class="flex-nav__nav" id="analysis-nav">
+
+	<ul class="cuckoo-nav" style="transform: translate3d(0px, 0px, 0px);">
+		
+		<li>
+			<a href="http://localhost:8080/analysis/15/summary/">
+				<i class="fa fa-home"></i>
+				<span>Summary</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/static/" class="active">
+				<i class="fa fa-book"></i>
+				<span>Static Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/extracted/">
+				<i class="fa fa-pencil"></i>
+				<span>Extracted Artifacts</span>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/behavior/">
+				<i class="fa fa-share-alt-square"></i>
+				<span>Behavioral Analysis</span>
+                
+				<em>10</em>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/network/">
+				<i class="fa fa-globe"></i>
+				<span>Network Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/dropped_files/">
+				<i class="fa fa-file-code-o"></i>
+				<span>Dropped Files</span>
+				<em>2</em>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/dropped_buffers/">
+				<i class="fa fa-server"></i>
+				<span>Dropped Buffers</span>
+                
+				<em>28</em>
+                
+			</a>
+		</li>
+
+		
+
+		<li>
+			<a href="http://localhost:8080/analysis/15/procmemory/">
+				<i class="fa fa-qrcode"></i>
+				<span>Process Memory</span>
+                
+				<em>11</em>
+                
+			</a>
+		</li>
+
+        
+
+		<li>
+			<a href="http://localhost:8080/analysis/15/compare/">
+				<i class="fa fa-random"></i>
+				<span>Compare Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/export/">
+				<i class="fa fa-download"></i>
+				<span>Export Analysis</span>
+			</a>
+		</li>
+		<li>
+		<a href="http://localhost:8080/analysis/15/reboot/">
+			<i class="fa fa-power-off"></i>
+			<span>Reboot Analysis</span>
+		</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/options/">
+				<i class="fa fa-cogs"></i>
+				<span>Options</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" data-toggle="modal" data-target="#feedback_form">
+				<i class="fa fa-bug"></i>
+				<span>Feedback</span>
+			</a>
+		</li>
+
+		<li class="lock-sidebar">
+			<a href="sidebar:toggle-lock" title="Click to disable collapsing">
+				<i class="fa"></i>
+				<span></span>
+			</a>
+		</li>
+
+	</ul>
+
+</nav>
+
+        <section class="flex-nav__body cuckoo-analysis" tabindex="0">
+
+            <header class="page-header cuckoo-analysis__header">
+                <h1>Static Analysis</h1>
+            </header>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tabbable tabs">
+                            <ul class="nav nav-pills" style="margin-bottom: 0;">
+                                <li class="active">
+                                    <a href="#static_analysis_tab" data-toggle="tab">Static Analysis</a>
+                                </li>
+                                <li><a href="#static_strings_tab" data-toggle="tab">Strings</a></li>
+                                <li><a href="#static_antivirus_tab" data-toggle="tab">Antivirus</a></li>
+                                <li><a href="#static_irma_tab" data-toggle="tab">IRMA</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="static_analysis_tab">
+                                    
+                                        <section id="static_analysis">
+    
+        <div class="row">
+            
+                <div class="col-md-3">
+                    <h4> PE Compile Time</h4>
+                    <pre>2017-05-24 21:48:34</pre>
+                </div>
+            
+
+            
+
+            
+                <div class="col-md-3">
+                    <h4>PE Imphash</h4>
+                    <pre>9d6ed8d049bc10bc45b1995cb6f7f4b6</pre>
+                </div>
+            
+        </div>
+
+        <br>
+
+        
+
+        
+        <div class="panel panel-default">
+            <div class="panel-heading" style="height: 40px;">
+                <h4 class="panel-title">
+                    Version Infos
+                </h4>
+            </div>
+
+            <style>
+                #pe_versioninfo tr>th:first-child{
+                    max-width:100px;
+                }
+            </style>
+            <table id="pe_versioninfo" class="table table-striped">
+                
+                <tbody><tr>
+                    <th class="text-right">CompanyName</th>
+                    <td><span class="mono">Elaborate    Bytes AG</span></td>
+                </tr>
+                
+                <tr>
+                    <th class="text-right">Translation</th>
+                    <td><span class="mono">0x0000 0x04b0</span></td>
+                </tr>
+                
+            </tbody></table>
+        </div>
+        
+
+        
+
+        
+        <div>
+            <h4>Sections</h4>
+            <div id="pe_sections">
+                <table class="table table-striped table-bordered">
+                    <tbody><tr>
+                        <th>Name</th>
+                        <th>Virtual Address</th>
+                        <th>Virtual Size</th>
+                        <th>Size of Raw Data</th>
+                        <th>Entropy</th>
+                    </tr>
+
+                    
+                        <tr>
+                            <td>.text</td>
+                            <td class="hex_address">0x00001000</td>
+                            <td class="hex_address">0x0004ed6e</td>
+                            <td class="hex_address">0x0004ee00</td>
+                            <td>6.09328777794</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>.rdata</td>
+                            <td class="hex_address">0x00050000</td>
+                            <td class="hex_address">0x0003a87a</td>
+                            <td class="hex_address">0x0003aa00</td>
+                            <td>1.34374330038</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>.data</td>
+                            <td class="hex_address">0x0008b000</td>
+                            <td class="hex_address">0x000011c0</td>
+                            <td class="hex_address">0x00001200</td>
+                            <td>4.97645876093</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>.rsrc</td>
+                            <td class="hex_address">0x0008d000</td>
+                            <td class="hex_address">0x0000c3a8</td>
+                            <td class="hex_address">0x0000c400</td>
+                            <td>6.55343396717</td>
+                        </tr>
+                    
+                </tbody></table>
+            </div>
+        </div>
+        <br>
+        
+
+        
+        <div>
+            <h4>Resources</h4>
+            <div id="pe_resources">
+                <table class="table table-striped table-bordered">
+                    <tbody><tr>
+                        <th>Name</th>
+                        <th>Offset</th>
+                        <th>Size</th>
+                        <th>Language</th>
+                        <th>Sub-language</th>
+                        <th>File type</th>
+                    </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_ICON</td>
+                            <td class="hex_address">0x00098598</td>
+                            <td class="hex_address">0x00000568</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>GLS_BINARY_LSB_FIRST</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_RCDATA</td>
+                            <td class="hex_address">0x00098ca0</td>
+                            <td class="hex_address">0x00000703</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>XML 1.0 document, ASCII text, with CRLF line terminators</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_GROUP_ICON</td>
+                            <td class="hex_address">0x00098b00</td>
+                            <td class="hex_address">0x00000076</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>data</td>
+                        </tr>
+                    
+                        <tr>
+                            <td>RT_VERSION</td>
+                            <td class="hex_address">0x00098b78</td>
+                            <td class="hex_address">0x00000128</td>
+                            <td>LANG_NEUTRAL</td>
+                            <td>SUBLANG_NEUTRAL</td>
+                            <td>data</td>
+                        </tr>
+                    
+                </tbody></table>
+            </div>
+        </div>
+        <br>
+        
+
+        
+        <div class="row">
+            <h4>Imports</h4>
+            <div id="pe_imports">
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library KERNEL32.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x4500c4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetExitCodeProcess">GetExitCodeProcess</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500c8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetFileAttributesExW">GetFileAttributesExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500cc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetFileAttributesW">GetFileAttributesW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500d0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetFileSize">GetFileSize</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500d4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetFileType">GetFileType</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500d8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetFullPathNameW">GetFullPathNameW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500dc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetLastError">GetLastError</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500e0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetLocalTime">GetLocalTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500e4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetLocaleInfoW">GetLocaleInfoW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500e8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetModuleFileNameA">GetModuleFileNameA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500ec <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetModuleFileNameW">GetModuleFileNameW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500f0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetModuleHandleA">GetModuleHandleA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500f4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetModuleHandleW">GetModuleHandleW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500f8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetPrivateProfileStringW">GetPrivateProfileStringW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500fc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetProcAddress">GetProcAddress</a></span></div>
+                            
+                                <div>• <span class="mono">0x450100 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetProcessHeap">GetProcessHeap</a></span></div>
+                            
+                                <div>• <span class="mono">0x450104 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetStartupInfoA">GetStartupInfoA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450108 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetStdHandle">GetStdHandle</a></span></div>
+                            
+                                <div>• <span class="mono">0x45010c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetSystemTime">GetSystemTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x450110 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetSystemTimeAsFileTime">GetSystemTimeAsFileTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x450114 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetTempFileNameW">GetTempFileNameW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450118 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetTempPathW">GetTempPathW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45011c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetThreadLocale">GetThreadLocale</a></span></div>
+                            
+                                <div>• <span class="mono">0x450120 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetTickCount">GetTickCount</a></span></div>
+                            
+                                <div>• <span class="mono">0x450124 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetTimeFormatW">GetTimeFormatW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450128 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetUserDefaultLCID">GetUserDefaultLCID</a></span></div>
+                            
+                                <div>• <span class="mono">0x45012c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetVersion">GetVersion</a></span></div>
+                            
+                                <div>• <span class="mono">0x450130 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetVersionExA">GetVersionExA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450134 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetVolumeInformationW">GetVolumeInformationW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450138 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetWindowsDirectoryW">GetWindowsDirectoryW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45013c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=Heap32ListFirst">Heap32ListFirst</a></span></div>
+                            
+                                <div>• <span class="mono">0x450140 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=HeapAlloc">HeapAlloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x450144 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=HeapFree">HeapFree</a></span></div>
+                            
+                                <div>• <span class="mono">0x450148 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=HeapReAlloc">HeapReAlloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x45014c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=HeapSize">HeapSize</a></span></div>
+                            
+                                <div>• <span class="mono">0x450150 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=InitializeCriticalSection">InitializeCriticalSection</a></span></div>
+                            
+                                <div>• <span class="mono">0x450154 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=InterlockedDecrement">InterlockedDecrement</a></span></div>
+                            
+                                <div>• <span class="mono">0x450158 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=InterlockedIncrement">InterlockedIncrement</a></span></div>
+                            
+                                <div>• <span class="mono">0x45015c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=IsSystemResumeAutomatic">IsSystemResumeAutomatic</a></span></div>
+                            
+                                <div>• <span class="mono">0x450160 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LeaveCriticalSection">LeaveCriticalSection</a></span></div>
+                            
+                                <div>• <span class="mono">0x450164 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LoadLibraryA">LoadLibraryA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450168 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LoadLibraryW">LoadLibraryW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45016c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LocalFree">LocalFree</a></span></div>
+                            
+                                <div>• <span class="mono">0x450170 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MoveFileExA">MoveFileExA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450174 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MoveFileExW">MoveFileExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450178 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MoveFileW">MoveFileW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45017c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MultiByteToWideChar">MultiByteToWideChar</a></span></div>
+                            
+                                <div>• <span class="mono">0x450180 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetEnvironmentVariableW">GetEnvironmentVariableW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450184 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=QueryPerformanceCounter">QueryPerformanceCounter</a></span></div>
+                            
+                                <div>• <span class="mono">0x450188 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=QueueUserAPC">QueueUserAPC</a></span></div>
+                            
+                                <div>• <span class="mono">0x45018c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RaiseException">RaiseException</a></span></div>
+                            
+                                <div>• <span class="mono">0x450190 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ReadConsoleW">ReadConsoleW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450194 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ReadFile">ReadFile</a></span></div>
+                            
+                                <div>• <span class="mono">0x450198 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ReadProcessMemory">ReadProcessMemory</a></span></div>
+                            
+                                <div>• <span class="mono">0x45019c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RemoveDirectoryW">RemoveDirectoryW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501a0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ScrollConsoleScreenBufferW">ScrollConsoleScreenBufferW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501a4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SearchPathW">SearchPathW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501a8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetConsoleCtrlHandler">SetConsoleCtrlHandler</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501ac <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetConsoleCursorPosition">SetConsoleCursorPosition</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501b0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetConsoleMode">SetConsoleMode</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501b4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetConsoleTextAttribute">SetConsoleTextAttribute</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501b8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetConsoleTitleW">SetConsoleTitleW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501bc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetCurrentDirectoryW">SetCurrentDirectoryW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501c0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetEnvironmentVariableW">SetEnvironmentVariableW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501c4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetErrorMode">SetErrorMode</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501c8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetFileAttributesW">SetFileAttributesW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501cc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetFilePointer">SetFilePointer</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501d0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetFileTime">SetFileTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501d4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetLastError">SetLastError</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501d8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetLocalTime">SetLocalTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501dc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetSystemTime">SetSystemTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501e0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetThreadLocale">SetThreadLocale</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501e4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetUnhandledExceptionFilter">SetUnhandledExceptionFilter</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501e8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetVolumeLabelA">SetVolumeLabelA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501ec <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SleepEx">SleepEx</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501f0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SwitchToThread">SwitchToThread</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501f4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SystemTimeToFileTime">SystemTimeToFileTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501f8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=TerminateProcess">TerminateProcess</a></span></div>
+                            
+                                <div>• <span class="mono">0x4501fc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=TransmitCommChar">TransmitCommChar</a></span></div>
+                            
+                                <div>• <span class="mono">0x450200 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=UnhandledExceptionFilter">UnhandledExceptionFilter</a></span></div>
+                            
+                                <div>• <span class="mono">0x450204 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=VirtualAlloc">VirtualAlloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x450208 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=VirtualFree">VirtualFree</a></span></div>
+                            
+                                <div>• <span class="mono">0x45020c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=VirtualFreeEx">VirtualFreeEx</a></span></div>
+                            
+                                <div>• <span class="mono">0x450210 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=VirtualQuery">VirtualQuery</a></span></div>
+                            
+                                <div>• <span class="mono">0x450214 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WaitForSingleObject">WaitForSingleObject</a></span></div>
+                            
+                                <div>• <span class="mono">0x450218 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WideCharToMultiByte">WideCharToMultiByte</a></span></div>
+                            
+                                <div>• <span class="mono">0x45021c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WriteConsoleW">WriteConsoleW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450220 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WriteFile">WriteFile</a></span></div>
+                            
+                                <div>• <span class="mono">0x450224 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WritePrivateProfileSectionA">WritePrivateProfileSectionA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450228 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_hwrite">_hwrite</a></span></div>
+                            
+                                <div>• <span class="mono">0x45022c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=lstrcmpW">lstrcmpW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450230 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=lstrcmpiW">lstrcmpiW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450234 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=lstrcpyW">lstrcpyW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450238 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=lstrlenW">lstrlenW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45023c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetEnvironmentStringsW">GetEnvironmentStringsW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450240 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetDriveTypeW">GetDriveTypeW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450244 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetDiskFreeSpaceExW">GetDiskFreeSpaceExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450248 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetDateFormatW">GetDateFormatW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45024c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCurrentThreadId">GetCurrentThreadId</a></span></div>
+                            
+                                <div>• <span class="mono">0x450250 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCurrentThread">GetCurrentThread</a></span></div>
+                            
+                                <div>• <span class="mono">0x450254 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCurrentProcessId">GetCurrentProcessId</a></span></div>
+                            
+                                <div>• <span class="mono">0x450258 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCurrentProcess">GetCurrentProcess</a></span></div>
+                            
+                                <div>• <span class="mono">0x45025c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCurrentDirectoryW">GetCurrentDirectoryW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450260 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetConsoleTitleW">GetConsoleTitleW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450264 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetConsoleScreenBufferInfo">GetConsoleScreenBufferInfo</a></span></div>
+                            
+                                <div>• <span class="mono">0x450268 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetConsoleOutputCP">GetConsoleOutputCP</a></span></div>
+                            
+                                <div>• <span class="mono">0x45026c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetConsoleMode">GetConsoleMode</a></span></div>
+                            
+                                <div>• <span class="mono">0x450270 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCompressedFileSizeW">GetCompressedFileSizeW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450274 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCommandLineW">GetCommandLineW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450278 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetCPInfo">GetCPInfo</a></span></div>
+                            
+                                <div>• <span class="mono">0x45027c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetBinaryTypeW">GetBinaryTypeW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450280 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetBinaryType">GetBinaryType</a></span></div>
+                            
+                                <div>• <span class="mono">0x450284 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FreeLibrary">FreeLibrary</a></span></div>
+                            
+                                <div>• <span class="mono">0x450288 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FormatMessageW">FormatMessageW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45028c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FlushFileBuffers">FlushFileBuffers</a></span></div>
+                            
+                                <div>• <span class="mono">0x450290 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FlushConsoleInputBuffer">FlushConsoleInputBuffer</a></span></div>
+                            
+                                <div>• <span class="mono">0x450294 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FindNextFileW">FindNextFileW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450298 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FindNextFileA">FindNextFileA</a></span></div>
+                            
+                                <div>• <span class="mono">0x45029c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FindFirstFileW">FindFirstFileW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502a0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FindFirstFileA">FindFirstFileA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502a4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FindClose">FindClose</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502a8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FillConsoleOutputCharacterW">FillConsoleOutputCharacterW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502ac <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FillConsoleOutputAttribute">FillConsoleOutputAttribute</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502b0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FileTimeToSystemTime">FileTimeToSystemTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502b4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FileTimeToLocalFileTime">FileTimeToLocalFileTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502b8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ExpandEnvironmentStringsW">ExpandEnvironmentStringsW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502bc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=EraseTape">EraseTape</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502c0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=EnterCriticalSection">EnterCriticalSection</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502c4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DuplicateHandle">DuplicateHandle</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502c8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DeleteFileW">DeleteFileW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502cc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DeleteFileA">DeleteFileA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502d0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateThread">CreateThread</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502d4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateProcessW">CreateProcessW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502d8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateFileW">CreateFileW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502dc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateFileA">CreateFileA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502e0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateDirectoryW">CreateDirectoryW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502e4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CopyFileW">CopyFileW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502e8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CopyFileA">CopyFileA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502ec <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ConvertDefaultLocale">ConvertDefaultLocale</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502f0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CompareFileTime">CompareFileTime</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502f4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CloseHandle">CloseHandle</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502f8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=OpenProcess">OpenProcess</a></span></div>
+                            
+                                <div>• <span class="mono">0x4502fc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=AddAtomW">AddAtomW</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library USER32.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x45036c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DefWindowProcW">DefWindowProcW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450370 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DrawFocusRect">DrawFocusRect</a></span></div>
+                            
+                                <div>• <span class="mono">0x450374 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateWindowStationA">CreateWindowStationA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450378 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateMenu">CreateMenu</a></span></div>
+                            
+                                <div>• <span class="mono">0x45037c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FillRect">FillRect</a></span></div>
+                            
+                                <div>• <span class="mono">0x450380 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FindWindowW">FindWindowW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450384 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetMenuCheckMarkDimensions">GetMenuCheckMarkDimensions</a></span></div>
+                            
+                                <div>• <span class="mono">0x450388 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetProcessWindowStation">GetProcessWindowStation</a></span></div>
+                            
+                                <div>• <span class="mono">0x45038c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetSysColorBrush">GetSysColorBrush</a></span></div>
+                            
+                                <div>• <span class="mono">0x450390 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetThreadDesktop">GetThreadDesktop</a></span></div>
+                            
+                                <div>• <span class="mono">0x450394 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetUpdateRgn">GetUpdateRgn</a></span></div>
+                            
+                                <div>• <span class="mono">0x450398 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetUserObjectInformationW">GetUserObjectInformationW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45039c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=InflateRect">InflateRect</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503a0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=InsertMenuItemW">InsertMenuItemW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503a4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=IsIconic">IsIconic</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503a8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LockWindowUpdate">LockWindowUpdate</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503ac <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MessageBeep">MessageBeep</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503b0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MessageBoxW">MessageBoxW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503b4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=MonitorFromWindow">MonitorFromWindow</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503b8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=OffsetRect">OffsetRect</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503bc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=PostMessageW">PostMessageW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503c0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RealGetWindowClass">RealGetWindowClass</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503c4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SendMessageW">SendMessageW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503c8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetUserObjectInformationW">SetUserObjectInformationW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503cc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ShowWindow">ShowWindow</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503d0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ToUnicode">ToUnicode</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503d4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WinHelpA">WinHelpA</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503d8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LoadCursorW">LoadCursorW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503dc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetKBCodePage">GetKBCodePage</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503e0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DefMDIChildProcW">DefMDIChildProcW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503e4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CloseWindowStation">CloseWindowStation</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library GDI32.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x450060 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=StartPage">StartPage</a></span></div>
+                            
+                                <div>• <span class="mono">0x450064 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetMiterLimit">SetMiterLimit</a></span></div>
+                            
+                                <div>• <span class="mono">0x450068 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetMapperFlags">SetMapperFlags</a></span></div>
+                            
+                                <div>• <span class="mono">0x45006c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SetBitmapBits">SetBitmapBits</a></span></div>
+                            
+                                <div>• <span class="mono">0x450070 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=PtVisible">PtVisible</a></span></div>
+                            
+                                <div>• <span class="mono">0x450074 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=OffsetClipRgn">OffsetClipRgn</a></span></div>
+                            
+                                <div>• <span class="mono">0x450078 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetViewportOrgEx">GetViewportOrgEx</a></span></div>
+                            
+                                <div>• <span class="mono">0x45007c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetTextFaceW">GetTextFaceW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450080 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=AddFontMemResourceEx">AddFontMemResourceEx</a></span></div>
+                            
+                                <div>• <span class="mono">0x450084 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=AnimatePalette">AnimatePalette</a></span></div>
+                            
+                                <div>• <span class="mono">0x450088 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=Arc">Arc</a></span></div>
+                            
+                                <div>• <span class="mono">0x45008c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=BRUSHOBJ_pvAllocRbrush">BRUSHOBJ_pvAllocRbrush</a></span></div>
+                            
+                                <div>• <span class="mono">0x450090 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ColorMatchToTarget">ColorMatchToTarget</a></span></div>
+                            
+                                <div>• <span class="mono">0x450094 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CopyEnhMetaFileA">CopyEnhMetaFileA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450098 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreatePatternBrush">CreatePatternBrush</a></span></div>
+                            
+                                <div>• <span class="mono">0x45009c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DescribePixelFormat">DescribePixelFormat</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500a0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=EngFreeModule">EngFreeModule</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500a4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=EngTextOut">EngTextOut</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500a8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=EnumFontsW">EnumFontsW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500ac <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FillRgn">FillRgn</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500b0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GdiGetPageCount">GdiGetPageCount</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500b4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetGlyphOutlineW">GetGlyphOutlineW</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500b8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetMiterLimit">GetMiterLimit</a></span></div>
+                            
+                                <div>• <span class="mono">0x4500bc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetOutlineTextMetricsA">GetOutlineTextMetricsA</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library ADVAPI32.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x450000 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegOpenKeyW">RegOpenKeyW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450004 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SaferRecordEventLogEntry">SaferRecordEventLogEntry</a></span></div>
+                            
+                                <div>• <span class="mono">0x450008 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SaferIdentifyLevel">SaferIdentifyLevel</a></span></div>
+                            
+                                <div>• <span class="mono">0x45000c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SaferComputeTokenFromLevel">SaferComputeTokenFromLevel</a></span></div>
+                            
+                                <div>• <span class="mono">0x450010 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SaferCloseLevel">SaferCloseLevel</a></span></div>
+                            
+                                <div>• <span class="mono">0x450014 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RevertToSelf">RevertToSelf</a></span></div>
+                            
+                                <div>• <span class="mono">0x450018 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegSetValueW">RegSetValueW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45001c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegSetValueExW">RegSetValueExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450020 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegQueryValueW">RegQueryValueW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450024 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegQueryValueExW">RegQueryValueExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450028 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CreateProcessAsUserW">CreateProcessAsUserW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45002c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegOpenKeyExW">RegOpenKeyExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450030 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegEnumKeyW">RegEnumKeyW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450034 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegDeleteKeyW">RegDeleteKeyW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450038 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegCreateKeyExW">RegCreateKeyExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45003c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=RegCloseKey">RegCloseKey</a></span></div>
+                            
+                                <div>• <span class="mono">0x450040 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=LookupAccountSidW">LookupAccountSidW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450044 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ImpersonateLoggedOnUser">ImpersonateLoggedOnUser</a></span></div>
+                            
+                                <div>• <span class="mono">0x450048 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetSecurityDescriptorOwner">GetSecurityDescriptorOwner</a></span></div>
+                            
+                                <div>• <span class="mono">0x45004c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=GetFileSecurityW">GetFileSecurityW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450050 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=FreeSid">FreeSid</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library SHELL32.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x450304 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ShellExecuteExW">ShellExecuteExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450308 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ShellExecuteA">ShellExecuteA</a></span></div>
+                            
+                                <div>• <span class="mono">0x45030c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ShellAboutA">ShellAboutA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450310 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHIsFileAvailableOffline">SHIsFileAvailableOffline</a></span></div>
+                            
+                                <div>• <span class="mono">0x450314 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHGetSettings">SHGetSettings</a></span></div>
+                            
+                                <div>• <span class="mono">0x450318 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=CheckEscapesW">CheckEscapesW</a></span></div>
+                            
+                                <div>• <span class="mono">0x45031c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DragQueryFile">DragQueryFile</a></span></div>
+                            
+                                <div>• <span class="mono">0x450320 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=DragQueryFileAorW">DragQueryFileAorW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450324 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ExtractIconExW">ExtractIconExW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450328 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHAppBarMessage">SHAppBarMessage</a></span></div>
+                            
+                                <div>• <span class="mono">0x45032c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHBrowseForFolderA">SHBrowseForFolderA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450330 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHChangeNotify">SHChangeNotify</a></span></div>
+                            
+                                <div>• <span class="mono">0x450334 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHCreateProcessAsUserW">SHCreateProcessAsUserW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450338 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHEmptyRecycleBinA">SHEmptyRecycleBinA</a></span></div>
+                            
+                                <div>• <span class="mono">0x45033c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHFileOperationA">SHFileOperationA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450340 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHGetDataFromIDListA">SHGetDataFromIDListA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450344 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHGetDiskFreeSpaceA">SHGetDiskFreeSpaceA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450348 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=SHGetMalloc">SHGetMalloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x45034c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=WOWShellExecute">WOWShellExecute</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library SHLWAPI.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x450354 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=StrCmpNW">StrCmpNW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450358 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=StrStrIA">StrStrIA</a></span></div>
+                            
+                                <div>• <span class="mono">0x45035c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=StrStrIW">StrStrIW</a></span></div>
+                            
+                                <div>• <span class="mono">0x450360 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=StrCmpNA">StrCmpNA</a></span></div>
+                            
+                                <div>• <span class="mono">0x450364 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=StrChrIA">StrChrIA</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library COMCTL32.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x450058 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=ImageList_Create">ImageList_Create</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div style="padding-bottom:6px;">
+                                <strong>Library msvcrt.dll</strong>:
+                            </div>
+                            
+                                <div>• <span class="mono">0x4503ec <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_XcptFilter">_XcptFilter</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503f0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=__getmainargs">__getmainargs</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503f4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=__initenv">__initenv</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503f8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=__p__commode">__p__commode</a></span></div>
+                            
+                                <div>• <span class="mono">0x4503fc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=__p__fmode">__p__fmode</a></span></div>
+                            
+                                <div>• <span class="mono">0x450400 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=__set_app_type">__set_app_type</a></span></div>
+                            
+                                <div>• <span class="mono">0x450404 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=__setusermatherr">__setusermatherr</a></span></div>
+                            
+                                <div>• <span class="mono">0x450408 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_adjust_fdiv">_adjust_fdiv</a></span></div>
+                            
+                                <div>• <span class="mono">0x45040c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_c_exit">_c_exit</a></span></div>
+                            
+                                <div>• <span class="mono">0x450410 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_cexit">_cexit</a></span></div>
+                            
+                                <div>• <span class="mono">0x450414 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_close">_close</a></span></div>
+                            
+                                <div>• <span class="mono">0x450418 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_controlfp">_controlfp</a></span></div>
+                            
+                                <div>• <span class="mono">0x45041c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_dup">_dup</a></span></div>
+                            
+                                <div>• <span class="mono">0x450420 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_dup2">_dup2</a></span></div>
+                            
+                                <div>• <span class="mono">0x450424 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_errno">_errno</a></span></div>
+                            
+                                <div>• <span class="mono">0x450428 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_except_handler3">_except_handler3</a></span></div>
+                            
+                                <div>• <span class="mono">0x45042c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_exit">_exit</a></span></div>
+                            
+                                <div>• <span class="mono">0x450430 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_get_osfhandle">_get_osfhandle</a></span></div>
+                            
+                                <div>• <span class="mono">0x450434 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_getch">_getch</a></span></div>
+                            
+                                <div>• <span class="mono">0x450438 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_initterm">_initterm</a></span></div>
+                            
+                                <div>• <span class="mono">0x45043c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_iob">_iob</a></span></div>
+                            
+                                <div>• <span class="mono">0x450440 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_open_osfhandle">_open_osfhandle</a></span></div>
+                            
+                                <div>• <span class="mono">0x450444 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_pclose">_pclose</a></span></div>
+                            
+                                <div>• <span class="mono">0x450448 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_pipe">_pipe</a></span></div>
+                            
+                                <div>• <span class="mono">0x45044c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_seh_longjmp_unwind">_seh_longjmp_unwind</a></span></div>
+                            
+                                <div>• <span class="mono">0x450450 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_setjmp3">_setjmp3</a></span></div>
+                            
+                                <div>• <span class="mono">0x450454 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_setmode">_setmode</a></span></div>
+                            
+                                <div>• <span class="mono">0x450458 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_snwprintf">_snwprintf</a></span></div>
+                            
+                                <div>• <span class="mono">0x45045c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_tell">_tell</a></span></div>
+                            
+                                <div>• <span class="mono">0x450460 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_ultoa">_ultoa</a></span></div>
+                            
+                                <div>• <span class="mono">0x450464 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_vsnwprintf">_vsnwprintf</a></span></div>
+                            
+                                <div>• <span class="mono">0x450468 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_wcsicmp">_wcsicmp</a></span></div>
+                            
+                                <div>• <span class="mono">0x45046c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_wcslwr">_wcslwr</a></span></div>
+                            
+                                <div>• <span class="mono">0x450470 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_wcsnicmp">_wcsnicmp</a></span></div>
+                            
+                                <div>• <span class="mono">0x450474 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_wcsupr">_wcsupr</a></span></div>
+                            
+                                <div>• <span class="mono">0x450478 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_wpopen">_wpopen</a></span></div>
+                            
+                                <div>• <span class="mono">0x45047c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=_wtol">_wtol</a></span></div>
+                            
+                                <div>• <span class="mono">0x450480 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=calloc">calloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x450484 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=exit">exit</a></span></div>
+                            
+                                <div>• <span class="mono">0x450488 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=fflush">fflush</a></span></div>
+                            
+                                <div>• <span class="mono">0x45048c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=fgets">fgets</a></span></div>
+                            
+                                <div>• <span class="mono">0x450490 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=fprintf">fprintf</a></span></div>
+                            
+                                <div>• <span class="mono">0x450494 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=free">free</a></span></div>
+                            
+                                <div>• <span class="mono">0x450498 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=iswalpha">iswalpha</a></span></div>
+                            
+                                <div>• <span class="mono">0x45049c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=iswdigit">iswdigit</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504a0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=iswspace">iswspace</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504a4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=iswxdigit">iswxdigit</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504a8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=longjmp">longjmp</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504ac <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=malloc">malloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504b0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=memmove">memmove</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504b4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=printf">printf</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504b8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=qsort">qsort</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504bc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=rand">rand</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504c0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=realloc">realloc</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504c4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=setlocale">setlocale</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504c8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=srand">srand</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504cc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=swprintf">swprintf</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504d0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=swscanf">swscanf</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504d4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=time">time</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504d8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=towlower">towlower</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504dc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=towupper">towupper</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504e0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcscat">wcscat</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504e4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcschr">wcschr</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504e8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcscmp">wcscmp</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504ec <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcscpy">wcscpy</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504f0 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcslen">wcslen</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504f4 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcsncmp">wcsncmp</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504f8 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcsncpy">wcsncpy</a></span></div>
+                            
+                                <div>• <span class="mono">0x4504fc <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcsrchr">wcsrchr</a></span></div>
+                            
+                                <div>• <span class="mono">0x450500 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcsspn">wcsspn</a></span></div>
+                            
+                                <div>• <span class="mono">0x450504 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcsstr">wcsstr</a></span></div>
+                            
+                                <div>• <span class="mono">0x450508 <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcstol">wcstol</a></span></div>
+                            
+                                <div>• <span class="mono">0x45050c <a href="http://social.msdn.microsoft.com/Search/en-US/windows/desktop?query=wcstoul">wcstoul</a></span></div>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+        <hr>
+        
+
+        
+    
+</section>
+
+                                    
+                                </div>
+                                <div class="tab-pane fade" id="static_strings_tab">
+                                    <section id="static_strings">
+    <div class="well" style="font-family:monospace;width:75%;">
+        
+            <div>!This program cannot be run in DOS mode.</div>
+        
+            <div>`.rdata</div>
+        
+            <div>@.data</div>
+        
+            <div>cetSVocB@dRfWs@</div>
+        
+            <div>$VYqPuaoel,lG</div>
+        
+            <div>iFr!q]E</div>
+        
+            <div>@gWtrgAn</div>
+        
+            <div>HsTuGaLD$</div>
+        
+            <div>&amp;Fe9qQn9hJ </div>
+        
+            <div>#@?cEt</div>
+        
+            <div>tAlNb$</div>
+        
+            <div>&amp;0Aioa</div>
+        
+            <div>kgSFXt</div>
+        
+            <div>G$hXD$</div>
+        
+            <div>],WjRwSJR</div>
+        
+            <div>`8KI5hM</div>
+        
+            <div>a`gF!h</div>
+        
+            <div>dKE.h%</div>
+        
+            <div> |j,hM</div>
+        
+            <div>"F[avf</div>
+        
+            <div>u@$ju|`$</div>
+        
+            <div>@$ju|`$5</div>
+        
+            <div>1w0C)-</div>
+        
+            <div>tb1AYIQ</div>
+        
+            <div>tt&lt;AY{Q</div>
+        
+            <div>z1`DD$</div>
+        
+            <div>s8&lt;44C</div>
+        
+            <div>^wthk.ne</div>
+        
+            <div>)c$"&lt;4</div>
+        
+            <div>]'uT(c </div>
+        
+            <div>6ZP$a'</div>
+        
+            <div>&lt;SG6L^g</div>
+        
+            <div>9WPF,V`</div>
+        
+            <div>qW*nl9</div>
+        
+            <div>3)rc+</div>
+        
+            <div>F\6b&lt;,+</div>
+        
+            <div>;&lt;Rq1'</div>
+        
+            <div>kuS6&gt; </div>
+        
+            <div>G~P$aF'</div>
+        
+            <div>DEgvVZ</div>
+        
+            <div>.TEkr3</div>
+        
+            <div>';=+4|</div>
+        
+            <div>PBl.#j</div>
+        
+            <div>[k4tyY</div>
+        
+            <div>@CSwv\j</div>
+        
+            <div>T/Q)q#</div>
+        
+            <div>b8'|"F</div>
+        
+            <div>RD#_/?~</div>
+        
+            <div>?kWq`!</div>
+        
+            <div>}'H0E#C</div>
+        
+            <div>C[?Yfe</div>
+        
+            <div>|'HpD#</div>
+        
+            <div>P#t4*X</div>
+        
+            <div>jF[;)-</div>
+        
+            <div>rP~k/j</div>
+        
+            <div>O&lt;b=/3</div>
+        
+            <div>D57[u0</div>
+        
+            <div>s,jYYA</div>
+        
+            <div>y,j9XA</div>
+        
+            <div>9-+(ts&lt;x$Qw0</div>
+        
+            <div>@x$Qv&gt;;</div>
+        
+            <div>Nh,3Y.</div>
+        
+            <div>_EW"Pa</div>
+        
+            <div>ix&amp;32q</div>
+        
+            <div>xG+6u+</div>
+        
+            <div>$0H{@$</div>
+        
+            <div>Jlg$-W</div>
+        
+            <div>uqNe)o</div>
+        
+            <div>Yjg$QU</div>
+        
+            <div>*A)Rrj</div>
+        
+            <div>PwSJRw</div>
+        
+            <div>AF$SAP</div>
+        
+            <div>th1k^</div>
+        
+            <div>wV6g8/</div>
+        
+            <div>Bo{jeg</div>
+        
+            <div>/ iE$j</div>
+        
+            <div>aq)(ha</div>
+        
+            <div>)0XpD3</div>
+        
+            <div>$j'&amp;sh</div>
+        
+            <div>thPpO`</div>
+        
+            <div>n/`4F$</div>
+        
+            <div>&gt;0A)Lr</div>
+        
+            <div>~u{Yl{</div>
+        
+            <div>G^/(a?$jcT</div>
+        
+            <div>\/|u&gt;$hrO~</div>
+        
+            <div>%S*RwS</div>
+        
+            <div>t_1AiZg</div>
+        
+            <div>2AiPrW</div>
+        
+            <div>]OwjeRwjXRwS:RwS6^/</div>
+        
+            <div>|V$e|/</div>
+        
+            <div>5C)~/`</div>
+        
+            <div>k.VvnO</div>
+        
+            <div>$uV5,:%P</div>
+        
+            <div>@)o()</div>
+        
+            <div>t!0AYU</div>
+        
+            <div>WuUGZB</div>
+        
+            <div>t`6AY7</div>
+        
+            <div>j5C)|.</div>
+        
+            <div>E29YZ&amp;</div>
+        
+            <div>fV6GZ*</div>
+        
+            <div>5CiCx[</div>
+        
+            <div>QRL"Sb_</div>
+        
+            <div>XuVR+"</div>
+        
+            <div>p+CPBd</div>
+        
+            <div>0_;'/c</div>
+        
+            <div>$qmmgk</div>
+        
+            <div>Hgz6D3</div>
+        
+            <div>u=H&lt;Fr</div>
+        
+            <div>##&gt;k#$</div>
+        
+            <div>/kFlMIFl=</div>
+        
+            <div>A4(EIx</div>
+        
+            <div>cK3[MFl-</div>
+        
+            <div>?3[IFl</div>
+        
+            <div>{a$rNd</div>
+        
+            <div>vtMZHw@UF</div>
+        
+            <div>jtHz?r@]Kr</div>
+        
+            <div>|Cl,jGo</div>
+        
+            <div>GLm^w</div>
+        
+            <div>aPH]A</div>
+        
+            <div>e&lt;Wj%k+</div>
+        
+            <div>16wBs?</div>
+        
+            <div>"`T&gt;&gt;o</div>
+        
+            <div>NKXqCy</div>
+        
+            <div>tlE 7 </div>
+        
+            <div>Lc9?]Av</div>
+        
+            <div>qqLp4</div>
+        
+            <div>^&amp;=|e9P</div>
+        
+            <div>b7k=:ra&lt;</div>
+        
+            <div>gD+FJq</div>
+        
+            <div>lp6Y-=Pi</div>
+        
+            <div>H$#4"K?</div>
+        
+            <div>a}U)??%</div>
+        
+            <div>Z7B'~&amp;K</div>
+        
+            <div>?8n`u"</div>
+        
+            <div>c\!rAum</div>
+        
+            <div>nxd@*p</div>
+        
+            <div>sP|NMop}H</div>
+        
+            <div>JJ{v(I</div>
+        
+            <div>CU$YeK</div>
+        
+            <div>1Z_wrn</div>
+        
+            <div>j1Y4%W@l</div>
+        
+            <div> Z@RFk</div>
+        
+            <div>c;S0V_</div>
+        
+            <div>a'aJ+`</div>
+        
+            <div>r~=u:,</div>
+        
+            <div>oG)72=YI/Xk</div>
+        
+            <div>gS"_hq</div>
+        
+            <div>I]eM)s(</div>
+        
+            <div>6|jjo'</div>
+        
+            <div>,3_5,A</div>
+        
+            <div>hf;FAQ</div>
+        
+            <div>9E6L&lt;</div>
+        
+            <div>%nu.TA</div>
+        
+            <div>J[A!/]</div>
+        
+            <div>xSyvA </div>
+        
+            <div>e('{&amp;e</div>
+        
+            <div>)@g#3F</div>
+        
+            <div>z*25M$</div>
+        
+            <div>X0R&lt;[z</div>
+        
+            <div>*czx6b</div>
+        
+            <div>.8GA}</div>
+        
+            <div>$tO\b9</div>
+        
+            <div>-C\&lt;E'</div>
+        
+            <div>"8nq)@$</div>
+        
+            <div>K&lt;"[S6</div>
+        
+            <div>K:\A9#[</div>
+        
+            <div>D-%b|@sh</div>
+        
+            <div>53kmH.</div>
+        
+            <div>k=mRz1</div>
+        
+            <div>Q8&gt;$ay</div>
+        
+            <div>@j,K&gt;.</div>
+        
+            <div>7 i.?p</div>
+        
+            <div>Tf1j$z9q</div>
+        
+            <div>p1bfsGq</div>
+        
+            <div>R=PY2P?@</div>
+        
+            <div>x(HSeb</div>
+        
+            <div>0N"2Z&gt;C</div>
+        
+            <div>}VZ'(|</div>
+        
+            <div>(42+m8%</div>
+        
+            <div>*0+Fl'</div>
+        
+            <div>Rpro_^</div>
+        
+            <div>v$[(?&lt;</div>
+        
+            <div>+KA}gO</div>
+        
+            <div>R~BOp </div>
+        
+            <div>n 1b*v</div>
+        
+            <div>DyeT9Y-</div>
+        
+            <div>OTzPc{</div>
+        
+            <div>qY@!/&gt;</div>
+        
+            <div>ORE%lF</div>
+        
+            <div>Ac`iP{</div>
+        
+            <div>+#,W:nxp</div>
+        
+            <div>|kn~*p</div>
+        
+            <div>O!u%2rI</div>
+        
+            <div>hs7s9k</div>
+        
+            <div>W&lt;6(1+}</div>
+        
+            <div>hX4q{v</div>
+        
+            <div>4b]:]x</div>
+        
+            <div>w{Xjj]</div>
+        
+            <div>a'[|_lE</div>
+        
+            <div> *"HbT</div>
+        
+            <div>:&lt;% `L(</div>
+        
+            <div>[i78I1</div>
+        
+            <div>1eGw&gt;n</div>
+        
+            <div>(Dby~s</div>
+        
+            <div>ah0hmI</div>
+        
+            <div>2=Mddf</div>
+        
+            <div>oVTsx)</div>
+        
+            <div>!Z )Q}f</div>
+        
+            <div>314X40HS</div>
+        
+            <div>C K\ts</div>
+        
+            <div>&lt;PGwi</div>
+        
+            <div>XjaDfX</div>
+        
+            <div>o;J}&amp;&amp;</div>
+        
+            <div>$eAl%P</div>
+        
+            <div>&gt;0.{(~</div>
+        
+            <div>"^o;ME</div>
+        
+            <div>4d=iBJ</div>
+        
+            <div>-N}+1K5</div>
+        
+            <div>#E;Js'</div>
+        
+            <div>W~{QB &lt;</div>
+        
+            <div>bIw\TjT/</div>
+        
+            <div>ch\hz7</div>
+        
+            <div>8^ppEc</div>
+        
+            <div>&lt;z[8_?</div>
+        
+            <div>q\Ex^:</div>
+        
+            <div>Bomrl]z</div>
+        
+            <div>oqzT`l</div>
+        
+            <div>+3r%c&gt;jI2</div>
+        
+            <div>Bi6nmJ</div>
+        
+            <div>p.*!&amp;=v</div>
+        
+            <div>Ersv5=-</div>
+        
+            <div>Rh]u8i </div>
+        
+            <div>)Y0gl ;O</div>
+        
+            <div>KP|P%?e</div>
+        
+            <div>e@(YA:</div>
+        
+            <div>cC'1hQ</div>
+        
+            <div>F^+j)|</div>
+        
+            <div>K 2s&amp;P</div>
+        
+            <div>-'v*Ea</div>
+        
+            <div>Q`Ixu7~(J</div>
+        
+            <div>B@TxF!</div>
+        
+            <div>!f(ol|</div>
+        
+            <div>[#Wg{\</div>
+        
+            <div>jhH&lt;Ti</div>
+        
+            <div>i=wjf%</div>
+        
+            <div>E!bJ'A</div>
+        
+            <div>Q7M&gt;+/&gt;</div>
+        
+            <div>USQ*Ck</div>
+        
+            <div>ZUy1&gt;TH</div>
+        
+            <div>Ct\T_t</div>
+        
+            <div>,p@_C?6</div>
+        
+            <div>N6p4N</div>
+        
+            <div>Z4TRw'</div>
+        
+            <div>q/$kR&amp;</div>
+        
+            <div>)5)jzoh</div>
+        
+            <div>M=N_q6</div>
+        
+            <div>V;cpP:</div>
+        
+            <div>=}E{eY</div>
+        
+            <div>L'&amp;6$n</div>
+        
+            <div>&amp;M)y$s</div>
+        
+            <div>WK7#%Xs</div>
+        
+            <div>cn[f7g</div>
+        
+            <div>$aw_8@G</div>
+        
+            <div>A_@{7"</div>
+        
+            <div>AzN-X</div>
+        
+            <div>/eE$Ua</div>
+        
+            <div>O}I4S8</div>
+        
+            <div>04_Cqd{</div>
+        
+            <div>5v]ylC</div>
+        
+            <div>_5,9oa</div>
+        
+            <div>cFRIdN</div>
+        
+            <div>$7%U"(</div>
+        
+            <div>TM4f!9 </div>
+        
+            <div>k7pHCV</div>
+        
+            <div>gYrVPK.</div>
+        
+            <div>B}IH_&lt;</div>
+        
+            <div>@`NT9Hm</div>
+        
+            <div>aA~fs-</div>
+        
+            <div>EJr,\,</div>
+        
+            <div>iH4&lt;P:</div>
+        
+            <div>IS:a7-l</div>
+        
+            <div>:R8,o.D</div>
+        
+            <div>{Fcp-rGAL</div>
+        
+            <div>&gt;Xqwd*</div>
+        
+            <div>#5%gG9</div>
+        
+            <div>?+PqNl</div>
+        
+            <div>Dr*`~@</div>
+        
+            <div>P&gt;30tt$</div>
+        
+            <div>f+-oYh</div>
+        
+            <div>;.To/FT</div>
+        
+            <div>*8FGfg</div>
+        
+            <div>{;n%s-+</div>
+        
+            <div>g_f&lt;{8l</div>
+        
+            <div>,u.*G3</div>
+        
+            <div>dy-%&gt;h</div>
+        
+            <div>"\Xl*MPg</div>
+        
+            <div>w]i{U(</div>
+        
+            <div>S?za'q'</div>
+        
+            <div>`2Fc(4r</div>
+        
+            <div>sN+xb&lt;</div>
+        
+            <div>6dPt?)</div>
+        
+            <div>q&amp;vo2)</div>
+        
+            <div>@CNU Dl</div>
+        
+            <div>R*)SyID</div>
+        
+            <div>Dt69;p</div>
+        
+            <div>sM&gt;cuDg</div>
+        
+            <div>WSOikX</div>
+        
+            <div>'44);H</div>
+        
+            <div>d.0{t b(g1.s</div>
+        
+            <div>kI4LSok</div>
+        
+            <div>TW-U5h</div>
+        
+            <div>O aC\t</div>
+        
+            <div>P}bAkP</div>
+        
+            <div>CT2iTg&lt;</div>
+        
+            <div>]ZK`LN</div>
+        
+            <div> r8L4{</div>
+        
+            <div>2;0r2t0</div>
+        
+            <div>2f193C2</div>
+        
+            <div>7E?]8i?</div>
+        
+            <div>$c=f"f=="</div>
+        
+            <div>2c1n2C1}2</div>
+        
+            <div>40;$5&lt;4</div>
+        
+            <div>514#6x5</div>
+        
+            <div>6t7}0=7</div>
+        
+            <div>29&lt;\2d&lt;</div>
+        
+            <div>5i3h626</div>
+        
+            <div>4 2A1b2</div>
+        
+            <div>2#5#:C9D8K9L8S9</div>
+        
+            <div>9m84:^9K:v9</div>
+        
+            <div>&gt;{,:?F.</div>
+        
+            <div>7/x0"0c1</div>
+        
+            <div>5MDg5!Dv5</div>
+        
+            <div>&lt;]+8&lt;d+^&lt;</div>
+        
+            <div>@)&lt;Y3W&lt;</div>
+        
+            <div>3e8.4B+</div>
+        
+            <div>6c-,7K*</div>
+        
+            <div>9P&lt;$:l=</div>
+        
+            <div>?b&lt;m3u&lt;W3</div>
+        
+            <div>1L1u228</div>
+        
+            <div>4d716D7#5V7f6</div>
+        
+            <div>&gt;):t;0:</div>
+        
+            <div>40=Z2v=</div>
+        
+            <div>7b1I0t1</div>
+        
+            <div>3J4x+m5</div>
+        
+            <div>8B?&amp;9p859</div>
+        
+            <div>9w99:j9s:&gt;9</div>
+        
+            <div>={9~=Y9</div>
+        
+            <div>4U3`4=3</div>
+        
+            <div>4F4c5#4</div>
+        
+            <div>7h5q7O6O7</div>
+        
+            <div>0Y/b0q/j09/n0A/J0</div>
+        
+            <div>2m.&amp;2u..2m.62E1</div>
+        
+            <div>2e1^2m1f251n2-1v2E1&gt;2</div>
+        
+            <div>.j3I.r3</div>
+        
+            <div>.J3).R3</div>
+        
+            <div>4f6E5n6=5v6</div>
+        
+            <div>5&gt;6-5F6%5N6</div>
+        
+            <div>4f7E6n7=6v7</div>
+        
+            <div>6&gt;7-6F7%6N7</div>
+        
+            <div>9U8^9-8f958n9</div>
+        
+            <div>CF,Q(-!</div>
+        
+            <div>Ali$j@</div>
+        
+            <div>EH|l&lt;/</div>
+        
+            <div>fzd0^zl</div>
+        
+            <div>fxd0^xl</div>
+        
+            <div>VDo=W+5</div>
+        
+            <div>1/RB]{D-</div>
+        
+            <div>lb~%lN6</div>
+        
+            <div>)eW?&lt;\'</div>
+        
+            <div>R.Cy%)7</div>
+        
+            <div>+Jl6:8</div>
+        
+            <div>ZF9f?Gf</div>
+        
+            <div>AddAtomW</div>
+        
+            <div>CloseHandle</div>
+        
+            <div>CompareFileTime</div>
+        
+            <div>ConvertDefaultLocale</div>
+        
+            <div>CopyFileA</div>
+        
+            <div>CopyFileW</div>
+        
+            <div>CreateDirectoryW</div>
+        
+            <div>CreateFileA</div>
+        
+            <div>CreateFileW</div>
+        
+            <div>CreateProcessW</div>
+        
+            <div>CreateThread</div>
+        
+            <div>DeleteFileA</div>
+        
+            <div>DeleteFileW</div>
+        
+            <div>DuplicateHandle</div>
+        
+            <div>EnterCriticalSection</div>
+        
+            <div>EraseTape</div>
+        
+            <div>ExpandEnvironmentStringsW</div>
+        
+            <div>FileTimeToLocalFileTime</div>
+        
+            <div>FileTimeToSystemTime</div>
+        
+            <div>FillConsoleOutputAttribute</div>
+        
+            <div>FillConsoleOutputCharacterW</div>
+        
+            <div>FindClose</div>
+        
+            <div>FindFirstFileA</div>
+        
+            <div>FindFirstFileW</div>
+        
+            <div>FindNextFileA</div>
+        
+            <div>FindNextFileW</div>
+        
+            <div>FlushConsoleInputBuffer</div>
+        
+            <div>FlushFileBuffers</div>
+        
+            <div>FormatMessageW</div>
+        
+            <div>FreeLibrary</div>
+        
+            <div>GetBinaryType</div>
+        
+            <div>GetBinaryTypeW</div>
+        
+            <div>GetCPInfo</div>
+        
+            <div>GetCommandLineW</div>
+        
+            <div>GetCompressedFileSizeW</div>
+        
+            <div>GetConsoleMode</div>
+        
+            <div>GetConsoleOutputCP</div>
+        
+            <div>GetConsoleScreenBufferInfo</div>
+        
+            <div>GetConsoleTitleW</div>
+        
+            <div>GetCurrentDirectoryW</div>
+        
+            <div>GetCurrentProcess</div>
+        
+            <div>GetCurrentProcessId</div>
+        
+            <div>GetCurrentThread</div>
+        
+            <div>GetCurrentThreadId</div>
+        
+            <div>GetDateFormatW</div>
+        
+            <div>GetDiskFreeSpaceExW</div>
+        
+            <div>GetDriveTypeW</div>
+        
+            <div>GetEnvironmentStringsW</div>
+        
+            <div>GetEnvironmentVariableW</div>
+        
+            <div>GetExitCodeProcess</div>
+        
+            <div>GetFileAttributesExW</div>
+        
+            <div>GetFileAttributesW</div>
+        
+            <div>GetFileSize</div>
+        
+            <div>GetFileType</div>
+        
+            <div>GetFullPathNameW</div>
+        
+            <div>GetLastError</div>
+        
+            <div>GetLocalTime</div>
+        
+            <div>GetLocaleInfoW</div>
+        
+            <div>GetModuleFileNameA</div>
+        
+            <div>GetModuleFileNameW</div>
+        
+            <div>GetModuleHandleA</div>
+        
+            <div>GetModuleHandleW</div>
+        
+            <div>GetPrivateProfileStringW</div>
+        
+            <div>GetProcAddress</div>
+        
+            <div>GetProcessHeap</div>
+        
+            <div>GetStartupInfoA</div>
+        
+            <div>GetStdHandle</div>
+        
+            <div>GetSystemTime</div>
+        
+            <div>GetSystemTimeAsFileTime</div>
+        
+            <div>GetTempFileNameW</div>
+        
+            <div>GetTempPathW</div>
+        
+            <div>GetThreadLocale</div>
+        
+            <div>GetTickCount</div>
+        
+            <div>GetTimeFormatW</div>
+        
+            <div>GetUserDefaultLCID</div>
+        
+            <div>GetVersion</div>
+        
+            <div>GetVersionExA</div>
+        
+            <div>GetVolumeInformationW</div>
+        
+            <div>GetWindowsDirectoryW</div>
+        
+            <div>Heap32ListFirst</div>
+        
+            <div>HeapAlloc</div>
+        
+            <div>HeapFree</div>
+        
+            <div>HeapReAlloc</div>
+        
+            <div>HeapSize</div>
+        
+            <div>InitializeCriticalSection</div>
+        
+            <div>InterlockedDecrement</div>
+        
+            <div>InterlockedIncrement</div>
+        
+            <div>IsSystemResumeAutomatic</div>
+        
+            <div>LeaveCriticalSection</div>
+        
+            <div>LoadLibraryA</div>
+        
+            <div>LoadLibraryW</div>
+        
+            <div>LocalFree</div>
+        
+            <div>MoveFileExA</div>
+        
+            <div>MoveFileExW</div>
+        
+            <div>MoveFileW</div>
+        
+            <div>MultiByteToWideChar</div>
+        
+            <div>OpenProcess</div>
+        
+            <div>QueryPerformanceCounter</div>
+        
+            <div>QueueUserAPC</div>
+        
+            <div>RaiseException</div>
+        
+            <div>ReadConsoleW</div>
+        
+            <div>ReadFile</div>
+        
+            <div>ReadProcessMemory</div>
+        
+            <div>RemoveDirectoryW</div>
+        
+            <div>ScrollConsoleScreenBufferW</div>
+        
+            <div>SearchPathW</div>
+        
+            <div>SetConsoleCtrlHandler</div>
+        
+            <div>SetConsoleCursorPosition</div>
+        
+            <div>SetConsoleMode</div>
+        
+            <div>SetConsoleTextAttribute</div>
+        
+            <div>SetConsoleTitleW</div>
+        
+            <div>SetCurrentDirectoryW</div>
+        
+            <div>SetEnvironmentVariableW</div>
+        
+            <div>SetErrorMode</div>
+        
+            <div>SetFileAttributesW</div>
+        
+            <div>SetFilePointer</div>
+        
+            <div>SetFileTime</div>
+        
+            <div>SetLastError</div>
+        
+            <div>SetLocalTime</div>
+        
+            <div>SetSystemTime</div>
+        
+            <div>SetThreadLocale</div>
+        
+            <div>SetUnhandledExceptionFilter</div>
+        
+            <div>SetVolumeLabelA</div>
+        
+            <div>SleepEx</div>
+        
+            <div>SwitchToThread</div>
+        
+            <div>SystemTimeToFileTime</div>
+        
+            <div>TerminateProcess</div>
+        
+            <div>TransmitCommChar</div>
+        
+            <div>UnhandledExceptionFilter</div>
+        
+            <div>VirtualAlloc</div>
+        
+            <div>VirtualFree</div>
+        
+            <div>VirtualFreeEx</div>
+        
+            <div>VirtualQuery</div>
+        
+            <div>WaitForSingleObject</div>
+        
+            <div>WideCharToMultiByte</div>
+        
+            <div>WriteConsoleW</div>
+        
+            <div>WriteFile</div>
+        
+            <div>WritePrivateProfileSectionA</div>
+        
+            <div>_hwrite</div>
+        
+            <div>lstrcmpW</div>
+        
+            <div>lstrcmpiW</div>
+        
+            <div>lstrcpyW</div>
+        
+            <div>lstrlenW</div>
+        
+            <div>KERNEL32.dll</div>
+        
+            <div>CloseWindowStation</div>
+        
+            <div>CreateMenu</div>
+        
+            <div>CreateWindowStationA</div>
+        
+            <div>DefMDIChildProcW</div>
+        
+            <div>DefWindowProcW</div>
+        
+            <div>DrawFocusRect</div>
+        
+            <div>FillRect</div>
+        
+            <div>FindWindowW</div>
+        
+            <div>GetMenuCheckMarkDimensions</div>
+        
+            <div>GetProcessWindowStation</div>
+        
+            <div>GetSysColorBrush</div>
+        
+            <div>GetThreadDesktop</div>
+        
+            <div>GetUpdateRgn</div>
+        
+            <div>GetUserObjectInformationW</div>
+        
+            <div>InflateRect</div>
+        
+            <div>InsertMenuItemW</div>
+        
+            <div>IsIconic</div>
+        
+            <div>LockWindowUpdate</div>
+        
+            <div>MessageBeep</div>
+        
+            <div>MessageBoxW</div>
+        
+            <div>MonitorFromWindow</div>
+        
+            <div>OffsetRect</div>
+        
+            <div>PostMessageW</div>
+        
+            <div>RealGetWindowClass</div>
+        
+            <div>SendMessageW</div>
+        
+            <div>SetUserObjectInformationW</div>
+        
+            <div>ShowWindow</div>
+        
+            <div>ToUnicode</div>
+        
+            <div>WinHelpA</div>
+        
+            <div>LoadCursorW</div>
+        
+            <div>GetKBCodePage</div>
+        
+            <div>USER32.dll</div>
+        
+            <div>AddFontMemResourceEx</div>
+        
+            <div>AnimatePalette</div>
+        
+            <div>BRUSHOBJ_pvAllocRbrush</div>
+        
+            <div>ColorMatchToTarget</div>
+        
+            <div>CopyEnhMetaFileA</div>
+        
+            <div>CreatePatternBrush</div>
+        
+            <div>DescribePixelFormat</div>
+        
+            <div>EngFreeModule</div>
+        
+            <div>EngTextOut</div>
+        
+            <div>EnumFontsW</div>
+        
+            <div>FillRgn</div>
+        
+            <div>GdiGetPageCount</div>
+        
+            <div>GetGlyphOutlineW</div>
+        
+            <div>GetMiterLimit</div>
+        
+            <div>GetOutlineTextMetricsA</div>
+        
+            <div>GetTextFaceW</div>
+        
+            <div>GetViewportOrgEx</div>
+        
+            <div>OffsetClipRgn</div>
+        
+            <div>PtVisible</div>
+        
+            <div>SetBitmapBits</div>
+        
+            <div>SetMapperFlags</div>
+        
+            <div>SetMiterLimit</div>
+        
+            <div>StartPage</div>
+        
+            <div>GDI32.dll</div>
+        
+            <div>CreateProcessAsUserW</div>
+        
+            <div>FreeSid</div>
+        
+            <div>GetFileSecurityW</div>
+        
+            <div>GetSecurityDescriptorOwner</div>
+        
+            <div>ImpersonateLoggedOnUser</div>
+        
+            <div>LookupAccountSidW</div>
+        
+            <div>RegCloseKey</div>
+        
+            <div>RegCreateKeyExW</div>
+        
+            <div>RegDeleteKeyW</div>
+        
+            <div>RegEnumKeyW</div>
+        
+            <div>RegOpenKeyExW</div>
+        
+            <div>RegOpenKeyW</div>
+        
+            <div>RegQueryValueExW</div>
+        
+            <div>RegQueryValueW</div>
+        
+            <div>RegSetValueExW</div>
+        
+            <div>RegSetValueW</div>
+        
+            <div>RevertToSelf</div>
+        
+            <div>SaferCloseLevel</div>
+        
+            <div>SaferComputeTokenFromLevel</div>
+        
+            <div>SaferIdentifyLevel</div>
+        
+            <div>SaferRecordEventLogEntry</div>
+        
+            <div>ADVAPI32.dll</div>
+        
+            <div>WOWShellExecute</div>
+        
+            <div>ShellExecuteExW</div>
+        
+            <div>ShellExecuteA</div>
+        
+            <div>ShellAboutA</div>
+        
+            <div>SHIsFileAvailableOffline</div>
+        
+            <div>SHGetSettings</div>
+        
+            <div>SHGetMalloc</div>
+        
+            <div>SHGetDiskFreeSpaceA</div>
+        
+            <div>SHGetDataFromIDListA</div>
+        
+            <div>SHFileOperationA</div>
+        
+            <div>SHEmptyRecycleBinA</div>
+        
+            <div>SHCreateProcessAsUserW</div>
+        
+            <div>SHChangeNotify</div>
+        
+            <div>SHBrowseForFolderA</div>
+        
+            <div>SHAppBarMessage</div>
+        
+            <div>ExtractIconExW</div>
+        
+            <div>DragQueryFileAorW</div>
+        
+            <div>DragQueryFile</div>
+        
+            <div>CheckEscapesW</div>
+        
+            <div>SHELL32.dll</div>
+        
+            <div>StrChrIA</div>
+        
+            <div>StrCmpNA</div>
+        
+            <div>StrCmpNW</div>
+        
+            <div>StrStrIA</div>
+        
+            <div>StrStrIW</div>
+        
+            <div>SHLWAPI.dll</div>
+        
+            <div>ImageList_Create</div>
+        
+            <div>COMCTL32.dll</div>
+        
+            <div>_XcptFilter</div>
+        
+            <div>__getmainargs</div>
+        
+            <div>__initenv</div>
+        
+            <div>__p__commode</div>
+        
+            <div>__p__fmode</div>
+        
+            <div>__set_app_type</div>
+        
+            <div>__setusermatherr</div>
+        
+            <div>_adjust_fdiv</div>
+        
+            <div>_c_exit</div>
+        
+            <div>_cexit</div>
+        
+            <div>_close</div>
+        
+            <div>_controlfp</div>
+        
+            <div>_errno</div>
+        
+            <div>_except_handler3</div>
+        
+            <div>_get_osfhandle</div>
+        
+            <div>_getch</div>
+        
+            <div>_initterm</div>
+        
+            <div>_open_osfhandle</div>
+        
+            <div>_pclose</div>
+        
+            <div>_seh_longjmp_unwind</div>
+        
+            <div>_setjmp3</div>
+        
+            <div>_setmode</div>
+        
+            <div>_snwprintf</div>
+        
+            <div>_ultoa</div>
+        
+            <div>_vsnwprintf</div>
+        
+            <div>_wcsicmp</div>
+        
+            <div>_wcslwr</div>
+        
+            <div>_wcsnicmp</div>
+        
+            <div>_wcsupr</div>
+        
+            <div>_wpopen</div>
+        
+            <div>calloc</div>
+        
+            <div>fflush</div>
+        
+            <div>fprintf</div>
+        
+            <div>iswalpha</div>
+        
+            <div>iswdigit</div>
+        
+            <div>iswspace</div>
+        
+            <div>iswxdigit</div>
+        
+            <div>longjmp</div>
+        
+            <div>malloc</div>
+        
+            <div>memmove</div>
+        
+            <div>printf</div>
+        
+            <div>realloc</div>
+        
+            <div>setlocale</div>
+        
+            <div>swprintf</div>
+        
+            <div>swscanf</div>
+        
+            <div>towlower</div>
+        
+            <div>towupper</div>
+        
+            <div>wcscat</div>
+        
+            <div>wcschr</div>
+        
+            <div>wcscmp</div>
+        
+            <div>wcscpy</div>
+        
+            <div>wcslen</div>
+        
+            <div>wcsncmp</div>
+        
+            <div>wcsncpy</div>
+        
+            <div>wcsrchr</div>
+        
+            <div>wcsspn</div>
+        
+            <div>wcsstr</div>
+        
+            <div>wcstol</div>
+        
+            <div>wcstoul</div>
+        
+            <div>msvcrt.dll</div>
+        
+            <div>/YEu}M</div>
+        
+            <div>!N)(h </div>
+        
+            <div>[D .mv</div>
+        
+            <div>,J)Q?76</div>
+        
+            <div>2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222</div>
+        
+            <div>66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666</div>
+        
+            <div>888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888</div>
+        
+            <div>777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777</div>
+        
+            <div>uA87777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777778A??</div>
+        
+            <div>wAA777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777AAw</div>
+        
+            <div>ECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCE</div>
+        
+            <div>tVVDCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCDVVt</div>
+        
+            <div>zfVUTTCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCTTUVf|</div>
+        
+            <div>ifUUUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTUUUfi</div>
+        
+            <div>nheUUUUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTUUUUehn</div>
+        
+            <div>ieeWWWURRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRUWWWeei</div>
+        
+            <div>{neeeWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWeeen</div>
+        
+            <div>qnleeeWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWeeelnq</div>
+        
+            <div>qnnllllddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddllllnnq</div>
+        
+            <div>{pnnnnllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllnnnnp{</div>
+        
+            <div>qrrrnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnrrrq</div>
+        
+            <div>qqrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrqq</div>
+        
+            <div>6[uu^2</div>
+        
+            <div>2^uu^0</div>
+        
+            <div>0^xuu0</div>
+        
+            <div>0uuuu0</div>
+        
+            <div>0uuuv10</div>
+        
+            <div>01vuvvF0</div>
+        
+            <div>0FvvvwFF0</div>
+        
+            <div>0FFwvwwG22</div>
+        
+            <div>22GwwwwG22</div>
+        
+            <div>22GwwwwG222</div>
+        
+            <div>222GwwwwG222</div>
+        
+            <div>222GwwwwG222222</div>
+        
+            <div>2222222GwwwwG222222</div>
+        
+            <div>2222222GwwwwG222222</div>
+        
+            <div>2222222Gwwww4222222</div>
+        
+            <div>22222224wwww4422222</div>
+        
+            <div>22222244wwww4422222</div>
+        
+            <div>22222244wwww8822226</div>
+        
+            <div>66222288wwww8822226</div>
+        
+            <div>66222288wwww8866666</div>
+        
+            <div>66666688wwww8866666</div>
+        
+            <div>66666688wwww8886666</div>
+        
+            <div>66666888wwww8886666</div>
+        
+            <div>66666888wwww88866</div>
+        
+            <div>66888wwww88866</div>
+        
+            <div>66888wwww88886</div>
+        
+            <div>68888wwww9887777</div>
+        
+            <div>#########</div>
+        
+            <div>#########</div>
+        
+            <div>77777889wwww9887777</div>
+        
+            <div>##$$$$$$$##</div>
+        
+            <div>##$$$$$$$##</div>
+        
+            <div>77777889wwwwA887777</div>
+        
+            <div>##$$&amp;&amp;&amp;&amp;&amp;$$##</div>
+        
+            <div>##$$&amp;&amp;&amp;&amp;&amp;$$##</div>
+        
+            <div>7777788AwwwwA?77777</div>
+        
+            <div>#$$&amp;'''''&amp;$$#</div>
+        
+            <div>#$$&amp;'''''&amp;$$#</div>
+        
+            <div>777777?AwwwwA?77777</div>
+        
+            <div>#$&amp;''','''&amp;$#</div>
+        
+            <div>#$&amp;''','''&amp;$#</div>
+        
+            <div>777777?AwwwwA?77777</div>
+        
+            <div>##$&amp;'',,,''&amp;$##</div>
+        
+            <div>##$&amp;'',,,''&amp;$##</div>
+        
+            <div>777777?AwwwwAA77777</div>
+        
+            <div>##$&amp;',,,,,'&amp;,,,,,,...</div>
+        
+            <div>.,,'&amp;'####$&amp;',,,,,'&amp;$##</div>
+        
+            <div>777777AAwwwwAA77777</div>
+        
+            <div>##$&amp;',.</div>
+        
+            <div>/.-,,,''&amp;$##</div>
+        
+            <div>777777AAwwwwAA77777</div>
+        
+            <div>777777AAwwwwA@77777a</div>
+        
+            <div>a777777@AwwwwA@77777a</div>
+        
+            <div>a&gt;77777@AwwwwA@@7777`</div>
+        
+            <div>`C7777@@AwwwwA@@7&gt;&gt;&gt;_</div>
+        
+            <div>_C&gt;&gt;&gt;7@@AwwwwA@@C&gt;&gt;CZ</div>
+        
+            <div>ZCC&gt;&gt;C@@AwwwwCCCC&gt;&gt;CZ</div>
+        
+            <div>ZCC&gt;&gt;CCCCwwwwCCCCCCCZ</div>
+        
+            <div>ZCCCCCCCCwwwwCCCCCCCO</div>
+        
+            <div>OCCCCCCCCwwwwCCCCCCCL</div>
+        
+            <div>LCCCCCCCCwwwwDCCCCCCL</div>
+        
+            <div>LCCCCCCCDwwwwDCCCCCCK</div>
+        
+            <div>KCCCCCCCDwwwwDCCCCCCK</div>
+        
+            <div>KTCCCCCCDwwwwDCCCCCTK</div>
+        
+            <div>KTTCCCCCDwwwwDCCCCTT!</div>
+        
+            <div>!TTTCCCCDwwwwDCCCCTT!</div>
+        
+            <div>!TTTCCCCDwwwwDDCTTTT!</div>
+        
+            <div>!TTTTTCDDwwwwDUTTTTT</div>
+        
+            <div>TTTTTTUDwwwwUUTTTTT</div>
+        
+            <div>UTTTTTUUwwwwUUTTQQQ</div>
+        
+            <div>RQQQTTUUwwvwUUUTQQR</div>
+        
+            <div>RRQQTUUUwvvwUUUTQQR</div>
+        
+            <div>RRQQTUUUwvvwUUUTRRR</div>
+        
+            <div>WRRRTUUUwvvwUUURRWW</div>
+        
+            <div>WWWRRUUUwvwwUUURRWW</div>
+        
+            <div>WWWRRUUUwvwwUUURRWW7"</div>
+        
+            <div>"7WWWRRUUUwwwyUUUWWWWW</div>
+        
+            <div>WWWWWWUUUywwyeUWWWWWW!)</div>
+        
+            <div>)!WWWWWWWUeywy</div>
+        
+            <div>eWWWWWWWW</div>
+        
+            <div>WWWWWWWWWe</div>
+        
+            <div>eeWWWWWWWO </div>
+        
+            <div> OWWWWWWWWee</div>
+        
+            <div>eeeWWWWWWWY)</div>
+        
+            <div>)YWWWWWWWWeee</div>
+        
+            <div>needdWWWWW~"+</div>
+        
+            <div>+"~WWWWWWddeen</div>
+        
+            <div>nnlddWWWWWW</div>
+        
+            <div>WWWWWWWddlnn</div>
+        
+            <div>qnnlddWWWWWW</div>
+        
+            <div>WWWWWWWddlnnq</div>
+        
+            <div>nndddXXXXXXX</div>
+        
+            <div>XXXXXXXXdddnn</div>
+        
+            <div>pnldddXXXXXXX</div>
+        
+            <div>XXXXXXXXdddlnp</div>
+        
+            <div>qnndddddddddddl</div>
+        
+            <div>lddddddddddddnnq</div>
+        
+            <div>rnlddddddddddddd</div>
+        
+            <div>ddddddddddddddlnr</div>
+        
+            <div>qrnddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddnrq</div>
+        
+            <div>rrnddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddnrr</div>
+        
+            <div>rrnddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddnrr</div>
+        
+            <div>rrrkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddkrrr</div>
+        
+            <div>rrrrkkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddkkrrrr</div>
+        
+            <div>qrrrrrnkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkknrrrrrq</div>
+        
+            <div>qrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrq</div>
+        
+            <div>}}rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}}</div>
+        
+            <div>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</div>
+        
+            <div>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</div>
+        
+            <div>=&gt;=======================================================================&gt;</div>
+        
+            <div>===@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=@@@==</div>
+        
+            <div>I\Cv_C&lt;==@?@D@D@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@C@@=?===C__vvI@@DDDDDDDDDDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHIDHDDDDDD@DIv_v|IHHDDFDFDFHHHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDHDFHHHHFFDDHII|_v</div>
+        
+            <div>hMLFFVVFVHVDFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVFFFVHVDFFFLLLh</div>
+        
+            <div>thLLLVFVFVFVFVFLVFVVFVFLVFVVFVFLVFVVFVFLVFVVFVFLVFVVFVFLVFVVFVFLVFVVFVFLVFVVFVFLVFVFVVVVVLhw</div>
+        
+            <div>~hiLVVVVVVVVVVVVVVVLVVVVVVVLVVVVVVVLVVVVVVVLVVVVVVVLVVVVVVVLVVVVVVVLVVVVVVVLVVVVVVVVVVVLLih~</div>
+        
+            <div>jhgXLUVVUVVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVUVVUVLUXihj</div>
+        
+            <div>jiiXUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUXiij</div>
+        
+            <div>}oggigiUUgUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUgUUUgXiggj}</div>
+        
+            <div>}qogogggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggogigooo}</div>
+        
+            <div>qolooloolooloolooloolooloolooloolooloolooloolooloolooloolooloolooloolooloololloolo</div>
+        
+            <div>}qpplpolppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppplplppq</div>
+        
+            <div>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</div>
+        
+            <div>CCCCCCCCGCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCGCCCCCCCCCCC</div>
+        
+            <div>ECCv_N</div>
+        
+            <div>N__v_N</div>
+        
+            <div>&gt;__v_9</div>
+        
+            <div>9_vvy9&gt;</div>
+        
+            <div>&gt;9xvvy99</div>
+        
+            <div>99|vy|O&gt;9</div>
+        
+            <div>N9O|vv|O99&gt;</div>
+        
+            <div>9&gt;9NO|x||ON&gt;9&gt;</div>
+        
+            <div>9&gt;O|x||O&lt;99&gt;9&gt;</div>
+        
+            <div>&gt;9&gt;9O||||O&lt;&gt;9&gt;</div>
+        
+            <div>&gt;N&gt;9NOO||||&lt;O&gt;9&gt;&gt;N</div>
+        
+            <div>&gt;9&gt;&gt;9&lt;O||||O&lt;&gt;&gt;9&gt;&gt;</div>
+        
+            <div>&gt;&gt;&lt;O||||&lt;&lt;N&gt;&gt;&gt;N</div>
+        
+            <div>&gt;&gt;&gt;&gt;N&lt;@||||O&lt;&lt;&gt;&gt;&gt;&gt;</div>
+        
+            <div>&gt;&gt;&gt;&gt;&gt;&lt;&lt;||||A&lt;@&gt;&gt;N&gt;</div>
+        
+            <div>&gt;&gt;&gt;N@OA||||&lt;@&lt;=&gt;==</div>
+        
+            <div>&gt;&gt;&gt;=@@&lt;||||A@@@@@@</div>
+        
+            <div>=@@@O@A||y|OA@@@@@</div>
+        
+            <div>@@@@@@A|x||A@@@@@@</div>
+        
+            <div>@@@@@@A||||AA@C@@C</div>
+        
+            <div>@D@DCAA||y|ACA@DD@</div>
+        
+            <div>&amp;')*('&amp;</div>
+        
+            <div>%'(((($</div>
+        
+            <div>D=D@@AA||||AADD@DC</div>
+        
+            <div>'**+**'</div>
+        
+            <div>$'(*+*((</div>
+        
+            <div>DDDCI@I||||II@DDDD</div>
+        
+            <div>&amp;(+,,,*('</div>
+        
+            <div>%(+,,,*($</div>
+        
+            <div>fDDD@CII||y|IIDDDCDe</div>
+        
+            <div>&amp;(+,34788</div>
+        
+            <div>77733,,,0,*(%</div>
+        
+            <div>{DDDIHAI||||IHDCHHHe</div>
+        
+            <div>eDDDDDHA||||IIHHHHDe</div>
+        
+            <div>eFDDFIHI||y|IHHHHDFc</div>
+        
+            <div>bFFFHDHK||||KHHFFFF]</div>
+        
+            <div>bFFFFFIK||||KHFFFFFc</div>
+        
+            <div>bVFFFFKK|x||KKFFLFF`</div>
+        
+            <div>bFFFLFKK||||KKLFFLVS</div>
+        
+            <div>ZFLFFLHM|x||KFLFLVFS</div>
+        
+            <div>ZVFVVFLF||||LLFLVFVR</div>
+        
+            <div>RVVFVFLM||||LLLVVVFR</div>
+        
+            <div>RJVVVVFM</div>
+        
+            <div>|||LFLVVVV!</div>
+        
+            <div>!VJVVVLM</div>
+        
+            <div>|||LLVVVVV!</div>
+        
+            <div>!VVJVVVM|</div>
+        
+            <div>y|LLVVVVV </div>
+        
+            <div> TJTJVLV|</div>
+        
+            <div>||LLVVVVV </div>
+        
+            <div>TTTTVVM</div>
+        
+            <div>||LLXVTTV</div>
+        
+            <div>TTJTVVM</div>
+        
+            <div>||LXVTTTT</div>
+        
+            <div>TTTTTLX|</div>
+        
+            <div>||LLXTTXV</div>
+        
+            <div>TTTTTTM</div>
+        
+            <div>||LXLTXTT</div>
+        
+            <div>UUTTTXM</div>
+        
+            <div>LXUUUUU</div>
+        
+            <div>UUUTTXM</div>
+        
+            <div>||XXXTUUUB"</div>
+        
+            <div>.BUTUTTXX</div>
+        
+            <div>iLUUUUUT</div>
+        
+            <div>UUUUUUTX</div>
+        
+            <div>||iXUUUUUUQ/</div>
+        
+            <div>.QUUUUUUXh</div>
+        
+            <div>iiiUUgUgX</div>
+        
+            <div>UUYUYUYYh</div>
+        
+            <div>igilUgUgg]</div>
+        
+            <div>^YYUYUYYim</div>
+        
+            <div>joXggUgUggb</div>
+        
+            <div>bYYYYYYYYmm</div>
+        
+            <div>}gogggggggkf</div>
+        
+            <div>fkYYYYYYYmow</div>
+        
+            <div>olggggYgggk</div>
+        
+            <div>kYYYYYYYYmn</div>
+        
+            <div>~pllggYYYggkk</div>
+        
+            <div>YYYYYYYYYkmo</div>
+        
+            <div>poggkgYYYkkgkk</div>
+        
+            <div>kYYYYYYYYYkmor</div>
+        
+            <div>~ppkkkkYYYkYkkkkYYYYkkkkkkYYYYkkkkkkkkkkkkkYYkkkkkkkkkkYkYYYYYYYYkkkkkYYYkkYYYYYYYYYYmmmr</div>
+        
+            <div>ppkkklYYkYkYYYYkkkkkkkkkYYkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkklkkkkkkkkkYYkYYYYYYYYYkkkkklr</div>
+        
+            <div>ppklklkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkklkllllr</div>
+        
+            <div>prllllllklkklkllkllkkkkllllklklklklklklllllllklkllkllkllkllkllkkkklllllllllkllllrr</div>
+        
+            <div>qrrrlrlllrlrllllllllrllllllllllllllllllllllllllllllllllllllllllrllllllllllrlrl</div>
+        
+            <div>rrrrrrrrrrrrrrrrrrrrrrrr</div>
+        
+            <div>rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr</div>
+        
+            <div>$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$</div>
+        
+            <div>$+JJSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSJS+$</div>
+        
+            <div>$$SSIQRRZRRZSZS[R[R[R[R[R[R[R[R[R[R[R[R[R[R[R[R[R[R[R[RRZSZZSRQQQQ]]]Z[[[[[[[[^[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[^ZZZZZZZZ]~a`^^mmmmm^^mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm[m^^^^^^^</div>
+        
+            <div>~nnk^k^mmk^kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</div>
+        
+            <div>oookokokokkomokkomokkomokkomokkomokkomokkomokkomkomooooooooo</div>
+        
+            <div>|llololoolololllllollllollllollllollllollllollllllll|llll</div>
+        
+            <div>''''''''''''''''''''''''''''''''''''''''</div>
+        
+            <div>''''''''''''''''''''''''''''''''''''''''''''''</div>
+        
+            <div>$'$'''f</div>
+        
+            <div>f''''$</div>
+        
+            <div>b'''$$$JHSb$'''Jw</div>
+        
+            <div>wJH''HJHSb'JbJf</div>
+        
+            <div>fJJHHbSScPJJJ</div>
+        
+            <div>JJJJcSScbJJf</div>
+        
+            <div>fJJccSScPPJ</div>
+        
+            <div>JPPcSScPPJ</div>
+        
+            <div>JJPcSSdSSS</div>
+        
+            <div>SSSdSSddSS</div>
+        
+            <div>SSddSSSdSd</div>
+        
+            <div>SSdWSdd]SS</div>
+        
+            <div>SS]d]dWWS[</div>
+        
+            <div>S[d]]dW][S</div>
+        
+            <div>[S]d]dWS][</div>
+        
+            <div>Z[[]]d]][Z</div>
+        
+            <div>799976</div>
+        
+            <div>799777</div>
+        
+            <div>Z[]]]d]]]Z</div>
+        
+            <div>68:;;BA;BBD</div>
+        
+            <div>DAA;BA;;;96</div>
+        
+            <div>Z[]W]d]][Z{</div>
+        
+            <div>{\^]]]d__^^{</div>
+        
+            <div>{\^_]n__]^[x</div>
+        
+            <div>x^___n_a_^^x</div>
+        
+            <div>x^^_an_a`^^t</div>
+        
+            <div>v^^^an_a^n^i</div>
+        
+            <div>r^maan_a`mmh</div>
+        
+            <div>hmm`an_`nmm5</div>
+        
+            <div>5mnman_`nmm5</div>
+        
+            <div>Ymmnan__nnn3</div>
+        
+            <div>3knnnnnnnom3</div>
+        
+            <div>3konnnnnnol1</div>
+        
+            <div>)koonnn}</div>
+        
+            <div>n~ool/@</div>
+        
+            <div>@Xloo}</div>
+        
+            <div>qqqz5=</div>
+        
+            <div>qqqqqq</div>
+        
+            <div>&amp;&amp;&amp;&amp;(-EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-&amp;(&amp;&amp;&amp;WWWVVV\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\VVWWWVVViiiiiimimimimimimimimimimimimimimimimiiiiiiiioooooggggggggggggggggggggggggggggggggggggggooooo</div>
+        
+            <div>}zyy}zh}o}yyy}o}yyy}o}yyy}o}yyy}o}yy}zhhhhh</div>
+        
+            <div>CC%%# #v</div>
+        
+            <div>v# #BC%C##C</div>
+        
+            <div>C##CC%CC,v</div>
+        
+            <div>v&amp;CCC%DCC</div>
+        
+            <div>CCDC%NCC</div>
+        
+            <div>GCNCPMNC</div>
+        
+            <div>GKDC%MNE</div>
+        
+            <div>EKNCPPNN</div>
+        
+            <div>NNPP%PNN</div>
+        
+            <div>ENPPPPSW</div>
+        
+            <div>WNPPPPWE</div>
+        
+            <div>AA@&gt;97</div>
+        
+            <div>WSPPPaWWu</div>
+        
+            <div>uWWPPPaWWs</div>
+        
+            <div>tWWWPmaVVr</div>
+        
+            <div>rVVaPP\\Vd</div>
+        
+            <div>d^\\Pmm\ic</div>
+        
+            <div>cg\jjP\ii2</div>
+        
+            <div>2^i\jmmig0</div>
+        
+            <div>.gimjmmgg0</div>
+        
+            <div>0^gmommgg.?</div>
+        
+            <div>=.ggoomzggQ;</div>
+        
+            <div>;Qhgzom</div>
+        
+            <div>||||{{{{{{{{{{{{{{{{{{{{{{{{{{{{{|</div>
+        
+            <div>333333333333333333333333333</div>
+        
+            <div>660022222+222+222+222+22222.000</div>
+        
+            <div>XXJCAA@@@@@@@@@@@@@@@@@@@@CCJJJ</div>
+        
+            <div>bbQNMMMLLLLLLLLLLLLLLLLLLLLNQQQ</div>
+        
+            <div>bb_UPNUUNUUNUUNUUNUUNUUPUUTTT</div>
+        
+            <div>jjjjjjjjjiiiiiiiiiiiiiiiiii</div>
+        
+            <div>33333333333333333333333333</div>
+        
+            <div>ff_exyyyxxxxxxxyyyyyyyyyxe_ff</div>
+        
+            <div>jjjjijijijijijijijijijijiii</div>
+        
+            <div>==22.//////////////22==</div>
+        
+            <div>&gt;&gt;&gt;44333333333333334&gt;FF</div>
+        
+            <div>FFFFFFFFFFFFFFFFFFFFF</div>
+        
+            <div>-PRRRRRRRRRRRRRP-</div>
+        
+            <div>:Q]efffffffffffe]Q:</div>
+        
+            <div>K]hpssplllllpssph]K</div>
+        
+            <div>9%JemS</div>
+        
+            <div>SpppppS</div>
+        
+            <div>SmeJ%9</div>
+        
+            <div>ZqqqpqZ</div>
+        
+            <div>eiqqpqqqqqqqqpqid</div>
+        
+            <div>[hilllllllllllig[</div>
+        
+            <div>VdefffffffffeeV</div>
+        
+            <div>BB??LMMMMMMMMMMMMML??BF</div>
+        
+            <div>BFFFFFFFFFFFFFFFFFFFF</div>
+        
+            <div>**.88.8...88888.</div>
+        
+            <div>BJJJJJJJJJJJJJJJJ</div>
+        
+            <div>O[\\\\\\\\\\\\\\R</div>
+        
+            <div>HH^____________^J</div>
+        
+            <div>FFFFFFF33311....</div>
+        
+            <div>)))))))</div>
+        
+            <div>)1WeffffffffffeV</div>
+        
+            <div>1WcnoxyzzzzzzoncW</div>
+        
+            <div>QQFFFFFF&gt;&gt;&gt;222MM</div>
+        
+            <div>#$&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;&amp;</div>
+        
+            <div>#,,,,,,,,,,,,,</div>
+        
+            <div>#-33333333333)</div>
+        
+            <div>#-44444444444+</div>
+        
+            <div>######</div>
+        
+            <div>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;</div>
+        
+            <div>&lt;assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0"&gt;</div>
+        
+            <div>&lt;assemblyIdentity</div>
+        
+            <div>    version="5.0.0.0"</div>
+        
+            <div>    processorArchitecture="X86"</div>
+        
+            <div>    name="Siber.Systems.roboform"</div>
+        
+            <div>    type="win32"</div>
+        
+            <div>&lt;description&gt;Form Filler And Password Mananger.&lt;/description&gt;</div>
+        
+            <div>&lt;dependency&gt;</div>
+        
+            <div>    &lt;dependentAssembly&gt;</div>
+        
+            <div>        &lt;assemblyIdentity</div>
+        
+            <div>            type="win32"</div>
+        
+            <div>            name="Microsoft.Windows.Common-Controls"</div>
+        
+            <div>            version="6.0.0.0"</div>
+        
+            <div>            processorArchitecture="X86"</div>
+        
+            <div>            publicKeyToken="6595b64144ccf1df"</div>
+        
+            <div>            language="*"</div>
+        
+            <div>        /&gt;</div>
+        
+            <div>    &lt;/dependentAssembly&gt;</div>
+        
+            <div>&lt;/dependency&gt;</div>
+        
+            <div>&lt;!-- Identify the application security requirements. --&gt;</div>
+        
+            <div>&lt;trustInfo xmlns="urn:schemas-microsoft-com:asm.v3"&gt;</div>
+        
+            <div>&lt;security&gt;</div>
+        
+            <div>&lt;requestedPrivileges&gt;</div>
+        
+            <div>&lt;requestedExecutionLevel</div>
+        
+            <div>level="asInvoker"/&gt;</div>
+        
+            <div>&lt;/requestedPrivileges&gt;</div>
+        
+            <div>&lt;/security&gt;</div>
+        
+            <div>&lt;/trustInfo&gt;</div>
+        
+            <div>&lt;!-- Setup program compatibility. Inform the system the application supports Windows 7. --&gt;</div>
+        
+            <div>&lt;compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1"&gt; </div>
+        
+            <div>&lt;application&gt; </div>
+        
+            <div>&lt;!--The ID below indicates application support for Windows 7 --&gt;</div>
+        
+            <div>&lt;supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/&gt;</div>
+        
+            <div>&lt;!-- The ID below indicates application support for Windows 8 --&gt;</div>
+        
+            <div>&lt;supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"/&gt;</div>
+        
+            <div>&lt;!-- The ID below indicates application support for Windows 8.1 --&gt;</div>
+        
+            <div>&lt;supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}"/&gt;</div>
+        
+            <div>&lt;/application&gt; </div>
+        
+            <div>&lt;/compatibility&gt;</div>
+        
+            <div>&lt;asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"&gt;</div>
+        
+            <div>&lt;asmv3:windowsSettings</div>
+        
+            <div> xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings"&gt;</div>
+        
+            <div>&lt;dpiAware&gt;true&lt;/dpiAware&gt;</div>
+        
+            <div>&lt;/asmv3:windowsSettings&gt;</div>
+        
+            <div>&lt;/asmv3:application&gt;</div>
+        
+            <div>&lt;/assembly&gt;</div>
+        
+            <div>$i$i$Y$Y$i$i</div>
+        
+            <div>Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i</div>
+        
+            <div>Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i</div>
+        
+            <div>$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$</div>
+        
+            <div>$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$</div>
+        
+            <div>i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i</div>
+        
+            <div>i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i</div>
+        
+            <div>$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$</div>
+        
+            <div>$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>$i$i$Y$Y$i$i$Y$Y$)$)$</div>
+        
+            <div>EpEhE|E</div>
+        
+            <div>E E0E4E</div>
+        
+            <div>E8E(E,EPE@EHELE</div>
+        
+            <div>11111kicu4p3050f55f298b5211cf2bb82200aa00bdce0bf</div>
+        
+            <div>VS_VERSION_INFO</div>
+        
+            <div>StringFileInfo</div>
+        
+            <div>000004B0</div>
+        
+            <div>CompanyName</div>
+        
+            <div>Elaborate    Bytes AG</div>
+        
+            <div>VarFileInfo</div>
+        
+            <div>Translation</div>
+        
+    </div>
+</section>
+
+                                </div>
+                                <div class="tab-pane fade" id="static_antivirus_tab">
+                                    <section id="static_antivirus">
+    
+        
+            No antivirus signatures available.
+        
+    
+</section>
+
+                                </div>
+                                <div class="tab-pane fade" id="static_irma_tab">
+                                    <section id="static_irma">
+    
+        No IRMA results available.
+    
+</section>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- footer replacement to avoid double scrollbars -->
+            <footer class="flex-grid__footer center-left">
+                <p class="footnote">
+                    ©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a>
+                </p>
+                <div class="logo">
+                    <img src="static_files/cuckoo_inverse.png" alt="Cuckoo Malware Analysis Sandbox">
+                    <a href="#">Back to Top</a>
+                </div>
+            </footer>
+            
+        </section>
+    </div>
+
+
+	
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container-fluid center">
+            <a href="#">Back to the top</a>
+        </div>
+    </footer>
+    <div id="footer-extra">
+        <div class="container-fluid center">
+            <div>©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a></div>
+        </div>
+    </div>
+
+    <!-- feedback form modal -->
+    <div class="modal fade modal-cuckoo" id="feedback_form">
+  <form class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fa fa-bug"></i> Feedback</h4>
+      </div>
+      <p class="modal-section arrow">Expecting different results? Share 
+this analysis report with us and we’ll investigate it. Please include a 
+brief message of what you had expected to see and what you got instead.</p>
+
+      <div class="modal-section modal-form arrow">
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="name" id="feedback-name" required="">
+            <label for="feedback-name">Your name</label>
+          </fieldset>
+          <fieldset>
+            <input type="text" name="email" id="feedback-email" required="">
+            <label for="feedback-email">Your email</label>
+          </fieldset>
+        </div>
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="company" id="feedback-company" required="">
+            <label for="feedback-company">Your company</label>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form arrow">
+        <textarea name="message" id="feedback-message" placeholder="Describe to us what does not seem to work properly."></textarea>
+      </div>
+
+      <div class="modal-section modal-form arrow arrow-center" id="feedback-includes">
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_analysis" id="feedback-analysis">
+          <label for="feedback-analysis"><span></span> Include analysis</label>
+        </div>
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_memdump" id="feedback-memdump">
+          <label for="feedback-memdump"><span></span> Include memory dump</label>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form no-flex center">
+        <p id="feedback-size">Estimated report size: <strong class="file-estimation">118.4&nbsp;KB</strong></p>
+        <button class="modal-submit" type="submit" formnovalidate="">Send feedback report</button>
+        <p>or <a href="modal:cancel">cancel</a></p>
+      </div>
+
+      <div class="modal-section modal-footer center"></div>
+    </div>
+  </form>
+</div>
+
+
+    <!-- cuckoo freeze-page loader -->
+    <div class="page-freeze" id="page-freeze-container">
+        <div class="page-freeze__graphic">
+            <img src="static_files/cuckoo-coffee-cup.png" alt="Cuckoo">
+        </div>
+        <div class="page-freeze__animation">
+            <!-- spinner -->
+            <div class="page-freeze__spinner">
+                <div class="page-freeze__spinner--c1"></div>
+                <div class="page-freeze__spinner--c2"></div>
+            </div>
+        </div>
+        <div class="page-freeze__context">
+            <p class="page-freeze__message">We're processing your submission... This could take a few seconds.</p>
+            <div class="page-freeze__options hidden">
+                <button class="btn btn-default btn-lg close-page-freeze">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIGHLIGHT (_office.html, _pdf.html) -->
+    <script>
+        $(document).ready(function() {
+          if(!window.hljs) return;
+          hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+    <!-- RECENT PAGE CODE (analysis/index.html) -->
+    <script>
+
+        $(document).ready(function() {
+
+            // only do this if we are on the recent page
+            if(!$('table#recent').length) return;
+
+            var recent;
+
+            $('body').on('click', 'div.nav_container>div', function() {
+
+                var btn_id = $(this).find("a").attr("data-filter");
+                var btn_active = $(this).attr('class');
+                var btn_categories = ["cat_files", "cat_urls"];
+
+                if($('a[data-filter^="score"]', this).length) {
+                    var score_choice = $(this).find('a').attr('data-filter');
+
+                    $('.nav_container>div#item>a[data-filter^="score"]').each(function(i, obj){
+                        obj = $(obj);
+                        var uid = obj.attr('data-filter');
+
+                        if(uid != score_choice){
+                            obj.parent().removeClass('active');
+                        }
+                    });
+                }
+
+                if(!btn_active){
+                    // when a category button is clicked, force deselection of adjacent categories
+                    if(btn_id.startsWith("cat_")){
+                        btn_categories.forEach(function (category) {
+                            if (category != btn_id) {
+                                category = $('.nav_container>div#item>a[data-filter="' + category + '"]').parent();
+
+                                if (category.hasClass("active")) { category.removeClass("active"); }
+                            }
+                        });
+                    }
+
+                    $(this).addClass('active');
+                    var filter = $(this).attr('data-filter');
+                    recent.load();
+                } else {
+                    $(this).removeClass('active');
+                    recent.load();
+                }
+            });
+
+            recent = new Recent();
+            recent.load();
+
+            // Detect end of page scroll
+            $(window).scroll(function() {
+               if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    if(!recent.empty_results) recent.lazy_load();
+               }
+            });
+
+        });
+    </script>
+
+    <!-- IMPORT PAGE (import.html) -->
+    <script type="text/javascript">
+
+        if(document.getElementById('analysis/import') !== null) {
+
+            $(document)
+                .on('change', '.btn-file :file', function() {
+                    var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $(document).ready( function() {
+                $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        if( log ) alert(log);
+                    }
+
+                });
+            });
+
+        }
+
+    </script>
+
+    <!-- WEBIF ANALYSIS  -->
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btn_screenshots_toggle").click(function(){
+                $(this).parent().parent().parent().find('.panel-body').toggleClass("minified");
+            });
+
+            if($("table#network-hosts, table#network-dns").length) {
+
+                setTimeout(function () {
+                    ["network_hosts", "network_dns"].forEach(function (x) {
+                        $('#' + x).DataTable({
+                            responsive: true,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            "pageLength": 10,
+                            "language": {
+                                "lengthMenu": "Show _MENU_ results",
+                                "zeroRecords": "No results",
+                                "info": "_PAGE_/_PAGES_"
+                            }
+                        });
+                    });
+                }, 200);
+
+            }
+
+        });
+
+    </script>
+
+
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div></body></html>
