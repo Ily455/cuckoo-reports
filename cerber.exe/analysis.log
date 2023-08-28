@@ -1,0 +1,161 @@
+2023-08-19 16:25:05,000 [analyzer] DEBUG: Starting analyzer from: C:\tmp9dglh0
+2023-08-19 16:25:05,015 [analyzer] DEBUG: Pipe server name: \??\PIPE\IDggDFDMaJgCyksoiajFPzBaWZCVLrnL
+2023-08-19 16:25:05,015 [analyzer] DEBUG: Log pipe server name: \??\PIPE\iTMMDIIxjMKlhtWypFpykoObytHJw
+2023-08-19 16:25:09,717 [analyzer] DEBUG: Started auxiliary module DbgView
+2023-08-19 16:25:11,500 [analyzer] DEBUG: Started auxiliary module Disguise
+2023-08-19 16:25:11,655 [analyzer] DEBUG: Loaded monitor into process with pid 500
+2023-08-19 16:25:11,655 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets
+2023-08-19 16:25:11,655 [analyzer] DEBUG: Started auxiliary module Human
+2023-08-19 16:25:11,655 [analyzer] DEBUG: Started auxiliary module InstallCertificate
+2023-08-19 16:25:11,655 [analyzer] DEBUG: Started auxiliary module Reboot
+2023-08-19 16:25:11,703 [analyzer] DEBUG: Started auxiliary module RecentFiles
+2023-08-19 16:25:11,703 [analyzer] DEBUG: Started auxiliary module Screenshots
+2023-08-19 16:25:11,703 [analyzer] DEBUG: Started auxiliary module LoadZer0m0n
+2023-08-19 16:25:13,155 [lib.api.process] INFO: Successfully executed process from path u'C:\\Users\\ahmed\\AppData\\Local\\Temp\\8b6bc16fd137c09a08b02bbe1bb7d670.bin' with arguments '' and pid 2160
+2023-08-19 16:25:13,312 [analyzer] DEBUG: Loaded monitor into process with pid 2160
+2023-08-19 16:25:17,875 [analyzer] INFO: Injected into process with pid 1320 and name u'netsh.exe'
+2023-08-19 16:25:18,000 [analyzer] DEBUG: Loaded monitor into process with pid 1320
+2023-08-19 16:25:24,655 [lib.api.process] ERROR: Failed to dump memory of 32-bit process with pid 1320.
+2023-08-19 16:25:24,717 [analyzer] INFO: Injected into process with pid 660 and name u'netsh.exe'
+2023-08-19 16:25:24,937 [analyzer] DEBUG: Loaded monitor into process with pid 660
+2023-08-19 16:25:25,187 [analyzer] INFO: Process with pid 1320 has terminated
+2023-08-19 16:25:25,390 [lib.api.process] INFO: Memory dump of process with pid 1320 completed
+2023-08-19 16:25:26,921 [lib.api.process] INFO: Memory dump of process with pid 660 completed
+2023-08-19 16:25:27,155 [analyzer] INFO: Injected into process with pid 2172 and name u'netsh.exe'
+2023-08-19 16:25:27,187 [analyzer] INFO: Process with pid 660 has terminated
+2023-08-19 16:25:28,296 [analyzer] DEBUG: Loaded monitor into process with pid 2172
+2023-08-19 16:25:28,765 [lib.api.process] INFO: Memory dump of process with pid 2172 completed
+2023-08-19 16:25:28,780 [analyzer] INFO: Injected into process with pid 2488 and name u'netsh.exe'
+2023-08-19 16:25:28,967 [analyzer] DEBUG: Loaded monitor into process with pid 2488
+2023-08-19 16:25:29,187 [analyzer] INFO: Process with pid 2172 has terminated
+2023-08-19 16:25:30,015 [lib.api.process] INFO: Memory dump of process with pid 2488 completed
+2023-08-19 16:25:30,187 [analyzer] INFO: Process with pid 2488 has terminated
+2023-08-19 16:25:35,155 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\AppData\Local\Temp\15a7f57a\4031.tmp
+2023-08-19 16:25:38,905 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\AppData\Local\Temp\15a7f57a\dd11.tmp
+2023-08-19 16:25:41,062 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\ACROBAT.PDF
+2023-08-19 16:25:41,078 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\HELP\READER.PDF
+2023-08-19 16:25:41,092 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\_R_E_A_D___T_H_I_S___OEKLGI_.hta
+2023-08-19 16:25:41,092 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\_R_E_A_D___T_H_I_S___TYDFU2IA_.txt
+2023-08-19 16:25:41,108 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\LICENSE.PDF
+2023-08-19 16:25:41,108 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\HELP\_R_E_A_D___T_H_I_S___AJJHRL8J_.hta
+2023-08-19 16:25:41,108 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Acrobat3\Reader\HELP\_R_E_A_D___T_H_I_S___WE3M3P_.txt
+2023-08-19 16:25:41,125 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\analyzer.py
+2023-08-19 16:25:41,125 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\api\process.py
+2023-08-19 16:25:41,125 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\_R_E_A_D___T_H_I_S___OQAGBGHA_.hta
+2023-08-19 16:25:41,125 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\_R_E_A_D___T_H_I_S___1T40GPT_.txt
+2023-08-19 16:25:41,125 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\api\_R_E_A_D___T_H_I_S___MOZ7RKS_.hta
+2023-08-19 16:25:41,125 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\api\_R_E_A_D___T_H_I_S___BKNI4O_.txt
+2023-08-19 16:25:41,140 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\api\screenshot.py
+2023-08-19 16:25:41,140 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\common\abstracts.py
+2023-08-19 16:25:41,140 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\common\_R_E_A_D___T_H_I_S___KU61_.hta
+2023-08-19 16:25:41,140 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\common\_R_E_A_D___T_H_I_S___4KSN_.txt
+2023-08-19 16:25:41,155 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\common\defines.py
+2023-08-19 16:25:41,155 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\common\registry.py
+2023-08-19 16:25:41,171 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\common\results.py
+2023-08-19 16:25:41,171 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\driver.py
+2023-08-19 16:25:41,171 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\_R_E_A_D___T_H_I_S___NXYBVNWW_.hta
+2023-08-19 16:25:41,171 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\_R_E_A_D___T_H_I_S___5PN1JW_.txt
+2023-08-19 16:25:41,187 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\ioctl.py
+2023-08-19 16:25:41,187 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\packages.py
+2023-08-19 16:25:41,203 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\privileges.py
+2023-08-19 16:25:41,203 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\lib\core\pipe.py
+2023-08-19 16:25:41,233 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\human.py
+2023-08-19 16:25:41,233 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\disguise.py
+2023-08-19 16:25:41,250 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\_R_E_A_D___T_H_I_S___MU86BGSK_.hta
+2023-08-19 16:25:41,265 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\_R_E_A_D___T_H_I_S___JZR5DROI_.txt
+2023-08-19 16:25:41,265 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\procmon.py
+2023-08-19 16:25:41,280 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\recentfiles.py
+2023-08-19 16:25:41,296 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\auxiliary\screenshots.py
+2023-08-19 16:25:41,296 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\doc.py
+2023-08-19 16:25:41,312 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\ie.py
+2023-08-19 16:25:41,312 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\_R_E_A_D___T_H_I_S___A92P_.hta
+2023-08-19 16:25:41,312 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\_R_E_A_D___T_H_I_S___GPX19T42_.txt
+2023-08-19 16:25:41,328 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\pdf.py
+2023-08-19 16:25:41,328 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\ppt.py
+2023-08-19 16:25:41,342 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\pub.py
+2023-08-19 16:25:41,342 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\xls.py
+2023-08-19 16:25:41,358 [analyzer] INFO: Added new file to list with pid 2160 and path C:\tmp9dglh0\modules\packages\zip.py
+2023-08-19 16:25:41,358 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\GtMAVsQqolSf.docx
+2023-08-19 16:25:41,375 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\jNBUlrXXpB.docx
+2023-08-19 16:25:41,390 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\_R_E_A_D___T_H_I_S___MGCRO8A9_.hta
+2023-08-19 16:25:41,390 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\_R_E_A_D___T_H_I_S___4SUZT1DD_.txt
+2023-08-19 16:25:41,405 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\lUrVOdOVdHVUH.doc
+2023-08-19 16:25:41,437 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\ouCubcfmcv.docx
+2023-08-19 16:25:41,437 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\QorvGPzEuZZ.docm
+2023-08-19 16:25:41,453 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Documents\wNqPBpXHVu.txt
+2023-08-19 16:25:42,390 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\AppData\Local\Temp\tmpC599.bmp
+2023-08-19 16:25:46,592 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Desktop\_R_E_A_D___T_H_I_S___LHYR8QK_.hta
+2023-08-19 16:25:47,328 [analyzer] INFO: Injected into process with pid 1452 and name u'mshta.exe'
+2023-08-19 16:25:47,342 [analyzer] INFO: Added new file to list with pid 2160 and path C:\Users\ahmed\Desktop\_R_E_A_D___T_H_I_S___DRIDMPY_.txt
+2023-08-19 16:25:47,500 [analyzer] DEBUG: Loaded monitor into process with pid 1452
+2023-08-19 16:25:47,515 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-19 16:25:47,530 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-19 16:25:47,530 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-19 16:25:47,530 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-19 16:25:47,530 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-19 16:25:47,530 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-19 16:25:47,530 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-19 16:25:47,562 [analyzer] INFO: Injected into process with pid 2724 and name u'notepad.exe'
+2023-08-19 16:25:47,562 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-19 16:25:47,578 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-19 16:25:47,578 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-19 16:25:47,578 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-19 16:25:47,578 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-19 16:25:47,578 [analyzer] INFO: Added new file to list with pid 2160 and path \Device\NamedPipe\wkssvc
+2023-08-19 16:25:47,578 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-19 16:25:47,578 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-19 16:25:47,592 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-19 16:25:47,921 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-19 16:25:47,921 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-19 16:25:47,937 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-19 16:25:47,937 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-19 16:25:47,937 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-19 16:25:47,937 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-19 16:25:47,937 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-19 16:25:48,890 [analyzer] DEBUG: Loaded monitor into process with pid 2724
+2023-08-19 16:25:49,828 [analyzer] INFO: Added new file to list with pid 2160 and path \Device\NamedPipe\browser
+2023-08-19 16:25:49,890 [analyzer] INFO: Injected into process with pid 1416 and name u'explorer.exe'
+2023-08-19 16:25:49,921 [analyzer] INFO: Injected into process with pid 2848 and name u'cmd.exe'
+2023-08-19 16:25:49,921 [analyzer] INFO: Added new file to list with pid 2160 and path 
+2023-08-19 16:25:50,125 [analyzer] DEBUG: Loaded monitor into process with pid 2848
+2023-08-19 16:25:50,640 [analyzer] INFO: io=NULL
+2023-08-19 16:25:50,640 [analyzer] DEBUG: Error resolving function jscript!ActiveXObjectFncObj_Construct through our custom callback.
+2023-08-19 16:25:50,655 [analyzer] INFO: io=NULL
+2023-08-19 16:25:50,655 [analyzer] DEBUG: Error resolving function jscript!COleScript_Compile through our custom callback.
+2023-08-19 16:25:50,655 [analyzer] INFO: io=NULL
+2023-08-19 16:25:50,655 [analyzer] DEBUG: Error resolving function jscript!Math_random through our custom callback.
+2023-08-19 16:25:50,655 [analyzer] INFO: io=NULL
+2023-08-19 16:25:50,655 [analyzer] DEBUG: Error resolving function jscript!ActiveXObjectFncObj_Construct through our custom callback.
+2023-08-19 16:25:50,671 [analyzer] INFO: io=NULL
+2023-08-19 16:25:50,671 [analyzer] DEBUG: Error resolving function jscript!COleScript_Compile through our custom callback.
+2023-08-19 16:25:50,671 [analyzer] INFO: io=NULL
+2023-08-19 16:25:50,671 [analyzer] DEBUG: Error resolving function jscript!Math_random through our custom callback.
+2023-08-19 16:25:52,828 [analyzer] INFO: Injected into process with pid 2948 and name u'taskkill.exe'
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-19 16:25:52,921 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-19 16:25:52,967 [analyzer] DEBUG: Loaded monitor into process with pid 2948
+2023-08-19 16:25:54,328 [lib.api.process] INFO: Memory dump of process with pid 2160 completed
+2023-08-19 16:25:54,453 [lib.api.process] INFO: Memory dump of process with pid 2160 completed
+2023-08-19 16:25:55,203 [analyzer] INFO: Process with pid 2160 has terminated
+2023-08-19 16:25:55,905 [lib.api.process] INFO: Memory dump of process with pid 2948 completed
+2023-08-19 16:25:55,953 [analyzer] INFO: Injected into process with pid 2444 and name u'PING.EXE'
+2023-08-19 16:25:56,092 [analyzer] DEBUG: Loaded monitor into process with pid 2444
+2023-08-19 16:25:56,203 [analyzer] INFO: Process with pid 2948 has terminated
+2023-08-19 16:25:56,312 [lib.api.process] INFO: Memory dump of process with pid 2444 completed
+2023-08-19 16:25:56,483 [lib.api.process] INFO: Memory dump of process with pid 2848 completed
+2023-08-19 16:25:57,203 [analyzer] INFO: Process with pid 2848 has terminated
+2023-08-19 16:25:58,203 [analyzer] INFO: Process with pid 2444 has terminated
+2023-08-19 16:27:14,296 [analyzer] INFO: Analysis timeout hit, terminating analysis.
+2023-08-19 16:28:03,953 [lib.api.process] INFO: Memory dump of process with pid 1452 completed
+2023-08-19 16:28:05,328 [lib.api.process] INFO: Memory dump of process with pid 2724 completed
