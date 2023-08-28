@@ -7,6 +7,9 @@ In order to browse the analysis results as you would do in the cuckoo web interf
 
 The commands will look something like this:
 >`git clone https://github.com/Ily455/my-Cuckoo-reports.git`
+>
 >`cd my-Cuckoo-reports`
+>
 >`cd malware-folder`
+>
 >`python3 -m http.server -b 127.0.0.1 8080`
