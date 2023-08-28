@@ -8,4 +8,6 @@ The commands will look something like this:
 >
 >`cd my-Cuckoo-reports`
 >
+>`cd malware-folder`
+>
 >`python3 -m http.server -b 127.0.0.1 8080`
