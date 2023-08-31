@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Cuckoo Sandbox</title>
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-64x64.png" sizes="64x64">
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-32x32.png" sizes="32x32">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Cuckoo Sandbox">
+        <meta name="author" content="Cuckoo Sandbox">
+
+        <link href="procmemory_files/vendor.css" rel="stylesheet" type="text/css">
+        <link href="procmemory_files/main.css" rel="stylesheet" type="text/css">
+
+        
+          <script>
+            var task_id = '15';
+          </script>
+        
+
+        <script src="procmemory_files/vendor.js"></script>
+
+        
+
+        <script src="procmemory_files/handlebars-templates.js"></script>
+        <script src="procmemory_files/hexdump.js"></script>
+        <script src="procmemory_files/loader.js"></script>
+        <script src="procmemory_files/sticky.js"></script>
+        <script src="procmemory_files/analysis_sidebar.js"></script>
+        <script src="procmemory_files/analysis_feedback.js"></script>
+        <script src="procmemory_files/submission.js"></script>
+        <script src="procmemory_files/process_tree.js"></script>
+        <script src="procmemory_files/recent.js"></script>
+        <script src="procmemory_files/analysis_network.js"></script>
+        <script src="procmemory_files/rdp.js"></script>
+        <script src="procmemory_files/app.js"></script>
+
+    </head>
+
+    <body id="analysis">
+
+    
+
+<nav class="app-nav" id="primary-nav">
+
+	<a href="http://localhost:8080/" class="logo">
+		<img src="procmemory_files/cuckoo_inverse.png">
+	</a>
+
+	<ul class="app-nav__nav--primary">
+		<li><a title="Dashboard" href="http://localhost:8080/dashboard/"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+		<li><a href="http://localhost:8080/analysis/" title="Recent"><i class="fa fa-th-list"></i> Recent</a></li>
+		<li><a href="http://localhost:8080/analysis/pending/" title="Pending"><i class="fa fa-cogs"></i> Pending</a></li>
+		<li><a href="http://localhost:8080/analysis/search/" title="Search"><i class="fa fa-search"></i> Search</a></li>
+	</ul>
+
+	<ul class="app-nav__nav--right">
+		<li>
+			<a href="http://localhost:8080/submit/" class="button outline">
+				<span data-responsive="nav-expanded">Submit</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-upload"></i></span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/import/" class="button outline">
+				<span data-responsive="nav-expanded">Import</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-download"></i></span>
+			</a>
+		</li>
+		<li class="app-nav__dropdown--parent">
+			<a href="#" id="select-theme">
+				<i class="fa fa-paint-brush"></i>
+			</a>
+			<div class="app-nav__dropdown">
+				<h5>Select theme</h5>
+				<ul class="flex-distribute theme-selection">
+					<li><a class="active" href="theme:default">Default</a></li>
+					<li><a href="theme:cyborg">Cyborg</a></li>
+					<li><a href="theme:night">Night</a></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+
+</nav>
+
+
+    <div class="hidden csrf_placeholder"><input type="hidden" name="csrfmiddlewaretoken" value="c2r5fu2p0OzowenQzMLyuprDOumkU9Od"></div>
+
+<div class="app">
+	
+
+	<div class="app-message hidden" data-message="browser-recommendation">
+		<h5><i class="fa fa-warning"></i> Browser recommendation</h5>
+		<p>Hello, we noticed that you are using <span class="browser"></span>. For the best performance of this application, we recommend to use <a href="https://www.google.com/chrome/browser/desktop/index.html" title="Chrome" target="_blank">Chrome</a>, <a href="https://www.mozilla.org/nl/firefox/new/" title="Firefox" target="_blank">Firefox</a> or any browser that supports <a href="https://webkit.org/" title="WebKit" target="_blank">WebKit</a>.</p>
+		<div class="clearfix">
+			<a href="#dismiss" class="button pull-left">Dismiss</a>
+			<a href="#hide" class="button inversed pull-right">Don't show again</a>
+		</div>
+	</div>
+
+	
+
+    <div class="flex-nav">
+        <nav class="flex-nav__nav" id="analysis-nav">
+
+	<ul class="cuckoo-nav" style="transform: translate3d(0px, 0px, 0px);">
+		
+		<li>
+			<a href="http://localhost:8080/analysis/15/summary/">
+				<i class="fa fa-home"></i>
+				<span>Summary</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/static/">
+				<i class="fa fa-book"></i>
+				<span>Static Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/extracted/">
+				<i class="fa fa-pencil"></i>
+				<span>Extracted Artifacts</span>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/behavior/">
+				<i class="fa fa-share-alt-square"></i>
+				<span>Behavioral Analysis</span>
+                
+				<em>10</em>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/network/">
+				<i class="fa fa-globe"></i>
+				<span>Network Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/dropped_files/">
+				<i class="fa fa-file-code-o"></i>
+				<span>Dropped Files</span>
+				<em>2</em>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/dropped_buffers/">
+				<i class="fa fa-server"></i>
+				<span>Dropped Buffers</span>
+                
+				<em>28</em>
+                
+			</a>
+		</li>
+
+		
+
+		<li>
+			<a href="http://localhost:8080/analysis/15/procmemory/" class="active">
+				<i class="fa fa-qrcode"></i>
+				<span>Process Memory</span>
+                
+				<em>11</em>
+                
+			</a>
+		</li>
+
+        
+
+		<li>
+			<a href="http://localhost:8080/analysis/15/compare/">
+				<i class="fa fa-random"></i>
+				<span>Compare Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/export/">
+				<i class="fa fa-download"></i>
+				<span>Export Analysis</span>
+			</a>
+		</li>
+		<li>
+		<a href="http://localhost:8080/analysis/15/reboot/">
+			<i class="fa fa-power-off"></i>
+			<span>Reboot Analysis</span>
+		</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/15/options/">
+				<i class="fa fa-cogs"></i>
+				<span>Options</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" data-toggle="modal" data-target="#feedback_form">
+				<i class="fa fa-bug"></i>
+				<span>Feedback</span>
+			</a>
+		</li>
+
+		<li class="lock-sidebar">
+			<a href="sidebar:toggle-lock" title="Click to disable collapsing">
+				<i class="fa"></i>
+				<span></span>
+			</a>
+		</li>
+
+	</ul>
+
+</nav>
+
+        <section class="flex-nav__body cuckoo-analysis" tabindex="0">
+
+            <header class="page-header cuckoo-analysis__header">
+                <h1>Process Memory</h1>
+            </header>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>netsh.exe</b> (PID 660, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c60a/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://www.iec.ch
+    http://purl.org/rss/1.0/modules/content/
+    http://wellformedweb.org/CommentAPI/
+    http://purl.org/rss/1.0/modules/syndication/
+    http://www.microsoft.com/schemas/rss/core/2005
+    http://purl.org/dc/elements/1.1/
+    http://www.microsoft.com/schemas/rss/core/2005/internal
+    http://localizability/practices/XMLConfiguration.asp
+    http://purl.org/atom/ns
+    http://purl.org/rss/1.0/
+    http://purl.org/dc/terms/
+    http://localizability/practices/XML.asp
+    http://www.microsoft.com/schemas/rss/monitoring/2007
+    http://purl.org/rss/1.0/modules/slash/
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>netsh.exe</b> (PID 1320, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+
+                                        
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>mshta.exe</b> (PID 1452, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c60c/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://www.expedia.com/favicon.ico
+    http://uk.ask.com/favicon.ico
+    http://www.priceminister.com/
+    http://www.iask.com/favicon.ico
+    http://ocsp.infonotary.com/responder.cgi0V
+    http://www.merlin.com.pl/favicon.ico
+    http://www.cnet.com/favicon.ico
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAII.crl0
+    http://search.nifty.com/
+    http://ns.adobe.com/exif/1.0/
+    http://www.etmall.com.tw/
+    http://crl.chambersign.org/publicnotaryroot.crl0
+    http://search.goo.ne.jp/
+    http://fr.wikipedia.org/favicon.ico
+    http://busca.estadao.com.br/favicon.ico
+    http://search.hanafos.com/favicon.ico
+    http://search.chol.com/favicon.ico
+    http://purl.org/rss/1.0/
+    http://amazon.fr/
+    http://www.amazon.co.jp/
+    http://www.mtv.com/favicon.ico
+    http://busqueda.aol.com.mx/
+    http://search.live.com/results.aspx?FORM=SOLTDF
+    http://msdn.microsoft.com/workshop/security/privacy/overview/privacyimportxml.asp)
+    http://purl.org/rss/1.0/modules/syndication/
+    http://www.sify.com/favicon.ico
+    http://yellowpages.superpages.com/
+    http://suche.freenet.de/
+    http://crl.chambersign.org/chambersroot.crl0
+    http://search.aol.com/
+    http://browse.guardian.co.uk/
+    http://www.mercadolibre.com.mx/
+    http://www.asharqalawsat.com/
+    http://www.facebook.com/
+    http://si.wikipedia.org/favicon.ico
+    http://www.rtl.de/favicon.ico
+    http://search.msn.com/results.aspx?q=
+    http://www.microsoft.com.
+    http://search.naver.com/favicon.ico
+    http://fedir.comsign.co.il/cacert/ComSignAdvancedSecurityCA.crt0
+    http://www.microsoft.com/library/images/gifs/ticker/white.bmp
+    http://crl.usertrust.com/UTN-USERFirst-NetworkApplications.crl0
+    https://www.netlock.net/docs
+    http://en.wikipedia.org/favicon.ico
+    http://si.wikipedia.org/w/api.php?action=opensearch
+    http://www.signatur.rtr.at/de/directory/cps.html0
+    http://udn.com/favicon.ico
+    http://rover.ebay.com
+    http://search.ebay.fr/
+    http://www.univision.com/
+    http://pt.wikipedia.org/w/api.php?action=opensearch
+    http://www.certplus.com/CRL/class3TS.crl0
+    http://it.wikipedia.org/favicon.ico
+    http://uk.ask.com/
+    http://www.google.co.uk/
+    http://cnweb.search.live.com/results.aspx?q=
+    http://www.google.cz/
+    http://www.google.co.jp/
+    http://search.ebay.co.uk/
+    http://www.weather.com/
+    http://www.taobao.com/favicon.ico
+    http://www.news.com.au/favicon.ico
+    http://search.orange.co.uk/favicon.ico
+    http://www.e-me.lv/repository0
+    http://video.globo.com/
+    http://192.168.56.1:8080
+    http://search.ebay.de/
+    http://www.taobao.com/
+    http://crl.comodo.net/AAACertificateServices.crl0
+    http://www.msnbc.com/news/ticker.txt
+    http://corp.naukri.com/favicon.ico
+    http://192.168.56.1:8080/EIE11_EN-US_MCM_WIN7.EXE
+    http://p27dokhpz2n7nvgr.12w
+    http://localhost
+    http://www.rambler.ru/favicon.ico
+    http://www.linternaute.com/favicon.ico
+    http://ns.adobe.com/photoshop/1.0/
+    http://www.shopzilla.com/
+    http://www.amazon.com/gp/search?ie=UTF8
+    http://search.live.com/results.aspx?FORM=SO2TDF
+    http://www.quovadis.bm0
+    http://busca.orange.es/
+    http://www.excite.co.jp/
+    http://cs.wikipedia.org/
+    http://www.d-trust.net/crl/d-trust_qualified_root_ca_1_2007_pn.crl0
+    http://www.gismeteo.ru/favicon.ico
+    http://www.cjmall.com/favicon.ico
+    http://suche.t-online.de/
+    http://www.ya.com/favicon.ico
+    http://www.priceminister.com/favicon.ico
+    http://www.trustcenter.de/guidelines0
+    http://www.mercadolibre.com.mx/favicon.ico
+    http://www.trustcenter.de/crl/v2/tc_class_2_ca_II.crl
+    https://ocsp.quovadisoffshore.com0
+    http://www.e-trust.be/CPS/QNcerts
+    http://ns.adobe.com/tiff/1.0/
+    http://www.otto.de/favicon.ico
+    http://schemas.xmlsoap.org/soap/envelope/
+    http://www.iask.com/
+    http://www.arrakis.com/
+    http://support.microsoft.com/kb/9311250
+    http://fedir.comsign.co.il/crl/ComSignSecuredCA.crl0
+    http://www.microsofttranslator.com/BVPrev.aspx?ref=IE8Activity
+    http://search.ebay.es/
+    http://search.gamer.com.tw/
+    http://www.tiscali.it/favicon.ico
+    http://ns.adobe.com/xap/1.0/
+    http://www.soso.com/favicon.ico
+    http://www.echoworx.com/ca/root2/cps.pdf0
+    http://microsoft.com0
+    http://recherche.tf1.fr/
+    http://si.wikipedia.org/
+    http://search.livedoor.com/
+    http://www.registradores.org/scr/normativa/cp_f2.htm0
+    http://www.usertrust.com1604
+    http://search.centrum.cz/
+    http://www.auction.co.kr/auction.ico
+    http://www.t-online.de/favicon.ico
+    http://ja.wikipedia.org/favicon.ico
+    http://www.abril.com.br/favicon.ico
+    http://clients5.google.com/complete/search?hl=
+    http://www.ozon.ru/
+    http://ns.adobe.com/xap/1.0/sType/ResourceRef
+    http://search.alice.it/
+    http://www.ssc.lt/cps03
+    http://search.yahoo.co.jp/favicon.ico
+    http://cnet.search.com/
+    http://www.walmart.com/
+    http://www.microsoft.com/pki/certs/TrustListPCA.crt0
+    http://espn.go.com/favicon.ico
+    http://www.pkioverheid.nl/policies/root-policy0
+    http://www.e-szigno.hu/SZSZ/0
+    http://msdn.microsoft.com/workshop/security/szone/overview/templates.asp)
+    http://search.interpark.com/
+    http://www.gmarket.co.kr/favicon.ico
+    http://www.certplus.com/CRL/class3.crl0
+    http://www.neckermann.de/favicon.ico
+    http://sitesearch.timesonline.co.uk/
+    http://cn.bing.com/search?q=
+    http://video.globo.com/favicon.ico
+    http://www.passport.com
+    http://es.wikipedia.org/
+    http://img.atlas.cz/favicon.ico
+    https://www.catcert.net/verarrel
+    http://searchresults.news.com.au/
+    http://search.rediff.com/
+    http://search.lycos.co.uk/
+    http://en.wikipedia.org/
+    http://localizability/practices/XML.asp
+    http://www.google.com.tw/
+    http://www.tchibo.de/
+    http://192.168.56.1:8080/favicon.ico
+    http://www.google.com/
+    http://buscador.terra.es/
+    http://pki-root.ecertpki.cl/CertEnroll/E-CERT%20ROOT%20CA.crl0
+    http://crl.ssc.lt/root-a/cacrl.crl0
+    http://search.msn.co.jp/results.aspx?q=
+    http://www.mercadolivre.com.br/favicon.ico
+    http://ja.wikipedia.org/
+    http://search.chol.com/
+    http://crl.usertrust.com/UTN-USERFirst-Object.crl0)
+    http://search.espn.go.com/
+    http://investor.msn.com
+    http://www.google.com.sa/
+    http://jobsearch.monster.com/
+    http://buscador.terra.com/
+    http://www.google.co.in/
+    http://www.google.fr/
+    http://www.pki.admin.ch/policy/CPS_2_16_756_1_17_3_21_1.pdf0
+    http://www.cdiscount.com/favicon.ico
+    http://asp.usatoday.com/
+    http://vachercher.lycos.fr/
+    http://www.yam.com/favicon.ico
+    http://search.sify.com/
+    http://acraiz.icpbrasil.gov.br/LCRacraiz.crl0
+    http://search.ebay.com/favicon.ico
+    http://www.paginasamarillas.es/
+    http://nl.wikipedia.org/
+    http://search.alice.it/favicon.ico
+    http://www.ask.com/
+    http://www.so-net.ne.jp/share/favicon.ico
+    http://espanol.search.yahoo.com/
+    http://crl.usertrust.com/UTN-USERFirst-ClientAuthenticationandEmail.crl0
+    http://www.alarabiya.net/favicon.ico
+    http://crl.globalsign.net/root-r2.crl0
+    http://ocnsearch.goo.ne.jp/
+    http://list.taobao.com/
+    http://certificates.starfieldtech.com/repository/1604
+    http://buscador.terra.com.br/
+    http://search.msn.co.uk/results.aspx?q=
+    http://www.google.de/
+    http://busca.igbusca.com.br//app/static/images/favicon.ico
+    http://www.d-trust.net0
+    http://www.rambler.ru/
+    http://esearch.rakuten.co.jp/
+    http://www.pki.gva.es/cps0
+    http://www.cdiscount.com/
+    http://www.mercadolivre.com.br/
+    http://www.facebook.com/favicon.ico
+    http://search.hanafos.com/
+    http://sads.myspace.com/
+    http://repository.swisssign.com/0
+    http://www.acabogacia.org0
+    http://crl.ssc.lt/root-c/cacrl.crl0
+    http://suche.web.de/
+    http://recherche.tf1.fr/favicon.ico
+    http://cs.wikipedia.org/w/api.php?action=opensearch
+    http://search.dreamwiz.com/
+    http://www.e-certchile.cl/html/productos/download/CPSv1.7.pdf01
+    http://xml-us.amznxslt.com/onca/xml?Service=AWSECommerceService
+    http://www.yandex.ru/
+    http://www.e-szigno.hu/RootCA.crl
+    http://fedir.comsign.co.il/crl/ComSignAdvancedSecurityCA.crl0
+    http://www.trustdst.com/certificates/policy/ACES-index.html0
+    http://www.baidu.com/favicon.ico
+    http://ariadna.elmundo.es/
+    http://www.rtl.de/
+    http://es.search.yahoo.com/
+    http://p.zhongsou.com/
+    http://es.wikipedia.org/favicon.ico
+    https://ca.sia.it/secsrv/repository/CPS0
+    http://www.timesonline.co.uk/img/favicon.ico
+    http://buscar.ozu.es/
+    http://so-net.search.goo.ne.jp/
+    http://cgi.search.biglobe.ne.jp/favicon.ico
+    http://192.168.56.1:8080/libreoffice_32-5.4.0.3.0-installer_b-oTHT1.exe
+    http://list.taobao.com/browse/search_visual.htm?n=15
+    http://www.soso.com/
+    http://www.afisha.ru/App_Themes/Default/images/favicon.ico
+    http://img.shopzilla.com/shopzilla/shopzilla.ico
+    http://wellformedweb.org/CommentAPI/
+    http://crl.oces.certifikat.dk/oces.crl0
+    http://ca.sia.it/seccli/repository/CRL.der0J
+    http://search.orange.co.uk/
+    http://www.sk.ee/juur/crl/0
+    http://ariadna.elmundo.es/favicon.ico
+    http://www.microsoft.com/bar.htm
+    http://www.e-szigno.hu/RootCA.crt0
+    http://it.wikipedia.org/
+    http://www3.fnac.com/favicon.ico
+    http://en.wikipedia.org/w/api.php?action=opensearch
+    http://repository.infonotary.com/cps/qcps.html0
+    http://ocsp.pki.gva.es0
+    http://support.microsoft.com
+    http://in.search.yahoo.com/
+    http://www.etmall.com.tw/favicon.ico
+    http://www.ceneo.pl/favicon.ico
+    http://service2.bfast.com/
+    http://tw.search.yahoo.com/
+    http://es.ask.com/
+    http://www.ozu.es/favicon.ico
+    http://ru.wikipedia.org/
+    http://www.microsoft.com/france/windows/xp/pro/utilisez/expertzone.asp
+    http://diagnostics.microsoft.com/
+    http://google.pchome.com.tw/
+    http://crl.ssc.lt/root-b/cacrl.crl0
+    http://p.zhongsou.com/favicon.ico
+    http://crl.securetrust.com/STCA.crl0
+    http://acraiz.icpbrasil.gov.br/DPCacraiz.pdf0=
+    http://search.ebay.com/
+    http://search1.taobao.com/
+    http://br.search.yahoo.com/
+    http://suche.lycos.de/
+    http://users.ocsp.d-trust.net03
+    http://www.asharqalawsat.com/favicon.ico
+    http://mail.live.com/
+    http://ru.search.yahoo.com
+    http://de.wikipedia.org/
+    http://find.joins.com/
+    http://ns.adobe.com/xap/1.0/mm/
+    http://cps.chambersign.org/cps/chambersroot.html0
+    http://www.google.ru/
+    http://search.empas.com/favicon.ico
+    http://search.seznam.cz/
+    http://de.wikipedia.org/w/api.php?action=opensearch
+    http://www.expedia.com/
+    http://www.clarin.com/favicon.ico
+    http://www.acabogacia.org/doc0
+    http://busca.uol.com.br/
+    http://www.sk.ee/cps/0
+    http://mail.live.com/?rru=compose%3Fsubject%3D
+    https://www.catcert.net/verarrel05
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAI.crl0
+    http://buscador.terra.com/favicon.ico
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAIII.crl0
+    http://search.nate.com/
+    http://purl.org/rss/1.0/modules/slash/
+    http://ie8.ebay.com/open-search/output-xml.php?q=
+    http://www.kkbox.com.tw/favicon.ico
+    http://www.ocn.ne.jp/favicon.ico
+    http://www.d-trust.net/crl/d-trust_root_class_2_ca_2007.crl0
+    http://corp.naukri.com/
+    http://www.amazon.com/exec/obidos/external-search/104-2981279-3455918?index=blended
+    http://www.entrust.net/CRL/Client1.crl0
+    http://192.168.56.1:8080/python-2.7.msi
+    http://www.microsofttranslator.com/BV.aspx?ref=IE8Activity
+    http://www.chambersign.org1
+    http://www.recherche.aol.fr/
+    http://pl.wikipedia.org/w/api.php?action=opensearch
+    http://www.weather.com/favicon.ico
+    http://search.centrum.cz/favicon.ico
+    http://search.yam.com/
+    http://search.live.com/results.aspx?q=
+    http://busca.uol.com.br/favicon.ico
+    http://www.ancert.com/cps0
+    http://images.joins.com/ui_c/fvc_joins.ico
+    http://cgi.search.biglobe.ne.jp/
+    http://www.microsoft.com/pki/crl/products/TrustListPCA.crl
+    http://msk.afisha.ru/
+    http://es.wikipedia.org/w/api.php?action=opensearch
+    http://www.globaltrust.info0
+    http://investor.msn.com/
+    http://www.arrakis.com/favicon.ico
+    http://search.microsoft.com/
+    http://search.goo.ne.jp/favicon.ico
+    http://image.excite.co.jp/jp/favicon/lep.ico
+    http://www.google.pl/
+    http://www.merlin.com.pl/
+    http://crl.usertrust.com/UTN-USERFirst-Hardware.crl01
+    http://www.amazon.de/
+    http://www.sogou.com/
+    http://www.digsigtrust.com/DST_TRUST_CPS_v990701.html0
+    http://cerca.lycos.it/
+    http://www.usertrust.com1
+    http://www.orange.fr/
+    http://spaces.live.com/BlogIt.aspx
+    http://www.microsofttranslator.com/?ref=IE8Activity
+    http://www.rakuten.co.jp/favicon.ico
+    http://www.nate.com/favicon.ico
+    http://de.wikipedia.org/favicon.ico
+    http://www.dnie.es/dpc0
+    http://ru.wikipedia.org/w/api.php?action=opensearch
+    http://www.microsofttranslator.com/DefaultPrev.aspx?ref=IE8Activity
+    http://search.daum.net/favicon.ico
+    https://www.certification.tn/cgi-bin/pub/crl/cacrl.crl0E
+    http://nl.wikipedia.org/favicon.ico
+    http://crl.pki.wellsfargo.com/wsprca.crl0
+    http://it.search.yahoo.com/
+    http://www.google.it/
+    http://www.d-trust.net/crl/d-trust_root_class_3_ca_2007.crl0
+    http://suche.web.de/favicon.ico
+    http://www.maktoob.com/favicon.ico
+    http://www.paginasamarillas.es/favicon.ico
+    http://search.seznam.cz/favicon.ico
+    http://search.livedoor.com/favicon.ico
+    http://search.lycos.com/
+    http://fr.wikipedia.org/w/api.php?action=opensearch
+    http://qual.ocsp.d-trust.net0
+    http://search.dreamwiz.com/favicon.ico
+    http://www.kkbox.com.tw/
+    http://suche.aol.de/
+    http://www.entrust.net/CRL/net1.crl0
+    http://www.iec.ch
+    http://it.search.dada.net/
+    http://crl.xrampsecurity.com/XGCA.crl0
+    http://search.empas.com/
+    http://yellowpages.superpages.com/favicon.ico
+    http://arianna.libero.it/
+    http://www.dailymail.co.uk/
+    http://ru.wikipedia.org/favicon.ico
+    http://search.auction.co.kr/
+    https://secure.a-cert.at/cgi-bin/a-cert-advanced.cgi0
+    http://search.lycos.com/favicon.ico
+    http://www3.fnac.com/
+    http://search.yahoo.co.jp
+    http://asp.usatoday.com/favicon.ico
+    http://www.signatur.rtr.at/current.crl0
+    http://search.msn.com.cn/results.aspx?q=
+    http://www.certplus.com/CRL/class1.crl0
+    http://www.a-cert.at/certificate-policy.html0
+    http://purl.org/dc/terms/
+    http://www.microsoft.com/library/images/gifs/ticker/f
+    http://ca.disig.sk/ca/crl/ca_disig.crl0
+    http://cn.bing.com/favicon.ico
+    http://www.firmaprofesional.com0
+    http://search2.estadao.com.br/
+    http://www.microsoft.com/pki/certs/tspca.crt0
+    http://search.cn.yahoo.com/
+    http://www.rootca.or.kr/rca/cps.html0
+    http://ie.search.yahoo.com/os?command=
+    http://www.tesco.com/
+    http://search-dyn.tiscali.it/
+    http://www.trustcenter.de/crl/v2/tc_class_3_ca_II.crl
+    http://search.ipop.co.kr/favicon.ico
+    http://arianna.libero.it/favicon.ico
+    http://www.myspace.com/favicon.ico
+    http://search.gismeteo.ru/
+    http://crl.comodo.net/TrustedCertificateServices.crl0
+    http://www.dailymail.co.uk/favicon.ico
+    http://www.microsoft.com/schemas/rss/core/2005/internal
+    http://home.altervista.org/
+    http://it.search.dada.net/favicon.ico
+    http://www.gmarket.co.kr/
+    http://crl.securetrust.com/SGCA.crl0
+    http://price.ru/favicon.ico
+    http://192.168.56.1:8080/Pillow-5.3.0.win32-py2.7.exe
+    http://www.informatik.admin.ch/PKI/links/CPS_2_16_756_1_17_3_1_0.pdf0
+    http://www.google.com.br/
+    http://buscar.ya.com/
+    http://images.monster.com/favicon.ico
+    http://activex.microsoft.com/controls/microsoft_only/ticker.cab
+    http://search.ebay.it/
+    http://www.alarabiya.net/
+    http://www.najdi.si/
+    https://www.certification.tn/cgi-bin/pub/crl/cacrl.crl0
+    http://www.microsoft.com/france/msdn/
+    http://purl.org/rss/1.0/modules/content/
+    http://ns.adobe.com/pdf/1.3/
+    http://www.microsoft.com/schemas/ie8tldlistdescription/1.0
+    http://logo.verisign.com/vslogo.gif0
+    http://price.ru/
+    http://www.disig.sk/ca/crl/ca_disig.crl0
+    http://www.najdi.si/favicon.ico
+    http://kr.search.yahoo.com/
+    http://www.aol.com/favicon.ico
+    http://www.ozon.ru/favicon.ico
+    http://pl.wikipedia.org/
+    http://www.target.com/favicon.ico
+    http://fr.search.yahoo.com/
+    http://crl.usertrust.com/UTN-DATACorpSGC.crl0
+    http://search.daum.net/
+    http://www.certicamara.com/certicamaraca.crl0
+    http://de.search.yahoo.com/
+    http://suche.freenet.de/favicon.ico
+    http://www.post.trust.ie/reposit/cps.html0
+    http://busca.buscape.com.br/favicon.ico
+    http://www2.public-trust.com/crl/ct/ctroot.crl0
+    http://www.microsoft.com/favicon.ico
+    http://www.certicamara.com0
+    http://auone.jp/favicon.ico
+    http://192.168.56.1:8080/agent.py
+    http://buscador.lycos.es/
+    http://search.yahoo.com/
+    http://www.sogou.com/favicon.ico
+    http://search.rediff.com/favicon.ico
+    http://search.auone.jp/
+    http://web.ask.com/
+    http://ca.sia.it/secsrv/repository/CRL.der0J
+    http://search.books.com.tw/
+    http://www.microsoft.com/schemas/rss/monitoring/2007
+    http://search.ebay.in/
+    http://www.microsoft.com/schemas/rss/core/2005
+    http://purl.org/atom/ns
+    http://search.about.com/
+    http://www.neckermann.de/
+    http://www.disig.sk/ca0f
+    http://browse.guardian.co.uk/favicon.ico
+    http://www.tesco.com/favicon.ico
+    http://search.ipop.co.kr/
+    https://www.example.com.
+    http://www.target.com/
+    http://www.amazon.com/favicon.ico
+    http://recherche.linternaute.com/
+    http://pt.wikipedia.org/favicon.ico
+    http://www.certicamara.com/dpc/0Z
+    http://openimage.interpark.com/interpark.ico
+    http://www.google.si/
+    http://www.yandex.ru/favicon.ico
+    http://www.google.com/favicon.ico
+    http://www.walmart.com/favicon.ico
+    http://udn.com/
+    http://purl.org/dc/elements/1.1/
+    http://192.168.56.1:8080/ar32e301.exe
+    http://www.wellsfargo.com/certpolicy0
+    http://fedir.comsign.co.il/crl/ComSignCA.crl0
+    http://www.google.es/
+    http://www.cnet.co.uk/
+    http://www.mtv.com/
+    http://search.live.com/results.aspx?FORM=IEFM1
+    http://www.microsoft.com/pki/certs/CSPCA.crt0
+    http://www.abril.com.br/
+    https://www.netlock.hu/docs/
+    http://www.baidu.com/
+    http://www.a-cert.at0E
+    http://www.amazon.co.uk/
+    http://it.wikipedia.org/w/api.php?action=opensearch
+    http://www.tchibo.de/favicon.ico
+    http://www.pchome.com.tw/favicon.ico
+    http://pt.wikipedia.org/
+    http://fr.wikipedia.org/
+    http://www.servicios.clarin.com/
+    http://crl.netsolssl.com/NetworkSolutionsCertificateAuthority.crl0
+    https://rca.e-szigno.hu/ocsp0-
+    http://ja.wikipedia.org/w/api.php?action=opensearch
+    https://ca.sia.it/seccli/repository/CPS0
+    http://www.DocURL.com/bar.htm
+    http://www.chennaionline.com/ncommon/images/collogo.ico
+    http://www.cjmall.com/
+    http://localizability/practices/XMLConfiguration.asp
+    http://uk.search.yahoo.com/
+    http://www.comsign.co.il/cps0
+    http://www.certifikat.dk/repository0
+    http://cps.chambersign.org/cps/publicnotaryroot.html0
+    http://search.yahoo.com/favicon.ico
+    http://www.quovadisglobal.com/cps0
+    http://busca.igbusca.com.br/
+    https://localhost
+    http://www.nifty.com/favicon.ico
+    http://cps.chambersign.org/cps/chambersignroot.html0
+    http://search.naver.com/
+    http://www.certplus.com/CRL/class2.crl0
+    http://home.altervista.org/favicon.ico
+    http://search.gamer.com.tw/favicon.ico
+    http://busca.buscape.com.br/
+    https://chain.so/api/v2/address/btc/17gd1msp5FnMcEMF1MitTNSsYs7w7AQyCt?_=1692456357859
+    http://search.atlas.cz/
+    http://www.ceneo.pl/
+    http://crl.chambersign.org/chambersignroot.crl0
+    http://www.certplus.com/CRL/class3P.crl0
+    http://search.aol.co.uk/
+    http://pl.wikipedia.org/favicon.ico
+    http://ns.adobe.com/iX/1.0/
+    http://search.books.com.tw/favicon.ico
+    http://search.aol.in/
+    http://crl.comodoca.com/TrustedCertificateServices.crl0:
+    https://example.com
+    http://cs.wikipedia.org/favicon.ico
+    http://spaces.live.com/
+    http://www.valicert.com/1
+    http://crl.comodoca.com/AAACertificateServices.crl06
+    http://www.microsofttranslator.com/Default.aspx?ref=IE8Activity
+    http://www.crc.bg0
+    http://z.about.com/m/a08.ico
+    http://www.univision.com/favicon.ico
+    http://crl.comodoca.com/COMODOCertificationAuthority.crl0
+    http://nl.wikipedia.org/w/api.php?action=opensearch
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>8b6bc16fd137c09a08b02bbe1bb7d670.bin</b> (PID 2160, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c60e/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0a2a50b66310addf0c263/">Download #2</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://crl.comodo.net/TrustedCertificateServices.crl0
+    http://p27dokhpz2n7nvgr.onion/7338-7D9A-32C6-0446-996F
+    http://www.e-szigno.hu/RootCA.crt0
+    http://crl.ssc.lt/root-b/cacrl.crl0
+    http://crl.securetrust.com/STCA.crl0
+    http://crl.securetrust.com/SGCA.crl0
+    http://acraiz.icpbrasil.gov.br/DPCacraiz.pdf0=
+    http://www.ssc.lt/cps03
+    http://www.informatik.admin.ch/PKI/links/CPS_2_16_756_1_17_3_1_0.pdf0
+    https://www.baidu.com
+    https://www.torproject.org/download/download-easy.html.en
+    http://users.ocsp.d-trust.net03
+    https://www.torproject.org/download/downlw
+    https://www.torproject.org/dow
+    http://www.digsigtrust.com/DST_TRUST_CPS_v990701.html0
+    https://www.youtube.com
+    http://api.blo
+    https://www.certification.tn/cgi-bin/pub/crl/cacrl.crl0
+    http://www.pkioverheid.nl/policies/root-policy0
+    http://cps.chambersign.org/cps/chambersroot.html0
+    http://www.disig.sk/ca/crl/ca_disig.crl0
+    http://www.entrust.net/CRL/Client1.crl0
+    http://crl.chambersign.org/publicnotaryroot.crl0
+    http://crl.comodo.net/AAACertificateServices.crl0
+    http://www.certplus.com/CRL/class3.crl0
+    https://www.torproject.org/download/download-easy.hto
+    http://logo.verisign.com/vslogo.gif0
+    http://www.sk.ee/cps/0
+    http://btc.blo
+    http://www.acabogacia.org/doc0
+    http://www.e-szigno.hu/SZSZ/0
+    https://www.catcert.net/verarrel
+    http://www.microsoft.com/schemas/ie8tldlistdescription/1.0
+    http://www.a-cert.at/certificate-policy.html0
+    https://ca.sia.it/seccli/repository/CPS0
+    https://www.catcert.net/verarrel05
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAI.crl0
+    http://crl.chambersign.org/chambersroot.crl0
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAIII.crl0
+    http://crl.globalsign.net/root-r2.crl0
+    http://certificates.starfieldtech.com/repository/1604
+    https://www.torproject.org/download/downl(
+    https://www.youtube.com/results?search_query=Install
+    http://www.d-trust.net0
+    http://pki-root.ecertpki.cl/CertEnroll/E-CERT%20ROOT%20CA.crl0
+    http://crl.ssc.lt/root-a/cacrl.crl0
+    http://crl.usertrust.com/UTN-DATACorpSGC.crl0
+    http://www.certicamara.com/certicamaraca.crl0
+    http://www.d-trust.net/crl/d-trust_root_class_2_ca_2007.crl0
+    http://crl.usertrust.com/UTN-USERFirst-Object.crl0)
+    http://www.post.trust.ie/reposit/cps.html0
+    http://www.d-trust.net/crl/d-trust_qualified_root_ca_1_2007_pn.crl0
+    http://www2.public-trust.com/crl/ct/ctroot.crl0
+    https://www.baidu.com/s?wd=%E6%80%8E%E4%B9%88%E5%AE%89%E8%A3%85%20tor%20%E6%B5%8F%E8%A7%88%E5%99%A8
+    http://www.certicamara.com0
+    http://www.pki.admin.ch/policy/CPS_2_16_756_1_17_3_21_1.pdf0
+    http://fedir.comsign.co.il/cacert/ComSignAdvancedSecurityCA.crt0
+    http://www.signatur.rtr.at/de/directory/cps.html0
+    http://www.comsign.co.il/cps0
+    http://crl.usertrust.com/UTN-USERFirst-NetworkApplications.crl0
+    http://www.microsoft.com/pki/crl/products/TrustListPCA.crl
+    http://acraiz.icpbrasil.gov.br/LCRacraiz.crl0
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAII.crl0
+    http://www.globaltrust.info0
+    http://ca.sia.it/secsrv/repository/CRL.der0J
+    http://support.microsoft.com/kb/9311250
+    http://crl.usertrust.com/UTN-USERFirst-ClientAuthenticationandEmail.crl0
+    https://www.torproject.org/
+    https://secure.a-cert.at/cgi-bin/a-cert-advanced.cgi0
+    http://www.certplus.com/CRL/class3TS.crl0
+    http://www.quovadis.bm0
+    http://crl.usertrust.com/UTN-USERFirst-Hardware.crl01
+    http://crl.xrampsecurity.com/XGCA.crl0
+    http://p27dokhpz2n7nvgr.129p1t.top/7338-7D9A-32C6-0446-996F
+    http://repository.infonotary.com/cps/qcps.html0
+    http://www.firmaprofesional.com0
+    http://www.disig.sk/ca0f
+    http://www.acabogacia.org0
+    https://bit
+    http://www.usertrust.com1
+    http://www.e-certchile.cl/html/productos/download/CPSv1.7.pdf01
+    http://ocsp.pki.gva.es0
+    http://www.pki.gva.es/cps0
+    https://www.torpr.
+    http://www.passport.com
+    http://www.certicamara.com/dpc/0Z
+    http://p27dokhpz2n7nvgr.14ewqv.top/7338-7D9A-32C6-0446-996F
+    http://www.e-me.lv/repository0
+    http://www.dnie.es/dpc0
+    http://www.microsoft.com/pki/certs/TrustListPCA.crt0
+    http://p27dokhpz2n7nvgr.14vvrc.top/7338-7D9A-32C6-0446-996F
+    http://fedir.comsign.co.il/crl/ComSignCA.crl0
+    http://www.wellsfargo.com/certpolicy0
+    http://repository.swisssign.com/0
+    https://www.certification.tn/cgi-bin/pub/crl/cacrl.crl0E
+    http://crl.ssc.lt/root-c/cacrl.crl0
+    https://www.netlock.hu/docs/
+    http://www.quovadisglobal.com/cps0
+    http://crl.pki.wellsfargo.com/wsprca.crl0
+    http://www.a-cert.at0E
+    http://www.e-szigno.hu/RootCA.crl
+    http://fedir.comsign.co.il/crl/ComSignAdvancedSecurityCA.crl0
+    http://crl.netsolssl.com/NetworkSolutionsCertificateAuthority.crl0
+    http://www.trustdst.com/certificates/policy/ACES-index.html0
+    https://rca.e-szigno.hu/ocsp0-
+    http://purl.org/rss/1.0/
+    https://www.yout
+    http://www.chambersign.org1
+    http://qual.ocsp.d-trust.net0
+    http://www.ancert.com/cps0
+    https://ca.sia.it/secsrv/repository/CPS0
+    http://www.certifikat.dk/repository0
+    http://www.entrust.net/CRL/net1.crl0
+    http://www.trustcenter.de/guidelines0
+    http://cps.chambersign.org/cps/publicnotaryroot.html0
+    http://www.trustcenter.de/crl/v2/tc_class_2_ca_II.crl
+    https://ocsp.quovadisoffshore.com0
+    http://www.e-trust.be/CPS/QNcerts
+    http://www.certplus.com/CRL/class1.crl0
+    http://ocsp.infonotary.com/responder.cgi0V
+    http://ca.disig.sk/ca/crl/ca_disig.crl0
+    http://www.registradores.org/scr/normativa/cp_f2.htm0
+    http://crl.oces.certifikat.dk/oces.crl0
+    http://p27dokhpz2n7nvgr.12hygy.top/7338-7D9A-32C6-0446-996F
+    http://www.signatur.rtr.at/current.crl0
+    http://www.certplus.com/CRL/class2.crl0
+    https://www.torproject.org/downlo
+    http://www.crc.bg0
+    http://p27dokhpz2n7nvgr.1apgrn.top/7338-7D9A-32C6-0446-996F
+    http://crl.chambersign.org/chambersignroot.crl0
+    http://www.certplus.com/CRL/class3P.crl0
+    https://www.netlock.net/docs
+    http://fedir.comsign.co.il/crl/ComSignSecuredCA.crl0
+    http://www.microsoft.com/pki/certs/tspca.crt0
+    https://cha
+    http://www.rootca.or.kr/rca/cps.html0
+    http://crl.comodoca.com/TrustedCertificateServices.crl0:
+    https://www.torproject.org/dow5
+    http://ns.adobe.com/xap/1.0/
+    http://www.echoworx.com/ca/root2/cps.pdf0
+    http://www.trustcenter.de/crl/v2/tc_class_3_ca_II.crl
+    http://www.valicert.com/1
+    http://crl.comodoca.com/AAACertificateServices.crl06
+    http://www.sk.ee/juur/crl/0
+    http://www.usertrust.com1604
+    http://cps.chambersign.org/cps/chambersignroot.html0
+    http://crl.comodoca.com/COMODOCertificationAuthority.crl0
+    http://ca.sia.it/seccli/repository/CRL.der0J
+    http://www.d-trust.net/crl/d-trust_root_class_3_ca_2007.crl0
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>8b6bc16fd137c09a08b02bbe1bb7d670.bin</b> (PID 2160, dump 2)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c60e/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0a2a50b66310addf0c263/">Download #2</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://crl.comodo.net/TrustedCertificateServices.crl0
+    http://p27dokhpz2n7nvgr.onion/7338-7D9A-32C6-0446-996F
+    http://www.e-szigno.hu/RootCA.crt0
+    http://crl.ssc.lt/root-b/cacrl.crl0
+    http://crl.securetrust.com/STCA.crl0
+    http://crl.securetrust.com/SGCA.crl0
+    http://acraiz.icpbrasil.gov.br/DPCacraiz.pdf0=
+    http://www.ssc.lt/cps03
+    http://www.informatik.admin.ch/PKI/links/CPS_2_16_756_1_17_3_1_0.pdf0
+    https://www.baidu.com
+    https://www.torproject.org/download/download-easy.html.en
+    http://users.ocsp.d-trust.net03
+    https://www.torproject.org/download/downlw
+    https://www.torproject.org/dow
+    http://www.digsigtrust.com/DST_TRUST_CPS_v990701.html0
+    https://www.youtube.com
+    http://api.blo
+    https://www.certification.tn/cgi-bin/pub/crl/cacrl.crl0
+    http://www.pkioverheid.nl/policies/root-policy0
+    http://cps.chambersign.org/cps/chambersroot.html0
+    http://www.disig.sk/ca/crl/ca_disig.crl0
+    http://www.entrust.net/CRL/Client1.crl0
+    http://crl.chambersign.org/publicnotaryroot.crl0
+    http://crl.comodo.net/AAACertificateServices.crl0
+    http://www.certplus.com/CRL/class3.crl0
+    https://www.torproject.org/download/download-easy.hto
+    http://logo.verisign.com/vslogo.gif0
+    http://www.sk.ee/cps/0
+    http://btc.blo
+    http://www.acabogacia.org/doc0
+    http://www.e-szigno.hu/SZSZ/0
+    https://www.catcert.net/verarrel
+    http://www.microsoft.com/schemas/ie8tldlistdescription/1.0
+    http://www.a-cert.at/certificate-policy.html0
+    https://ca.sia.it/seccli/repository/CPS0
+    https://www.catcert.net/verarrel05
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAI.crl0
+    http://crl.chambersign.org/chambersroot.crl0
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAIII.crl0
+    http://crl.globalsign.net/root-r2.crl0
+    http://certificates.starfieldtech.com/repository/1604
+    https://www.torproject.org/download/downl(
+    https://www.youtube.com/results?search_query=Install
+    http://www.d-trust.net0
+    http://pki-root.ecertpki.cl/CertEnroll/E-CERT%20ROOT%20CA.crl0
+    http://crl.ssc.lt/root-a/cacrl.crl0
+    http://crl.usertrust.com/UTN-DATACorpSGC.crl0
+    http://www.certicamara.com/certicamaraca.crl0
+    http://www.d-trust.net/crl/d-trust_root_class_2_ca_2007.crl0
+    http://crl.usertrust.com/UTN-USERFirst-Object.crl0)
+    http://www.post.trust.ie/reposit/cps.html0
+    http://www.d-trust.net/crl/d-trust_qualified_root_ca_1_2007_pn.crl0
+    http://www2.public-trust.com/crl/ct/ctroot.crl0
+    https://www.baidu.com/s?wd=%E6%80%8E%E4%B9%88%E5%AE%89%E8%A3%85%20tor%20%E6%B5%8F%E8%A7%88%E5%99%A8
+    http://www.certicamara.com0
+    http://www.pki.admin.ch/policy/CPS_2_16_756_1_17_3_21_1.pdf0
+    http://fedir.comsign.co.il/cacert/ComSignAdvancedSecurityCA.crt0
+    http://www.signatur.rtr.at/de/directory/cps.html0
+    http://www.comsign.co.il/cps0
+    http://crl.usertrust.com/UTN-USERFirst-NetworkApplications.crl0
+    http://www.microsoft.com/pki/crl/products/TrustListPCA.crl
+    http://acraiz.icpbrasil.gov.br/LCRacraiz.crl0
+    http://www.certificadodigital.com.br/repositorio/serasaca/crl/SerasaCAII.crl0
+    http://www.globaltrust.info0
+    http://ca.sia.it/secsrv/repository/CRL.der0J
+    http://support.microsoft.com/kb/9311250
+    http://crl.usertrust.com/UTN-USERFirst-ClientAuthenticationandEmail.crl0
+    https://www.torproject.org/
+    https://secure.a-cert.at/cgi-bin/a-cert-advanced.cgi0
+    http://www.certplus.com/CRL/class3TS.crl0
+    http://www.quovadis.bm0
+    http://crl.usertrust.com/UTN-USERFirst-Hardware.crl01
+    http://crl.xrampsecurity.com/XGCA.crl0
+    http://p27dokhpz2n7nvgr.129p1t.top/7338-7D9A-32C6-0446-996F
+    http://repository.infonotary.com/cps/qcps.html0
+    http://www.firmaprofesional.com0
+    http://www.disig.sk/ca0f
+    http://www.acabogacia.org0
+    https://bit
+    http://www.usertrust.com1
+    http://www.e-certchile.cl/html/productos/download/CPSv1.7.pdf01
+    http://ocsp.pki.gva.es0
+    http://www.pki.gva.es/cps0
+    https://www.torpr.
+    http://www.passport.com
+    http://www.certicamara.com/dpc/0Z
+    http://p27dokhpz2n7nvgr.14ewqv.top/7338-7D9A-32C6-0446-996F
+    http://www.e-me.lv/repository0
+    http://www.dnie.es/dpc0
+    http://www.microsoft.com/pki/certs/TrustListPCA.crt0
+    http://p27dokhpz2n7nvgr.14vvrc.top/7338-7D9A-32C6-0446-996F
+    http://fedir.comsign.co.il/crl/ComSignCA.crl0
+    http://www.wellsfargo.com/certpolicy0
+    http://repository.swisssign.com/0
+    https://www.certification.tn/cgi-bin/pub/crl/cacrl.crl0E
+    http://crl.ssc.lt/root-c/cacrl.crl0
+    https://www.netlock.hu/docs/
+    http://www.quovadisglobal.com/cps0
+    http://crl.pki.wellsfargo.com/wsprca.crl0
+    http://www.a-cert.at0E
+    http://www.e-szigno.hu/RootCA.crl
+    http://fedir.comsign.co.il/crl/ComSignAdvancedSecurityCA.crl0
+    http://crl.netsolssl.com/NetworkSolutionsCertificateAuthority.crl0
+    http://www.trustdst.com/certificates/policy/ACES-index.html0
+    https://rca.e-szigno.hu/ocsp0-
+    http://purl.org/rss/1.0/
+    https://www.yout
+    http://www.chambersign.org1
+    http://qual.ocsp.d-trust.net0
+    http://www.ancert.com/cps0
+    https://ca.sia.it/secsrv/repository/CPS0
+    http://www.certifikat.dk/repository0
+    http://www.entrust.net/CRL/net1.crl0
+    http://www.trustcenter.de/guidelines0
+    http://cps.chambersign.org/cps/publicnotaryroot.html0
+    http://www.trustcenter.de/crl/v2/tc_class_2_ca_II.crl
+    https://ocsp.quovadisoffshore.com0
+    http://www.e-trust.be/CPS/QNcerts
+    http://www.certplus.com/CRL/class1.crl0
+    http://ocsp.infonotary.com/responder.cgi0V
+    http://ca.disig.sk/ca/crl/ca_disig.crl0
+    http://www.registradores.org/scr/normativa/cp_f2.htm0
+    http://crl.oces.certifikat.dk/oces.crl0
+    http://p27dokhpz2n7nvgr.12hygy.top/7338-7D9A-32C6-0446-996F
+    http://www.signatur.rtr.at/current.crl0
+    http://www.certplus.com/CRL/class2.crl0
+    https://www.torproject.org/downlo
+    http://www.crc.bg0
+    http://p27dokhpz2n7nvgr.1apgrn.top/7338-7D9A-32C6-0446-996F
+    http://crl.chambersign.org/chambersignroot.crl0
+    http://www.certplus.com/CRL/class3P.crl0
+    https://www.netlock.net/docs
+    http://fedir.comsign.co.il/crl/ComSignSecuredCA.crl0
+    http://www.microsoft.com/pki/certs/tspca.crt0
+    https://cha
+    http://www.rootca.or.kr/rca/cps.html0
+    http://crl.comodoca.com/TrustedCertificateServices.crl0:
+    https://www.torproject.org/dow5
+    http://ns.adobe.com/xap/1.0/
+    http://www.echoworx.com/ca/root2/cps.pdf0
+    http://www.trustcenter.de/crl/v2/tc_class_3_ca_II.crl
+    http://www.valicert.com/1
+    http://crl.comodoca.com/AAACertificateServices.crl06
+    http://www.sk.ee/juur/crl/0
+    http://www.usertrust.com1604
+    http://cps.chambersign.org/cps/chambersignroot.html0
+    http://crl.comodoca.com/COMODOCertificationAuthority.crl0
+    http://ca.sia.it/seccli/repository/CRL.der0J
+    http://www.d-trust.net/crl/d-trust_root_class_3_ca_2007.crl0
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>netsh.exe</b> (PID 2172, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c610/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://www.iec.ch
+    http://purl.org/rss/1.0/modules/content/
+    http://wellformedweb.org/CommentAPI/
+    http://purl.org/rss/1.0/modules/syndication/
+    http://www.microsoft.com/schemas/rss/core/2005
+    http://purl.org/dc/elements/1.1/
+    http://www.microsoft.com/schemas/rss/core/2005/internal
+    http://localizability/practices/XMLConfiguration.asp
+    http://purl.org/atom/ns
+    http://purl.org/rss/1.0/
+    http://purl.org/dc/terms/
+    http://localizability/practices/XML.asp
+    http://www.microsoft.com/schemas/rss/monitoring/2007
+    http://purl.org/rss/1.0/modules/slash/
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>PING.EXE</b> (PID 2444, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c612/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>netsh.exe</b> (PID 2488, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c614/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://www.iec.ch
+    http://purl.org/rss/1.0/modules/content/
+    http://wellformedweb.org/CommentAPI/
+    http://purl.org/rss/1.0/modules/syndication/
+    http://www.microsoft.com/schemas/rss/core/2005
+    http://purl.org/dc/elements/1.1/
+    http://www.microsoft.com/schemas/rss/core/2005/internal
+    http://localizability/practices/XMLConfiguration.asp
+    http://purl.org/atom/ns
+    http://purl.org/rss/1.0/
+    http://purl.org/dc/terms/
+    http://localizability/practices/XML.asp
+    http://www.microsoft.com/schemas/rss/monitoring/2007
+    http://purl.org/rss/1.0/modules/slash/
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>notepad.exe</b> (PID 2724, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c616/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://www.expedia.com/favicon.ico
+    http://uk.ask.com/favicon.ico
+    http://www.priceminister.com/
+    http://www.iask.com/favicon.ico
+    http://www.merlin.com.pl/favicon.ico
+    http://www.cnet.com/favicon.ico
+    http://search.nifty.com/
+    http://ns.adobe.com/exif/1.0/
+    http://www.etmall.com.tw/
+    http://search.goo.ne.jp/
+    http://fr.wikipedia.org/favicon.ico
+    http://busca.estadao.com.br/favicon.ico
+    http://search.hanafos.com/favicon.ico
+    http://search.chol.com/favicon.ico
+    http://amazon.fr/
+    http://www.amazon.co.jp/
+    http://www.mtv.com/favicon.ico
+    http://busqueda.aol.com.mx/
+    http://search.live.com/results.aspx?FORM=SOLTDF
+    http://msdn.microsoft.com/workshop/security/privacy/overview/privacyimportxml.asp)
+    http://www.sify.com/favicon.ico
+    http://yellowpages.superpages.com/
+    http://suche.freenet.de/
+    http://search.aol.com/
+    http://browse.guardian.co.uk/
+    http://www.mercadolibre.com.mx/
+    http://www.asharqalawsat.com/
+    http://www.facebook.com/
+    http://si.wikipedia.org/favicon.ico
+    http://www.rtl.de/favicon.ico
+    http://search.msn.com/results.aspx?q=
+    http://www.microsoft.com.
+    http://search.naver.com/favicon.ico
+    http://www.microsoft.com/library/images/gifs/ticker/white.bmp
+    http://en.wikipedia.org/favicon.ico
+    http://si.wikipedia.org/w/api.php?action=opensearch
+    http://udn.com/favicon.ico
+    http://rover.ebay.com
+    http://search.ebay.fr/
+    http://www.univision.com/
+    http://pt.wikipedia.org/w/api.php?action=opensearch
+    http://it.wikipedia.org/favicon.ico
+    http://uk.ask.com/
+    http://www.google.co.uk/
+    http://cnweb.search.live.com/results.aspx?q=
+    http://www.google.cz/
+    http://www.google.co.jp/
+    http://search.ebay.co.uk/
+    http://www.weather.com/
+    http://www.taobao.com/favicon.ico
+    http://www.news.com.au/favicon.ico
+    http://search.orange.co.uk/favicon.ico
+    http://video.globo.com/
+    http://search.ebay.de/
+    http://www.taobao.com/
+    http://www.msnbc.com/news/ticker.txt
+    http://corp.naukri.com/favicon.ico
+    http://www.servicios.clarin.com/
+    http://localhost
+    http://www.rambler.ru/favicon.ico
+    http://www.linternaute.com/favicon.ico
+    http://ns.adobe.com/photoshop/1.0/
+    http://www.shopzilla.com/
+    http://www.amazon.com/gp/search?ie=UTF8
+    http://search.live.com/results.aspx?FORM=SO2TDF
+    http://busca.orange.es/
+    http://www.excite.co.jp/
+    http://cs.wikipedia.org/
+    http://www.gismeteo.ru/favicon.ico
+    http://www.cjmall.com/favicon.ico
+    http://suche.t-online.de/
+    http://www.ya.com/favicon.ico
+    http://www.priceminister.com/favicon.ico
+    http://www.mercadolibre.com.mx/favicon.ico
+    http://ns.adobe.com/tiff/1.0/
+    http://www.otto.de/favicon.ico
+    http://schemas.xmlsoap.org/soap/envelope/
+    http://www.iask.com/
+    http://www.arrakis.com/
+    http://www.microsofttranslator.com/BVPrev.aspx?ref=IE8Activity
+    http://search.hanafos.com/
+    http://search.gamer.com.tw/
+    http://www.tiscali.it/favicon.ico
+    http://ns.adobe.com/xap/1.0/
+    http://www.soso.com/favicon.ico
+    http://microsoft.com0
+    http://recherche.tf1.fr/
+    http://si.wikipedia.org/
+    http://search.livedoor.com/
+    http://search.centrum.cz/
+    http://www.auction.co.kr/auction.ico
+    http://www.t-online.de/favicon.ico
+    http://ja.wikipedia.org/favicon.ico
+    http://www.abril.com.br/favicon.ico
+    http://clients5.google.com/complete/search?hl=
+    http://www.ozon.ru/
+    http://ns.adobe.com/xap/1.0/sType/ResourceRef
+    http://search.alice.it/
+    http://search.yahoo.co.jp/favicon.ico
+    http://cnet.search.com/
+    http://www.walmart.com/
+    http://espn.go.com/favicon.ico
+    http://msdn.microsoft.com/workshop/security/szone/overview/templates.asp)
+    http://search.interpark.com/
+    http://www.gmarket.co.kr/favicon.ico
+    http://www.neckermann.de/favicon.ico
+    http://sitesearch.timesonline.co.uk/
+    http://cn.bing.com/search?q=
+    http://video.globo.com/favicon.ico
+    http://es.wikipedia.org/
+    http://img.atlas.cz/favicon.ico
+    http://searchresults.news.com.au/
+    http://search.rediff.com/
+    http://search.lycos.co.uk/
+    http://en.wikipedia.org/
+    http://www.google.com.tw/
+    http://www.tchibo.de/
+    http://www.google.com/
+    http://buscador.terra.es/
+    http://search.msn.co.jp/results.aspx?q=
+    http://www.mercadolivre.com.br/favicon.ico
+    http://ja.wikipedia.org/
+    http://search.chol.com/
+    http://search.espn.go.com/
+    http://investor.msn.com
+    http://www.google.com.sa/
+    http://jobsearch.monster.com/
+    http://buscador.terra.com/
+    http://www.google.co.in/
+    http://www.google.fr/
+    http://www.cdiscount.com/favicon.ico
+    http://asp.usatoday.com/
+    http://vachercher.lycos.fr/
+    http://www.yam.com/favicon.ico
+    http://search.sify.com/
+    http://search.ebay.com/favicon.ico
+    http://www.paginasamarillas.es/
+    http://nl.wikipedia.org/
+    http://search.alice.it/favicon.ico
+    http://www.ask.com/
+    http://www.so-net.ne.jp/share/favicon.ico
+    http://espanol.search.yahoo.com/
+    http://www.alarabiya.net/favicon.ico
+    http://ocnsearch.goo.ne.jp/
+    http://list.taobao.com/
+    http://buscador.terra.com.br/
+    http://search.msn.co.uk/results.aspx?q=
+    http://www.google.de/
+    http://busca.igbusca.com.br//app/static/images/favicon.ico
+    http://www.rambler.ru/
+    http://purl.org/dc/elements/1.1/
+    http://www.cdiscount.com/
+    http://www.mercadolivre.com.br/
+    http://www.facebook.com/favicon.ico
+    http://search.ebay.es/
+    http://sads.myspace.com/
+    http://suche.web.de/
+    http://recherche.tf1.fr/favicon.ico
+    http://cs.wikipedia.org/w/api.php?action=opensearch
+    http://search.dreamwiz.com/
+    http://xml-us.amznxslt.com/onca/xml?Service=AWSECommerceService
+    http://www.yandex.ru/
+    http://www.baidu.com/favicon.ico
+    http://ariadna.elmundo.es/
+    http://www.rtl.de/
+    http://es.search.yahoo.com/
+    http://p.zhongsou.com/
+    http://es.wikipedia.org/favicon.ico
+    http://www.timesonline.co.uk/img/favicon.ico
+    http://buscar.ozu.es/
+    http://so-net.search.goo.ne.jp/
+    http://cgi.search.biglobe.ne.jp/favicon.ico
+    http://list.taobao.com/browse/search_visual.htm?n=15
+    http://www.soso.com/
+    http://www.afisha.ru/App_Themes/Default/images/favicon.ico
+    http://img.shopzilla.com/shopzilla/shopzilla.ico
+    http://wellformedweb.org/CommentAPI/
+    http://search.orange.co.uk/
+    http://ariadna.elmundo.es/favicon.ico
+    http://it.wikipedia.org/
+    http://www3.fnac.com/favicon.ico
+    http://en.wikipedia.org/w/api.php?action=opensearch
+    http://support.microsoft.com
+    http://in.search.yahoo.com/
+    http://www.etmall.com.tw/favicon.ico
+    http://www.ceneo.pl/favicon.ico
+    http://service2.bfast.com/
+    http://tw.search.yahoo.com/
+    http://es.ask.com/
+    http://www.ozu.es/favicon.ico
+    http://ru.wikipedia.org/
+    http://www.microsoft.com/france/windows/xp/pro/utilisez/expertzone.asp
+    http://diagnostics.microsoft.com/
+    http://google.pchome.com.tw/
+    http://p.zhongsou.com/favicon.ico
+    http://search.ebay.com/
+    http://search1.taobao.com/
+    http://br.search.yahoo.com/
+    http://suche.lycos.de/
+    http://www.asharqalawsat.com/favicon.ico
+    http://mail.live.com/
+    http://ru.search.yahoo.com
+    http://de.wikipedia.org/
+    http://find.joins.com/
+    http://ns.adobe.com/xap/1.0/mm/
+    http://www.google.ru/
+    http://busca.uol.com.br/favicon.ico
+    http://search.seznam.cz/
+    http://de.wikipedia.org/w/api.php?action=opensearch
+    http://www.expedia.com/
+    http://www.clarin.com/favicon.ico
+    http://busca.uol.com.br/
+    http://mail.live.com/?rru=compose%3Fsubject%3D
+    http://buscador.terra.com/favicon.ico
+    http://search.nate.com/
+    http://purl.org/rss/1.0/modules/slash/
+    http://ie8.ebay.com/open-search/output-xml.php?q=
+    http://www.kkbox.com.tw/favicon.ico
+    http://www.ocn.ne.jp/favicon.ico
+    http://corp.naukri.com/
+    http://www.amazon.com/exec/obidos/external-search/104-2981279-3455918?index=blended
+    http://www.microsofttranslator.com/BV.aspx?ref=IE8Activity
+    http://www.recherche.aol.fr/
+    http://pl.wikipedia.org/w/api.php?action=opensearch
+    http://www.weather.com/favicon.ico
+    http://search.centrum.cz/favicon.ico
+    http://search.yam.com/
+    http://search.live.com/results.aspx?q=
+    http://search.empas.com/favicon.ico
+    http://images.joins.com/ui_c/fvc_joins.ico
+    http://cgi.search.biglobe.ne.jp/
+    http://msk.afisha.ru/
+    http://es.wikipedia.org/w/api.php?action=opensearch
+    http://www.google.pl/
+    http://www.arrakis.com/favicon.ico
+    http://search.microsoft.com/
+    http://search.goo.ne.jp/favicon.ico
+    http://image.excite.co.jp/jp/favicon/lep.ico
+    http://investor.msn.com/
+    http://www.merlin.com.pl/
+    http://www.amazon.de/
+    http://www.sogou.com/
+    http://cerca.lycos.it/
+    http://www.orange.fr/
+    http://spaces.live.com/BlogIt.aspx
+    http://www.microsofttranslator.com/?ref=IE8Activity
+    http://www.rakuten.co.jp/favicon.ico
+    http://www.nate.com/favicon.ico
+    http://de.wikipedia.org/favicon.ico
+    http://ru.wikipedia.org/w/api.php?action=opensearch
+    http://www.microsofttranslator.com/DefaultPrev.aspx?ref=IE8Activity
+    http://search.daum.net/favicon.ico
+    http://nl.wikipedia.org/favicon.ico
+    http://it.search.yahoo.com/
+    http://www.google.it/
+    http://suche.web.de/favicon.ico
+    http://www.maktoob.com/favicon.ico
+    http://www.paginasamarillas.es/favicon.ico
+    http://search.seznam.cz/favicon.ico
+    http://search.livedoor.com/favicon.ico
+    http://search.lycos.com/
+    http://fr.wikipedia.org/w/api.php?action=opensearch
+    http://search.dreamwiz.com/favicon.ico
+    http://www.kkbox.com.tw/
+    http://suche.aol.de/
+    http://www.iec.ch
+    http://it.search.dada.net/
+    http://search.empas.com/
+    http://yellowpages.superpages.com/favicon.ico
+    http://arianna.libero.it/
+    http://www.dailymail.co.uk/
+    http://ru.wikipedia.org/favicon.ico
+    http://search.auction.co.kr/
+    http://search.lycos.com/favicon.ico
+    http://www3.fnac.com/
+    http://search.yahoo.co.jp
+    http://asp.usatoday.com/favicon.ico
+    http://search.msn.com.cn/results.aspx?q=
+    http://www.microsoft.com/library/images/gifs/ticker/f
+    http://cn.bing.com/favicon.ico
+    http://search2.estadao.com.br/
+    http://www.microsoft.com/pki/certs/tspca.crt0
+    http://search.cn.yahoo.com/
+    http://ie.search.yahoo.com/os?command=
+    http://www.tesco.com/
+    http://search-dyn.tiscali.it/
+    http://search.ipop.co.kr/favicon.ico
+    http://arianna.libero.it/favicon.ico
+    http://www.myspace.com/favicon.ico
+    http://search.gismeteo.ru/
+    http://www.dailymail.co.uk/favicon.ico
+    http://www.microsoft.com/schemas/rss/core/2005/internal
+    http://home.altervista.org/
+    http://it.search.dada.net/favicon.ico
+    http://www.gmarket.co.kr/
+    http://price.ru/favicon.ico
+    http://www.google.com.br/
+    http://buscar.ya.com/
+    http://images.monster.com/favicon.ico
+    http://activex.microsoft.com/controls/microsoft_only/ticker.cab
+    http://search.ebay.it/
+    http://www.alarabiya.net/
+    http://www.najdi.si/
+    http://www.microsoft.com/france/msdn/
+    http://purl.org/rss/1.0/modules/content/
+    http://ns.adobe.com/pdf/1.3/
+    http://price.ru/
+    http://www.najdi.si/favicon.ico
+    http://kr.search.yahoo.com/
+    http://www.aol.com/favicon.ico
+    http://www.ozon.ru/favicon.ico
+    http://pl.wikipedia.org/
+    http://www.target.com/favicon.ico
+    http://fr.search.yahoo.com/
+    http://search.daum.net/
+    http://de.search.yahoo.com/
+    http://suche.freenet.de/favicon.ico
+    http://busca.buscape.com.br/favicon.ico
+    http://www.microsoft.com/favicon.ico
+    http://auone.jp/favicon.ico
+    http://buscador.lycos.es/
+    http://search.yahoo.com/
+    http://www.sogou.com/favicon.ico
+    http://search.rediff.com/favicon.ico
+    http://search.auone.jp/
+    http://web.ask.com/
+    http://search.books.com.tw/
+    http://search.ebay.in/
+    http://search.about.com/
+    http://www.neckermann.de/
+    http://browse.guardian.co.uk/favicon.ico
+    http://www.tesco.com/favicon.ico
+    http://ns.adobe.com/iX/1.0/
+    https://www.example.com.
+    http://www.target.com/
+    http://www.amazon.com/favicon.ico
+    http://recherche.linternaute.com/
+    http://pt.wikipedia.org/favicon.ico
+    http://openimage.interpark.com/interpark.ico
+    http://www.google.si/
+    http://www.yandex.ru/favicon.ico
+    http://www.google.com/favicon.ico
+    http://www.walmart.com/favicon.ico
+    http://udn.com/
+    http://esearch.rakuten.co.jp/
+    http://www.google.es/
+    http://www.cnet.co.uk/
+    http://www.mtv.com/
+    http://search.live.com/results.aspx?FORM=IEFM1
+    http://www.microsoft.com/pki/certs/CSPCA.crt0
+    http://www.abril.com.br/
+    http://www.baidu.com/
+    http://www.amazon.co.uk/
+    http://it.wikipedia.org/w/api.php?action=opensearch
+    http://www.tchibo.de/favicon.ico
+    http://www.pchome.com.tw/favicon.ico
+    http://pt.wikipedia.org/
+    http://fr.wikipedia.org/
+    http://ja.wikipedia.org/w/api.php?action=opensearch
+    http://www.chennaionline.com/ncommon/images/collogo.ico
+    http://www.cjmall.com/
+    http://uk.search.yahoo.com/
+    http://search.yahoo.com/favicon.ico
+    http://busca.igbusca.com.br/
+    https://localhost
+    http://www.nifty.com/favicon.ico
+    http://search.naver.com/
+    http://home.altervista.org/favicon.ico
+    http://search.gamer.com.tw/favicon.ico
+    http://busca.buscape.com.br/
+    http://search.atlas.cz/
+    http://www.ceneo.pl/
+    http://search.aol.co.uk/
+    http://pl.wikipedia.org/favicon.ico
+    http://search.ipop.co.kr/
+    http://search.books.com.tw/favicon.ico
+    http://search.aol.in/
+    https://example.com
+    http://cs.wikipedia.org/favicon.ico
+    http://spaces.live.com/
+    http://www.microsofttranslator.com/Default.aspx?ref=IE8Activity
+    http://z.about.com/m/a08.ico
+    http://www.univision.com/favicon.ico
+    http://nl.wikipedia.org/w/api.php?action=opensearch
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>cmd.exe</b> (PID 2848, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c618/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+                                            <b>URLs found in process memory</b>
+
+                                                <pre>    http://www.expedia.com/favicon.ico
+    http://uk.ask.com/favicon.ico
+    http://www.priceminister.com/
+    http://www.iask.com/favicon.ico
+    http://www.merlin.com.pl/favicon.ico
+    http://www.cnet.com/favicon.ico
+    http://search.nifty.com/
+    http://ns.adobe.com/exif/1.0/
+    http://www.etmall.com.tw/
+    http://search.goo.ne.jp/
+    http://fr.wikipedia.org/favicon.ico
+    http://busca.estadao.com.br/favicon.ico
+    http://search.hanafos.com/favicon.ico
+    http://search.chol.com/favicon.ico
+    http://amazon.fr/
+    http://www.amazon.co.jp/
+    http://www.mtv.com/favicon.ico
+    http://busqueda.aol.com.mx/
+    http://search.live.com/results.aspx?FORM=SOLTDF
+    http://msdn.microsoft.com/workshop/security/privacy/overview/privacyimportxml.asp)
+    http://www.sify.com/favicon.ico
+    http://yellowpages.superpages.com/
+    http://suche.freenet.de/
+    http://search.aol.com/
+    http://browse.guardian.co.uk/
+    http://www.mercadolibre.com.mx/
+    http://www.asharqalawsat.com/
+    http://www.facebook.com/
+    http://si.wikipedia.org/favicon.ico
+    http://www.rtl.de/favicon.ico
+    http://search.msn.com/results.aspx?q=
+    http://www.microsoft.com.
+    http://search.naver.com/favicon.ico
+    http://en.wikipedia.org/favicon.ico
+    http://si.wikipedia.org/w/api.php?action=opensearch
+    http://udn.com/favicon.ico
+    http://rover.ebay.com
+    http://search.ebay.fr/
+    http://www.univision.com/
+    http://pt.wikipedia.org/w/api.php?action=opensearch
+    http://it.wikipedia.org/favicon.ico
+    http://uk.ask.com/
+    http://www.google.co.uk/
+    http://cnweb.search.live.com/results.aspx?q=
+    http://www.google.cz/
+    http://www.google.co.jp/
+    http://search.ebay.co.uk/
+    http://www.weather.com/
+    http://www.taobao.com/favicon.ico
+    http://www.news.com.au/favicon.ico
+    http://search.orange.co.uk/favicon.ico
+    http://video.globo.com/
+    http://search.ebay.de/
+    http://www.taobao.com/
+    http://corp.naukri.com/favicon.ico
+    http://www.servicios.clarin.com/
+    http://localhost
+    http://www.rambler.ru/favicon.ico
+    http://www.linternaute.com/favicon.ico
+    http://ns.adobe.com/photoshop/1.0/
+    http://www.shopzilla.com/
+    http://www.amazon.com/gp/search?ie=UTF8
+    http://search.live.com/results.aspx?FORM=SO2TDF
+    http://busca.orange.es/
+    http://www.excite.co.jp/
+    http://cs.wikipedia.org/
+    http://www.gismeteo.ru/favicon.ico
+    http://www.cjmall.com/favicon.ico
+    http://suche.t-online.de/
+    http://www.ya.com/favicon.ico
+    http://www.priceminister.com/favicon.ico
+    http://www.mercadolibre.com.mx/favicon.ico
+    http://ns.adobe.com/tiff/1.0/
+    http://www.otto.de/favicon.ico
+    http://www.iask.com/
+    http://www.arrakis.com/
+    http://www.microsofttranslator.com/BVPrev.aspx?ref=IE8Activity
+    http://search.hanafos.com/
+    http://search.gamer.com.tw/
+    http://www.tiscali.it/favicon.ico
+    http://ns.adobe.com/xap/1.0/
+    http://www.soso.com/favicon.ico
+    http://recherche.tf1.fr/
+    http://si.wikipedia.org/
+    http://search.livedoor.com/
+    http://search.centrum.cz/
+    http://www.auction.co.kr/auction.ico
+    http://www.t-online.de/favicon.ico
+    http://ja.wikipedia.org/favicon.ico
+    http://www.abril.com.br/favicon.ico
+    http://clients5.google.com/complete/search?hl=
+    http://www.ozon.ru/
+    http://search.alice.it/
+    http://search.yahoo.co.jp/favicon.ico
+    http://cnet.search.com/
+    http://www.walmart.com/
+    http://espn.go.com/favicon.ico
+    http://msdn.microsoft.com/workshop/security/szone/overview/templates.asp)
+    http://search.interpark.com/
+    http://www.gmarket.co.kr/favicon.ico
+    http://www.neckermann.de/favicon.ico
+    http://sitesearch.timesonline.co.uk/
+    http://cn.bing.com/search?q=
+    http://video.globo.com/favicon.ico
+    http://es.wikipedia.org/
+    http://img.atlas.cz/favicon.ico
+    http://searchresults.news.com.au/
+    http://search.rediff.com/
+    http://search.lycos.co.uk/
+    http://en.wikipedia.org/
+    http://www.google.com.tw/
+    http://www.tchibo.de/
+    http://www.google.com/
+    http://buscador.terra.es/
+    http://search.msn.co.jp/results.aspx?q=
+    http://www.mercadolivre.com.br/favicon.ico
+    http://ja.wikipedia.org/
+    http://search.chol.com/
+    http://search.espn.go.com/
+    http://www.google.com.sa/
+    http://jobsearch.monster.com/
+    http://buscador.terra.com/
+    http://www.google.co.in/
+    http://www.google.fr/
+    http://www.cdiscount.com/favicon.ico
+    http://asp.usatoday.com/
+    http://vachercher.lycos.fr/
+    http://www.yam.com/favicon.ico
+    http://search.sify.com/
+    http://search.ebay.com/favicon.ico
+    http://www.paginasamarillas.es/
+    http://nl.wikipedia.org/
+    http://search.alice.it/favicon.ico
+    http://www.ask.com/
+    http://www.so-net.ne.jp/share/favicon.ico
+    http://espanol.search.yahoo.com/
+    http://www.alarabiya.net/favicon.ico
+    http://ocnsearch.goo.ne.jp/
+    http://list.taobao.com/
+    http://buscador.terra.com.br/
+    http://search.msn.co.uk/results.aspx?q=
+    http://www.google.de/
+    http://busca.igbusca.com.br//app/static/images/favicon.ico
+    http://www.rambler.ru/
+    http://purl.org/dc/elements/1.1/
+    http://www.cdiscount.com/
+    http://www.mercadolivre.com.br/
+    http://www.facebook.com/favicon.ico
+    http://search.ebay.es/
+    http://sads.myspace.com/
+    http://suche.web.de/
+    http://recherche.tf1.fr/favicon.ico
+    http://cs.wikipedia.org/w/api.php?action=opensearch
+    http://search.dreamwiz.com/
+    http://xml-us.amznxslt.com/onca/xml?Service=AWSECommerceService
+    http://www.yandex.ru/
+    http://www.baidu.com/favicon.ico
+    http://ariadna.elmundo.es/
+    http://www.rtl.de/
+    http://es.search.yahoo.com/
+    http://p.zhongsou.com/
+    http://es.wikipedia.org/favicon.ico
+    http://www.timesonline.co.uk/img/favicon.ico
+    http://buscar.ozu.es/
+    http://so-net.search.goo.ne.jp/
+    http://cgi.search.biglobe.ne.jp/favicon.ico
+    http://list.taobao.com/browse/search_visual.htm?n=15
+    http://www.soso.com/
+    http://www.afisha.ru/App_Themes/Default/images/favicon.ico
+    http://img.shopzilla.com/shopzilla/shopzilla.ico
+    http://wellformedweb.org/CommentAPI/
+    http://search.orange.co.uk/
+    http://ariadna.elmundo.es/favicon.ico
+    http://it.wikipedia.org/
+    http://www3.fnac.com/favicon.ico
+    http://en.wikipedia.org/w/api.php?action=opensearch
+    http://support.microsoft.com
+    http://in.search.yahoo.com/
+    http://www.etmall.com.tw/favicon.ico
+    http://www.ceneo.pl/favicon.ico
+    http://service2.bfast.com/
+    http://tw.search.yahoo.com/
+    http://es.ask.com/
+    http://www.ozu.es/favicon.ico
+    http://ru.wikipedia.org/
+    http://www.microsoft.com/france/windows/xp/pro/utilisez/expertzone.asp
+    http://google.pchome.com.tw/
+    http://p.zhongsou.com/favicon.ico
+    http://search.ebay.com/
+    http://search1.taobao.com/
+    http://br.search.yahoo.com/
+    http://suche.lycos.de/
+    http://www.asharqalawsat.com/favicon.ico
+    http://mail.live.com/
+    http://ru.search.yahoo.com
+    http://de.wikipedia.org/
+    http://find.joins.com/
+    http://ns.adobe.com/xap/1.0/mm/
+    http://www.google.ru/
+    http://busca.uol.com.br/favicon.ico
+    http://search.seznam.cz/
+    http://de.wikipedia.org/w/api.php?action=opensearch
+    http://www.expedia.com/
+    http://www.clarin.com/favicon.ico
+    http://busca.uol.com.br/
+    http://mail.live.com/?rru=compose%3Fsubject%3D
+    http://buscador.terra.com/favicon.ico
+    http://search.nate.com/
+    http://purl.org/rss/1.0/modules/slash/
+    http://ie8.ebay.com/open-search/output-xml.php?q=
+    http://www.kkbox.com.tw/favicon.ico
+    http://www.ocn.ne.jp/favicon.ico
+    http://corp.naukri.com/
+    http://www.amazon.com/exec/obidos/external-search/104-2981279-3455918?index=blended
+    http://www.microsofttranslator.com/BV.aspx?ref=IE8Activity
+    http://www.recherche.aol.fr/
+    http://pl.wikipedia.org/w/api.php?action=opensearch
+    http://www.weather.com/favicon.ico
+    http://search.centrum.cz/favicon.ico
+    http://search.yam.com/
+    http://search.live.com/results.aspx?q=
+    http://search.empas.com/favicon.ico
+    http://images.joins.com/ui_c/fvc_joins.ico
+    http://cgi.search.biglobe.ne.jp/
+    http://msk.afisha.ru/
+    http://es.wikipedia.org/w/api.php?action=opensearch
+    http://www.google.pl/
+    http://www.arrakis.com/favicon.ico
+    http://search.microsoft.com/
+    http://search.goo.ne.jp/favicon.ico
+    http://image.excite.co.jp/jp/favicon/lep.ico
+    http://www.merlin.com.pl/
+    http://www.amazon.de/
+    http://www.sogou.com/
+    http://cerca.lycos.it/
+    http://www.orange.fr/
+    http://spaces.live.com/BlogIt.aspx
+    http://www.microsofttranslator.com/?ref=IE8Activity
+    http://www.rakuten.co.jp/favicon.ico
+    http://www.nate.com/favicon.ico
+    http://de.wikipedia.org/favicon.ico
+    http://ru.wikipedia.org/w/api.php?action=opensearch
+    http://www.microsofttranslator.com/DefaultPrev.aspx?ref=IE8Activity
+    http://search.daum.net/favicon.ico
+    http://nl.wikipedia.org/favicon.ico
+    http://it.search.yahoo.com/
+    http://www.google.it/
+    http://suche.web.de/favicon.ico
+    http://www.maktoob.com/favicon.ico
+    http://www.paginasamarillas.es/favicon.ico
+    http://search.seznam.cz/favicon.ico
+    http://search.livedoor.com/favicon.ico
+    http://search.lycos.com/
+    http://fr.wikipedia.org/w/api.php?action=opensearch
+    http://search.dreamwiz.com/favicon.ico
+    http://www.kkbox.com.tw/
+    http://suche.aol.de/
+    http://it.search.dada.net/
+    http://search.empas.com/
+    http://yellowpages.superpages.com/favicon.ico
+    http://arianna.libero.it/
+    http://www.dailymail.co.uk/
+    http://ru.wikipedia.org/favicon.ico
+    http://search.auction.co.kr/
+    http://search.lycos.com/favicon.ico
+    http://www3.fnac.com/
+    http://search.yahoo.co.jp
+    http://asp.usatoday.com/favicon.ico
+    http://search.msn.com.cn/results.aspx?q=
+    http://cn.bing.com/favicon.ico
+    http://search2.estadao.com.br/
+    http://search.cn.yahoo.com/
+    http://ie.search.yahoo.com/os?command=
+    http://www.tesco.com/
+    http://search-dyn.tiscali.it/
+    http://search.ipop.co.kr/favicon.ico
+    http://arianna.libero.it/favicon.ico
+    http://www.myspace.com/favicon.ico
+    http://search.gismeteo.ru/
+    http://www.dailymail.co.uk/favicon.ico
+    http://www.microsoft.com/schemas/rss/core/2005/internal
+    http://home.altervista.org/
+    http://it.search.dada.net/favicon.ico
+    http://www.gmarket.co.kr/
+    http://price.ru/favicon.ico
+    http://www.google.com.br/
+    http://buscar.ya.com/
+    http://images.monster.com/favicon.ico
+    http://search.ebay.it/
+    http://www.alarabiya.net/
+    http://www.najdi.si/
+    http://www.microsoft.com/france/msdn/
+    http://purl.org/rss/1.0/modules/content/
+    http://ns.adobe.com/pdf/1.3/
+    http://price.ru/
+    http://www.najdi.si/favicon.ico
+    http://kr.search.yahoo.com/
+    http://www.aol.com/favicon.ico
+    http://www.ozon.ru/favicon.ico
+    http://pl.wikipedia.org/
+    http://www.target.com/favicon.ico
+    http://fr.search.yahoo.com/
+    http://search.daum.net/
+    http://de.search.yahoo.com/
+    http://suche.freenet.de/favicon.ico
+    http://busca.buscape.com.br/favicon.ico
+    http://www.microsoft.com/favicon.ico
+    http://auone.jp/favicon.ico
+    http://buscador.lycos.es/
+    http://search.yahoo.com/
+    http://www.sogou.com/favicon.ico
+    http://search.rediff.com/favicon.ico
+    http://search.auone.jp/
+    http://web.ask.com/
+    http://search.books.com.tw/
+    http://search.ebay.in/
+    http://search.about.com/
+    http://www.neckermann.de/
+    http://browse.guardian.co.uk/favicon.ico
+    http://www.tesco.com/favicon.ico
+    http://ns.adobe.com/iX/1.0/
+    https://www.example.com.
+    http://www.target.com/
+    http://www.amazon.com/favicon.ico
+    http://recherche.linternaute.com/
+    http://pt.wikipedia.org/favicon.ico
+    http://openimage.interpark.com/interpark.ico
+    http://www.google.si/
+    http://www.yandex.ru/favicon.ico
+    http://www.google.com/favicon.ico
+    http://www.walmart.com/favicon.ico
+    http://udn.com/
+    http://esearch.rakuten.co.jp/
+    http://www.google.es/
+    http://www.cnet.co.uk/
+    http://www.mtv.com/
+    http://search.live.com/results.aspx?FORM=IEFM1
+    http://www.abril.com.br/
+    http://www.baidu.com/
+    http://www.amazon.co.uk/
+    http://it.wikipedia.org/w/api.php?action=opensearch
+    http://www.tchibo.de/favicon.ico
+    http://www.pchome.com.tw/favicon.ico
+    http://pt.wikipedia.org/
+    http://fr.wikipedia.org/
+    http://ja.wikipedia.org/w/api.php?action=opensearch
+    http://www.chennaionline.com/ncommon/images/collogo.ico
+    http://www.cjmall.com/
+    http://uk.search.yahoo.com/
+    http://search.yahoo.com/favicon.ico
+    http://busca.igbusca.com.br/
+    https://localhost
+    http://www.nifty.com/favicon.ico
+    http://search.naver.com/
+    http://home.altervista.org/favicon.ico
+    http://search.gamer.com.tw/favicon.ico
+    http://busca.buscape.com.br/
+    http://search.atlas.cz/
+    http://www.ceneo.pl/
+    http://search.aol.co.uk/
+    http://pl.wikipedia.org/favicon.ico
+    http://search.ipop.co.kr/
+    http://search.books.com.tw/favicon.ico
+    http://search.aol.in/
+    https://example.com
+    http://cs.wikipedia.org/favicon.ico
+    http://spaces.live.com/
+    http://www.microsofttranslator.com/Default.aspx?ref=IE8Activity
+    http://z.about.com/m/a08.ico
+    http://www.univision.com/favicon.ico
+    http://nl.wikipedia.org/w/api.php?action=opensearch
+    
+                                                </pre>
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h3 class="panel-title">Process memory dump for <b>taskkill.exe</b> (PID 2948, dump 1)</h3></div>
+                                    <div class="panel-body">
+                                        
+
+                                        
+                                            <p>
+                                                <b>Extracted/injected images</b> <small>(may contain unpacked executables)</small>
+                                                <br>
+                                                
+                                                    
+                                                        <a href="http://localhost:8080/file/procmem_extracted/64e0dff90b66310addf0c61b/">Download #1</a>
+                                                        <br>
+                                                    
+                                                
+                                            </p>
+                                            <hr>
+                                        
+
+                                        
+
+                                        
+
+                                        
+                                    </div>
+                                </div>
+                            
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- footer replacement to avoid double scrollbars -->
+            <footer class="flex-grid__footer center-left">
+                <p class="footnote">
+                    ©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a>
+                </p>
+                <div class="logo">
+                    <img src="procmemory_files/cuckoo_inverse.png" alt="Cuckoo Malware Analysis Sandbox">
+                    <a href="#">Back to Top</a>
+                </div>
+            </footer>
+            
+        </section>
+    </div>
+    
+
+	
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container-fluid center">
+            <a href="#">Back to the top</a>
+        </div>
+    </footer>
+    <div id="footer-extra">
+        <div class="container-fluid center">
+            <div>©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a></div>
+        </div>
+    </div>
+
+    <!-- feedback form modal -->
+    <div class="modal fade modal-cuckoo" id="feedback_form">
+  <form class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fa fa-bug"></i> Feedback</h4>
+      </div>
+      <p class="modal-section arrow">Expecting different results? Share 
+this analysis report with us and we’ll investigate it. Please include a 
+brief message of what you had expected to see and what you got instead.</p>
+
+      <div class="modal-section modal-form arrow">
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="name" id="feedback-name" required="">
+            <label for="feedback-name">Your name</label>
+          </fieldset>
+          <fieldset>
+            <input type="text" name="email" id="feedback-email" required="">
+            <label for="feedback-email">Your email</label>
+          </fieldset>
+        </div>
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="company" id="feedback-company" required="">
+            <label for="feedback-company">Your company</label>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form arrow">
+        <textarea name="message" id="feedback-message" placeholder="Describe to us what does not seem to work properly."></textarea>
+      </div>
+
+      <div class="modal-section modal-form arrow arrow-center" id="feedback-includes">
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_analysis" id="feedback-analysis">
+          <label for="feedback-analysis"><span></span> Include analysis</label>
+        </div>
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_memdump" id="feedback-memdump">
+          <label for="feedback-memdump"><span></span> Include memory dump</label>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form no-flex center">
+        <p id="feedback-size">Estimated report size: <strong class="file-estimation">118.4&nbsp;KB</strong></p>
+        <button class="modal-submit" type="submit" formnovalidate="">Send feedback report</button>
+        <p>or <a href="modal:cancel">cancel</a></p>
+      </div>
+
+      <div class="modal-section modal-footer center"></div>
+    </div>
+  </form>
+</div>
+
+
+    <!-- cuckoo freeze-page loader -->
+    <div class="page-freeze" id="page-freeze-container">
+        <div class="page-freeze__graphic">
+            <img src="procmemory_files/cuckoo-coffee-cup.png" alt="Cuckoo">
+        </div>
+        <div class="page-freeze__animation">
+            <!-- spinner -->
+            <div class="page-freeze__spinner">
+                <div class="page-freeze__spinner--c1"></div>
+                <div class="page-freeze__spinner--c2"></div>
+            </div>
+        </div>
+        <div class="page-freeze__context">
+            <p class="page-freeze__message">We're processing your submission... This could take a few seconds.</p>
+            <div class="page-freeze__options hidden">
+                <button class="btn btn-default btn-lg close-page-freeze">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIGHLIGHT (_office.html, _pdf.html) -->
+    <script>
+        $(document).ready(function() {
+          if(!window.hljs) return;
+          hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+    <!-- RECENT PAGE CODE (analysis/index.html) -->
+    <script>
+
+        $(document).ready(function() {
+
+            // only do this if we are on the recent page
+            if(!$('table#recent').length) return;
+
+            var recent;
+
+            $('body').on('click', 'div.nav_container>div', function() {
+
+                var btn_id = $(this).find("a").attr("data-filter");
+                var btn_active = $(this).attr('class');
+                var btn_categories = ["cat_files", "cat_urls"];
+
+                if($('a[data-filter^="score"]', this).length) {
+                    var score_choice = $(this).find('a').attr('data-filter');
+
+                    $('.nav_container>div#item>a[data-filter^="score"]').each(function(i, obj){
+                        obj = $(obj);
+                        var uid = obj.attr('data-filter');
+
+                        if(uid != score_choice){
+                            obj.parent().removeClass('active');
+                        }
+                    });
+                }
+
+                if(!btn_active){
+                    // when a category button is clicked, force deselection of adjacent categories
+                    if(btn_id.startsWith("cat_")){
+                        btn_categories.forEach(function (category) {
+                            if (category != btn_id) {
+                                category = $('.nav_container>div#item>a[data-filter="' + category + '"]').parent();
+
+                                if (category.hasClass("active")) { category.removeClass("active"); }
+                            }
+                        });
+                    }
+
+                    $(this).addClass('active');
+                    var filter = $(this).attr('data-filter');
+                    recent.load();
+                } else {
+                    $(this).removeClass('active');
+                    recent.load();
+                }
+            });
+
+            recent = new Recent();
+            recent.load();
+
+            // Detect end of page scroll
+            $(window).scroll(function() {
+               if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    if(!recent.empty_results) recent.lazy_load();
+               }
+            });
+
+        });
+    </script>
+
+    <!-- IMPORT PAGE (import.html) -->
+    <script type="text/javascript">
+
+        if(document.getElementById('analysis/import') !== null) {
+
+            $(document)
+                .on('change', '.btn-file :file', function() {
+                    var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $(document).ready( function() {
+                $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        if( log ) alert(log);
+                    }
+
+                });
+            });
+
+        }
+
+    </script>
+
+    <!-- WEBIF ANALYSIS  -->
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btn_screenshots_toggle").click(function(){
+                $(this).parent().parent().parent().find('.panel-body').toggleClass("minified");
+            });
+
+            if($("table#network-hosts, table#network-dns").length) {
+
+                setTimeout(function () {
+                    ["network_hosts", "network_dns"].forEach(function (x) {
+                        $('#' + x).DataTable({
+                            responsive: true,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            "pageLength": 10,
+                            "language": {
+                                "lengthMenu": "Show _MENU_ results",
+                                "zeroRecords": "No results",
+                                "info": "_PAGE_/_PAGES_"
+                            }
+                        });
+                    });
+                }, 200);
+
+            }
+
+        });
+
+    </script>
+
+
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div></body></html>

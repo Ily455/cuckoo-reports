@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Cuckoo Sandbox</title>
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-64x64.png" sizes="64x64">
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-32x32.png" sizes="32x32">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Cuckoo Sandbox">
+        <meta name="author" content="Cuckoo Sandbox">
+
+        <link href="netw_files/vendor.css" rel="stylesheet" type="text/css">
+        <link href="netw_files/main.css" rel="stylesheet" type="text/css">
+
+        
+          <script>
+            var task_id = '16';
+          </script>
+        
+
+        <script src="netw_files/vendor.js"></script>
+
+        
+
+        <script src="netw_files/handlebars-templates.js"></script>
+        <script src="netw_files/hexdump.js"></script>
+        <script src="netw_files/loader.js"></script>
+        <script src="netw_files/sticky.js"></script>
+        <script src="netw_files/analysis_sidebar.js"></script>
+        <script src="netw_files/analysis_feedback.js"></script>
+        <script src="netw_files/submission.js"></script>
+        <script src="netw_files/process_tree.js"></script>
+        <script src="netw_files/recent.js"></script>
+        <script src="netw_files/analysis_network.js"></script>
+        <script src="netw_files/rdp.js"></script>
+        <script src="netw_files/app.js"></script>
+
+    </head>
+
+    <body id="analysis">
+
+    
+
+<nav class="app-nav" id="primary-nav">
+
+	<a href="http://localhost:8080/" class="logo">
+		<img src="netw_files/cuckoo_inverse.png">
+	</a>
+
+	<ul class="app-nav__nav--primary">
+		<li><a title="Dashboard" href="http://localhost:8080/dashboard/"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+		<li><a href="http://localhost:8080/analysis/" title="Recent"><i class="fa fa-th-list"></i> Recent</a></li>
+		<li><a href="http://localhost:8080/analysis/pending/" title="Pending"><i class="fa fa-cogs"></i> Pending</a></li>
+		<li><a href="http://localhost:8080/analysis/search/" title="Search"><i class="fa fa-search"></i> Search</a></li>
+	</ul>
+
+	<ul class="app-nav__nav--right">
+		<li>
+			<a href="http://localhost:8080/submit/" class="button outline">
+				<span data-responsive="nav-expanded">Submit</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-upload"></i></span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/import/" class="button outline">
+				<span data-responsive="nav-expanded">Import</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-download"></i></span>
+			</a>
+		</li>
+		<li class="app-nav__dropdown--parent">
+			<a href="#" id="select-theme">
+				<i class="fa fa-paint-brush"></i>
+			</a>
+			<div class="app-nav__dropdown">
+				<h5>Select theme</h5>
+				<ul class="flex-distribute theme-selection">
+					<li><a class="active" href="theme:default">Default</a></li>
+					<li><a href="theme:cyborg">Cyborg</a></li>
+					<li><a href="theme:night">Night</a></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+
+</nav>
+
+
+    <div class="hidden csrf_placeholder"><input type="hidden" name="csrfmiddlewaretoken" value="c2r5fu2p0OzowenQzMLyuprDOumkU9Od"></div>
+
+<div class="app">
+	
+
+	<div class="app-message hidden" data-message="browser-recommendation">
+		<h5><i class="fa fa-warning"></i> Browser recommendation</h5>
+		<p>Hello, we noticed that you are using <span class="browser"></span>. For the best performance of this application, we recommend to use <a href="https://www.google.com/chrome/browser/desktop/index.html" title="Chrome" target="_blank">Chrome</a>, <a href="https://www.mozilla.org/nl/firefox/new/" title="Firefox" target="_blank">Firefox</a> or any browser that supports <a href="https://webkit.org/" title="WebKit" target="_blank">WebKit</a>.</p>
+		<div class="clearfix">
+			<a href="#dismiss" class="button pull-left">Dismiss</a>
+			<a href="#hide" class="button inversed pull-right">Don't show again</a>
+		</div>
+	</div>
+
+	
+
+    <div class="flex-nav">
+        <nav class="flex-nav__nav" id="analysis-nav">
+
+	<ul class="cuckoo-nav" style="transform: translate3d(0px, 0px, 0px);">
+		
+		<li>
+			<a href="http://localhost:8080/analysis/16/summary/">
+				<i class="fa fa-home"></i>
+				<span>Summary</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/static/">
+				<i class="fa fa-book"></i>
+				<span>Static Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/extracted/">
+				<i class="fa fa-pencil"></i>
+				<span>Extracted Artifacts</span>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/behavior/">
+				<i class="fa fa-share-alt-square"></i>
+				<span>Behavioral Analysis</span>
+                
+				<em>9</em>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/network/" class="active">
+				<i class="fa fa-globe"></i>
+				<span>Network Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/dropped_files/">
+				<i class="fa fa-file-code-o"></i>
+				<span>Dropped Files</span>
+				<em>2</em>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/dropped_buffers/">
+				<i class="fa fa-server"></i>
+				<span>Dropped Buffers</span>
+                
+				<em>30</em>
+                
+			</a>
+		</li>
+
+		
+
+		<li>
+			<a href="http://localhost:8080/analysis/16/procmemory/">
+				<i class="fa fa-qrcode"></i>
+				<span>Process Memory</span>
+                
+				<em>5</em>
+                
+			</a>
+		</li>
+
+        
+
+		<li>
+			<a href="http://localhost:8080/analysis/16/compare/">
+				<i class="fa fa-random"></i>
+				<span>Compare Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/export/">
+				<i class="fa fa-download"></i>
+				<span>Export Analysis</span>
+			</a>
+		</li>
+		<li>
+		<a href="http://localhost:8080/analysis/16/reboot/">
+			<i class="fa fa-power-off"></i>
+			<span>Reboot Analysis</span>
+		</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/options/">
+				<i class="fa fa-cogs"></i>
+				<span>Options</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" data-toggle="modal" data-target="#feedback_form">
+				<i class="fa fa-bug"></i>
+				<span>Feedback</span>
+			</a>
+		</li>
+
+		<li class="lock-sidebar">
+			<a href="sidebar:toggle-lock" title="Click to disable collapsing">
+				<i class="fa"></i>
+				<span></span>
+			</a>
+		</li>
+
+	</ul>
+
+</nav>
+
+        <article class="flex-nav__body cuckoo-analysis flex-nav__body--disable-overflow" tabindex="0">
+
+            <header class="cuckoo-analysis__header">
+                <h1>Network Analysis</h1>
+                
+                <div class="header-right valign-bottom">
+                    <a href="http://localhost:8080/file/pcap/64ef75670b66310ab388df49/" title="Download pcap file"><i class="fa fa-download"></i> Download pcap</a>
+                </div>
+                
+            </header>
+
+            
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 network-analysis-menu">
+                	   <div class="grouped-buttons__bordered network-analysis-groups">
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-hosts" data-total="0">Hosts <span class="button-badge">0</span></a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-dns" data-total="0">DNS <span class="button-badge">0</span></a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-tcp" data-total="0">TCP <span class="button-badge">0</span></a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-udp" data-total="23" class="active">UDP <span class="button-badge">23</span></a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-http" class="" data-total="0">
+                                
+                                    HTTP <span class="button-badge">0</span>
+                                
+                            </a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-icmp" data-total="0">ICMP <span class="button-badge">0</span></a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-irc" data-total="0">IRC <span class="button-badge">0</span></a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-suricata" class="no-badge">Suricata</a>
+                            <a href="http://localhost:8080/analysis/16/network/network-analysis-snort" class="no-badge">Snort</a>
+                       </div>
+                    </div>
+
+                    <div class="col-md-12 network-analysis-pages">
+                        <div id="network-analysis-hosts"><div class="network-display__outer network-display__table" id="hosts">
+
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+
+                <tr>
+                    <td class="cell-fill text-center" colspan="3">No hosts contacted.</td>
+                </tr>
+
+            
+
+        </tbody>
+    </table>
+
+</div></div>
+                        <div id="network-analysis-dns">
+
+<div class="network-display__outer network-display__table" id="dns-requests">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Response</th>
+                <th>Post-Analysis Lookup</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            
+                <tr>
+                    <td class="cell-fill text-center" colspan="3">No hosts contacted.</td>
+                </tr>
+            
+
+        </tbody>
+    </table>
+
+</div></div>
+                        <div id="network-analysis-tcp">
+
+
+<div class="flex-grid__horizontal flex-grid__fluid">
+
+    
+
+        <div class="flex-grid__column scroll-internal">
+            <div class="network-display__outer no-content">
+                <p>No traffic</p>
+            </div>
+        </div>
+
+    
+
+</div></div>
+                        <div id="network-analysis-udp" class="active">
+
+
+<div class="flex-grid__horizontal flex-grid__fluid">
+
+    
+
+        <div class="flex-grid__column--md scroll-internal" id="requests">
+                
+                <ul class="source-destination">
+                    <li class="title">UDP Requests</li>
+                    <li class="content" tabindex="2">
+                        <ul>
+                             
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,137,192.168.56.1,137,udp" class="active">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:137
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                192.168.56.1:137
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,137,192.168.56.255,137,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:137
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                192.168.56.255:137
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,138,192.168.56.255,138,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:138
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                192.168.56.255:138
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,50896,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:50896
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,51369,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:51369
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,51840,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:51840
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,52167,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:52167
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,53420,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:53420
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,54214,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:54214
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,54878,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:54878
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,55064,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:55064
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,56073,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:56073
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,57592,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:57592
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,58440,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:58440
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,59422,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:59422
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,60046,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:60046
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,62053,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:62053
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,62516,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:62516
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,62878,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:62878
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,63777,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:63777
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,64656,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:64656
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,65260,224.0.0.252,5355,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:65260
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                224.0.0.252:5355
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="http://localhost:8080/analysis/16/network/192.168.56.101,62713,239.255.255.250,3702,udp">
+                                        <div class="flex-distribute">
+                                            <span class="source">
+                                                192.168.56.101:62713
+                                            </span>
+                                            <i class="fa fa-long-arrow-right"></i>
+                                            <span class="destination">
+                                                239.255.255.250:3702
+                                            </span>
+                                        </div>
+                                        
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+        </div>
+
+        <div class="flex-grid__column scroll-internal">
+            <div class="network-display__loader">
+                <div class="loading">
+    <div class="spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <p class="loading-message"></p>
+</div>	
+            </div>
+            <div class="network-display__outer" tabindex="3">
+                <div class="network-display__requests" id="packets"><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd73 0000 0001 0000 0000 0000 2043 4b41  .s...........CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd73 0010 0001 0000 0000 0000 2043 4b41  .s...........CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd73 0010 0001 0000 0000 0000 2043 4b41  .s...........CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd79 0000 0001 0000 0000 0000 2043 4b41  .y...........CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd79 0010 0001 0000 0000 0000 2043 4b41  .y...........CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd79 0010 0001 0000 0000 0000 2043 4b41  .y...........CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd81 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd81 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd81 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd85 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd85 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd85 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8b 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8b 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8b 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8c 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8c 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8c 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8e 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8e 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8e 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8f 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8f 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd8f 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd90 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd90 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd90 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd91 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd91 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd91 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd92 0000 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd92 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div><div class="network-display__request is-open" hexview="true">
+    <section class="network-display__request-details--single">
+        <div class="detail-field">
+
+            <h4 class="detail-field__title flex-distribute">
+                <span>192.168.56.101:137</span>
+                <i class="fa fa-long-arrow-right"></i>
+                <span>192.168.56.1:137</span>
+            </h4>
+
+            <header class="detail-field__header with-tabs">
+                <i class="fa fa-file-o"></i>
+                <div class="flex-tabs__tabs">
+                    <div class="flex-tabs__tab tab-output">
+                        <a href="output:plaintext" class="btn btn-sm">plaintext</a>
+                        <a href="output:hex" class="btn btn-sm active">hex</a>
+                    </div>
+                    <div class="flex-tabs__tab tab-mode">
+                        <a href="mode:16" class="btn btn-sm active">16 bytes</a>
+                        <a href="mode:32" class="btn btn-sm">32 bytes</a>
+                        <a href="mode:48" class="btn btn-sm">48 bytes</a>
+                        <a href="mode:64" class="btn btn-sm">64 bytes</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="detail-field__body"><pre data-draw="source">00000000: dd92 0010 0001 0000 0000 0000 2043 4b41  .............CKA
+00000010: 4141 4141 4141 4141 4141 4141 4141 4141  AAAAAAAAAAAAAAAA
+00000020: 4141 4141 4141 4141 4141 4141 4100 0021  AAAAAAAAAAAAA..!
+00000030: 0001                                     ..
+</pre></section>
+
+        </div>
+    </section>
+</div></div>
+            </div>
+        </div>
+
+    
+
+</div></div>
+                        <div id="network-analysis-http" class="">
+
+	<div class="flex-grid__horizontal flex-grid__fluid">
+	    <div class="flex-grid__column scroll-internal">
+	        <div class="network-display__outer no-content">
+	            <p>No traffic</p>
+	        </div>
+	    </div>
+	</div>
+
+</div>
+                        <div id="network-analysis-icmp"><h4>ICMP traffic</h4>
+
+<p>No ICMP traffic performed.</p>
+</div>
+                        <div id="network-analysis-irc"><h4>IRC traffic</h4>
+
+<p>No IRC requests performed.</p>
+</div>
+                        <div id="network-analysis-suricata"><h4>Suricata Alerts</h4>
+
+    <p>No Suricata Alerts</p>
+
+
+<h4>Suricata TLS</h4>
+
+    <p>No Suricata TLS</p>
+
+</div>
+                        <div id="network-analysis-snort"><h4>Snort Alerts</h4>
+
+    <p>No Snort Alerts</p>
+
+</div>
+                    </div>
+
+                </div>
+            </div>
+
+            
+
+            <!-- footer replacement to avoid double scrollbars -->
+            <footer class="flex-grid__footer spread-alignment">
+                <p class="footnote">
+                    ©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a>
+                </p>
+                <div class="logo">
+                    <img src="netw_files/cuckoo_inverse.png" alt="Cuckoo Malware Analysis Sandbox">
+                    <a href="#">Back to Top</a>
+                </div>
+            </footer>
+            
+        </article>  
+    </div>
+
+
+	
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container-fluid center">
+            <a href="#">Back to the top</a>
+        </div>
+    </footer>
+    <div id="footer-extra">
+        <div class="container-fluid center">
+            <div>©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a></div>
+        </div>
+    </div>
+
+    <!-- feedback form modal -->
+    <div class="modal fade modal-cuckoo" id="feedback_form">
+  <form class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fa fa-bug"></i> Feedback</h4>
+      </div>
+      <p class="modal-section arrow">Expecting different results? Share 
+this analysis report with us and we’ll investigate it. Please include a 
+brief message of what you had expected to see and what you got instead.</p>
+
+      <div class="modal-section modal-form arrow">
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="name" id="feedback-name" required="">
+            <label for="feedback-name">Your name</label>
+          </fieldset>
+          <fieldset>
+            <input type="text" name="email" id="feedback-email" required="">
+            <label for="feedback-email">Your email</label>
+          </fieldset>
+        </div>
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="company" id="feedback-company" required="">
+            <label for="feedback-company">Your company</label>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form arrow">
+        <textarea name="message" id="feedback-message" placeholder="Describe to us what does not seem to work properly."></textarea>
+      </div>
+
+      <div class="modal-section modal-form arrow arrow-center" id="feedback-includes">
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_analysis" id="feedback-analysis">
+          <label for="feedback-analysis"><span></span> Include analysis</label>
+        </div>
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_memdump" id="feedback-memdump">
+          <label for="feedback-memdump"><span></span> Include memory dump</label>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form no-flex center">
+        <p id="feedback-size">Estimated report size: <strong class="file-estimation">55.3&nbsp;KB</strong></p>
+        <button class="modal-submit" type="submit" formnovalidate="">Send feedback report</button>
+        <p>or <a href="modal:cancel">cancel</a></p>
+      </div>
+
+      <div class="modal-section modal-footer center"></div>
+    </div>
+  </form>
+</div>
+
+
+    <!-- cuckoo freeze-page loader -->
+    <div class="page-freeze" id="page-freeze-container">
+        <div class="page-freeze__graphic">
+            <img src="netw_files/cuckoo-coffee-cup.png" alt="Cuckoo">
+        </div>
+        <div class="page-freeze__animation">
+            <!-- spinner -->
+            <div class="page-freeze__spinner">
+                <div class="page-freeze__spinner--c1"></div>
+                <div class="page-freeze__spinner--c2"></div>
+            </div>
+        </div>
+        <div class="page-freeze__context">
+            <p class="page-freeze__message">We're processing your submission... This could take a few seconds.</p>
+            <div class="page-freeze__options hidden">
+                <button class="btn btn-default btn-lg close-page-freeze">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIGHLIGHT (_office.html, _pdf.html) -->
+    <script>
+        $(document).ready(function() {
+          if(!window.hljs) return;
+          hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+    <!-- RECENT PAGE CODE (analysis/index.html) -->
+    <script>
+
+        $(document).ready(function() {
+
+            // only do this if we are on the recent page
+            if(!$('table#recent').length) return;
+
+            var recent;
+
+            $('body').on('click', 'div.nav_container>div', function() {
+
+                var btn_id = $(this).find("a").attr("data-filter");
+                var btn_active = $(this).attr('class');
+                var btn_categories = ["cat_files", "cat_urls"];
+
+                if($('a[data-filter^="score"]', this).length) {
+                    var score_choice = $(this).find('a').attr('data-filter');
+
+                    $('.nav_container>div#item>a[data-filter^="score"]').each(function(i, obj){
+                        obj = $(obj);
+                        var uid = obj.attr('data-filter');
+
+                        if(uid != score_choice){
+                            obj.parent().removeClass('active');
+                        }
+                    });
+                }
+
+                if(!btn_active){
+                    // when a category button is clicked, force deselection of adjacent categories
+                    if(btn_id.startsWith("cat_")){
+                        btn_categories.forEach(function (category) {
+                            if (category != btn_id) {
+                                category = $('.nav_container>div#item>a[data-filter="' + category + '"]').parent();
+
+                                if (category.hasClass("active")) { category.removeClass("active"); }
+                            }
+                        });
+                    }
+
+                    $(this).addClass('active');
+                    var filter = $(this).attr('data-filter');
+                    recent.load();
+                } else {
+                    $(this).removeClass('active');
+                    recent.load();
+                }
+            });
+
+            recent = new Recent();
+            recent.load();
+
+            // Detect end of page scroll
+            $(window).scroll(function() {
+               if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    if(!recent.empty_results) recent.lazy_load();
+               }
+            });
+
+        });
+    </script>
+
+    <!-- IMPORT PAGE (import.html) -->
+    <script type="text/javascript">
+
+        if(document.getElementById('analysis/import') !== null) {
+
+            $(document)
+                .on('change', '.btn-file :file', function() {
+                    var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $(document).ready( function() {
+                $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        if( log ) alert(log);
+                    }
+
+                });
+            });
+
+        }
+
+    </script>
+
+    <!-- WEBIF ANALYSIS  -->
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btn_screenshots_toggle").click(function(){
+                $(this).parent().parent().parent().find('.panel-body').toggleClass("minified");
+            });
+
+            if($("table#network-hosts, table#network-dns").length) {
+
+                setTimeout(function () {
+                    ["network_hosts", "network_dns"].forEach(function (x) {
+                        $('#' + x).DataTable({
+                            responsive: true,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            "pageLength": 10,
+                            "language": {
+                                "lengthMenu": "Show _MENU_ results",
+                                "zeroRecords": "No results",
+                                "info": "_PAGE_/_PAGES_"
+                            }
+                        });
+                    });
+                }, 200);
+
+            }
+
+        });
+
+    </script>
+
+
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div></body></html>

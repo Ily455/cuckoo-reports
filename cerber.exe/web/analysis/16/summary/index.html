@@ -1,0 +1,5812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <title>Cuckoo Sandbox</title>
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-64x64.png" sizes="64x64">
+        <link rel="shortcut icon" type="image/png" href="http://localhost:8080/static/favicon-32x32.png" sizes="32x32">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Cuckoo Sandbox">
+        <meta name="author" content="Cuckoo Sandbox">
+
+        <link href="Cuckoo%20Sandbox_files/vendor.css" rel="stylesheet" type="text/css">
+        <link href="Cuckoo%20Sandbox_files/main.css" rel="stylesheet" type="text/css">
+
+        
+          <script>
+            var task_id = '16';
+          </script>
+        
+
+        <script src="Cuckoo%20Sandbox_files/vendor.js"></script>
+
+        
+
+        <script src="Cuckoo%20Sandbox_files/handlebars-templates.js"></script>
+        <script src="Cuckoo%20Sandbox_files/hexdump.js"></script>
+        <script src="Cuckoo%20Sandbox_files/loader.js"></script>
+        <script src="Cuckoo%20Sandbox_files/sticky.js"></script>
+        <script src="Cuckoo%20Sandbox_files/analysis_sidebar.js"></script>
+        <script src="Cuckoo%20Sandbox_files/analysis_feedback.js"></script>
+        <script src="Cuckoo%20Sandbox_files/submission.js"></script>
+        <script src="Cuckoo%20Sandbox_files/process_tree.js"></script>
+        <script src="Cuckoo%20Sandbox_files/recent.js"></script>
+        <script src="Cuckoo%20Sandbox_files/analysis_network.js"></script>
+        <script src="Cuckoo%20Sandbox_files/rdp.js"></script>
+        <script src="Cuckoo%20Sandbox_files/app.js"></script>
+
+    </head>
+
+    <body id="analysis">
+
+    
+
+<nav class="app-nav" id="primary-nav">
+
+	<a href="http://localhost:8080/" class="logo">
+		<img src="Cuckoo%20Sandbox_files/cuckoo_inverse.png">
+	</a>
+
+	<ul class="app-nav__nav--primary">
+		<li><a title="Dashboard" href="http://localhost:8080/dashboard/"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+		<li><a href="http://localhost:8080/analysis/" title="Recent"><i class="fa fa-th-list"></i> Recent</a></li>
+		<li><a href="http://localhost:8080/analysis/pending/" title="Pending"><i class="fa fa-cogs"></i> Pending</a></li>
+		<li><a href="http://localhost:8080/analysis/search/" title="Search"><i class="fa fa-search"></i> Search</a></li>
+	</ul>
+
+	<ul class="app-nav__nav--right">
+		<li>
+			<a href="http://localhost:8080/submit/" class="button outline">
+				<span data-responsive="nav-expanded">Submit</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-upload"></i></span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/import/" class="button outline">
+				<span data-responsive="nav-expanded">Import</span>
+				<span data-responsive="nav-collapsed"><i class="fa fa-download"></i></span>
+			</a>
+		</li>
+		<li class="app-nav__dropdown--parent">
+			<a href="#" id="select-theme">
+				<i class="fa fa-paint-brush"></i>
+			</a>
+			<div class="app-nav__dropdown">
+				<h5>Select theme</h5>
+				<ul class="flex-distribute theme-selection">
+					<li><a class="active" href="theme:default">Default</a></li>
+					<li><a href="theme:cyborg">Cyborg</a></li>
+					<li><a href="theme:night">Night</a></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+
+</nav>
+
+
+    <div class="hidden csrf_placeholder"><input type="hidden" name="csrfmiddlewaretoken" value="c2r5fu2p0OzowenQzMLyuprDOumkU9Od"></div>
+
+<div class="app">
+	
+
+	<div class="app-message hidden" data-message="browser-recommendation">
+		<h5><i class="fa fa-warning"></i> Browser recommendation</h5>
+		<p>Hello, we noticed that you are using <span class="browser"></span>. For the best performance of this application, we recommend to use <a href="https://www.google.com/chrome/browser/desktop/index.html" title="Chrome" target="_blank">Chrome</a>, <a href="https://www.mozilla.org/nl/firefox/new/" title="Firefox" target="_blank">Firefox</a> or any browser that supports <a href="https://webkit.org/" title="WebKit" target="_blank">WebKit</a>.</p>
+		<div class="clearfix">
+			<a href="#dismiss" class="button pull-left">Dismiss</a>
+			<a href="#hide" class="button inversed pull-right">Don't show again</a>
+		</div>
+	</div>
+
+	
+
+    <div class="flex-nav">
+        <nav class="flex-nav__nav" id="analysis-nav">
+
+	<ul class="cuckoo-nav" style="transform: translate3d(0px, 0px, 0px);">
+		
+		<li>
+			<a href="http://localhost:8080/analysis/16/summary/" class="active">
+				<i class="fa fa-home"></i>
+				<span>Summary</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/static/">
+				<i class="fa fa-book"></i>
+				<span>Static Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/extracted/">
+				<i class="fa fa-pencil"></i>
+				<span>Extracted Artifacts</span>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/behavior/">
+				<i class="fa fa-share-alt-square"></i>
+				<span>Behavioral Analysis</span>
+                
+				<em>9</em>
+                
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/network/">
+				<i class="fa fa-globe"></i>
+				<span>Network Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/dropped_files/">
+				<i class="fa fa-file-code-o"></i>
+				<span>Dropped Files</span>
+				<em>2</em>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/dropped_buffers/">
+				<i class="fa fa-server"></i>
+				<span>Dropped Buffers</span>
+                
+				<em>30</em>
+                
+			</a>
+		</li>
+
+		
+
+		<li>
+			<a href="http://localhost:8080/analysis/16/procmemory/">
+				<i class="fa fa-qrcode"></i>
+				<span>Process Memory</span>
+                
+				<em>5</em>
+                
+			</a>
+		</li>
+
+        
+
+		<li>
+			<a href="http://localhost:8080/analysis/16/compare/">
+				<i class="fa fa-random"></i>
+				<span>Compare Analysis</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/export/">
+				<i class="fa fa-download"></i>
+				<span>Export Analysis</span>
+			</a>
+		</li>
+		<li>
+		<a href="http://localhost:8080/analysis/16/reboot/">
+			<i class="fa fa-power-off"></i>
+			<span>Reboot Analysis</span>
+		</a>
+		</li>
+		<li>
+			<a href="http://localhost:8080/analysis/16/options/">
+				<i class="fa fa-cogs"></i>
+				<span>Options</span>
+			</a>
+		</li>
+		<li>
+			<a href="#" data-toggle="modal" data-target="#feedback_form">
+				<i class="fa fa-bug"></i>
+				<span>Feedback</span>
+			</a>
+		</li>
+
+		<li class="lock-sidebar">
+			<a href="sidebar:toggle-lock" title="Click to disable collapsing">
+				<i class="fa"></i>
+				<span></span>
+			</a>
+		</li>
+
+	</ul>
+
+</nav>
+
+        <section class="flex-nav__body cuckoo-analysis" tabindex="0">
+
+            <!-- common analysis page header -->
+            <header class="page-header cuckoo-analysis__header">
+                <h1>Summary </h1>
+                
+                <div class="header-right">
+                    <span class="file-name"><i class="fa fa-file-o"></i>
+                        53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924
+                    </span>
+                </div>
+                
+            </header>
+
+            <!-- snaps back to default bootstrap layout inside flex frame -->
+            <div class="container-fluid">
+
+                <!-- this row breaks into 2 sides -->
+                <div class="row">
+                    <div class="col-md-8">
+
+                        
+
+                        
+                            
+<section id="file">
+    <h4><span class="glyphicon glyphicon-file" aria-hidden="true"></span> File
+        <i>53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924</i>
+    </h4>
+
+    <div class="panel panel-default">
+        
+            <div class="panel-heading" style="height: 40px;">
+                <h4 class="panel-title">
+                    Summary
+                    <div class="btn-group pull-right">
+                        <a class="btn btn-default btn-xs" href="http://localhost:8080/file/sample/64ef75670b66310ab388df47/">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download
+                        </a>
+                        <a class="btn btn-default btn-xs" href="http://localhost:8080/submit/re/16/">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Resubmit sample
+                        </a>
+                    </div>
+
+                </h4>
+            </div>
+        
+
+        <table class="table table-striped">
+            <tbody><tr>
+                <th class="text-right">Size</th>
+                
+                    <td>192.0KB</td>
+                
+            </tr>
+            <tr>
+                <th class="text-right">Type</th>
+                <td>PE32 executable (GUI) Intel 80386, for MS Windows</td>
+            </tr>
+            <tr>
+                <th class="text-right">MD5</th>
+                <td class="break-everywhere"><tt>ab0953388bf5b63bbc85cd10a7b73022</tt></td>
+            </tr>
+            <tr>
+                <th class="text-right">SHA1</th>
+                <td class="break-everywhere"><tt>5fa927f92e01364182a93d7468ba4416802cb722</tt></td>
+            </tr>
+            <tr>
+                <th class="text-right">SHA256</th>
+                <td class="break-everywhere"><tt>53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924</tt></td>
+            </tr>
+            <tr>
+                <th class="text-right">SHA512</th>
+                <td class="break-everywhere">
+                    <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapse-sha512" aria-expanded="false" aria-controls="collapseExample">
+                        Show SHA512
+                    </button>
+                    <div class="collapse" id="collapse-sha512"><tt>3a28f724a0374f2ad811d90e166ba4ad76f1290f21b86d2198189f4b96a56ca01d3e4360bb8893af50c4de1aebe9be17e82aa57c966df6c9c9453d104703fa1e</tt></div>
+                </td>
+            </tr>
+            <tr>
+                <th class="text-right">CRC32</th>
+                <td><tt>86DA7C5D</tt></td>
+            </tr>
+            <tr>
+                <th class="text-right">ssdeep</th>
+                <td class="break-everywhere"><tt>None</tt></td>
+            </tr>
+            
+            <tr>
+                <th class="text-right">Yara</th>
+                <td>
+                    
+                        None matched
+                    
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+</section>
+
+                        
+
+                    </div>
+                    <div class="col-md-4">
+                        <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> Score</h4>
+
+                        
+                            <div class="alert alert-danger">
+                                <p>This file is <b>very suspicious</b>, with a score of
+                                    <strong>9.0 out of 10!</strong></p>
+                            </div>
+                        
+
+                        <p style="font-size: 11px;">
+                            <b>Please notice</b>: The scoring system is currently still in development and should be
+                            considered an <b><i>alpha</i></b> feature.
+                        </p>
+
+                        <hr>
+
+                        
+
+                        <h4><span class="glyphicon glyphicon-send" aria-hidden="true"></span> Feedback</h4>
+
+                        <p style="font-size: 11px;">
+                            
+                                Expecting different results? Send us this analysis and we will inspect it. <a data-toggle="modal" data-target="#feedback_form" href="#">Click here</a>
+                            
+                        </p>
+                    </div>
+                </div>
+
+                <!-- full page width items -->
+                <div class="row">
+                    <div class="col-md-12"><h4><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Information on Execution</h4>
+
+<div class="row">
+    <div class="col-md-7">
+        <section id="information">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Analysis
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Started</th>
+                            <th>Completed</th>
+                            <th>Duration</th>
+                            <th>Routing</th>
+                            <th>Logs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FILE</td>
+                            <td>Aug. 30, 2023, 5:54 p.m.</td>
+                            <td>Aug. 30, 2023, 5:59 p.m.</td>
+                            <td>245 seconds</td>
+                            <td>internet</td>
+                            <td>
+                                <a style="font-size: 12px;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#info-log">Show Analyzer Log</a><br>
+                                <a style="font-size: 12px;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#info-cuckoo">Show Cuckoo Log</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="info-log" class="collapse">
+            <h4><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Analyzer Log</h4>
+            <pre>2023-08-30 17:54:58,000 [analyzer] DEBUG: Starting analyzer from: C:\tmp9dglh0
+2023-08-30 17:54:58,015 [analyzer] DEBUG: Pipe server name: \??\PIPE\rceiEpKROVRlUjubTiPifXdHCHF
+2023-08-30 17:54:58,015 [analyzer] DEBUG: Log pipe server name: \??\PIPE\nIqSNVWGcNtxOzbEEfgKoK
+2023-08-30 17:54:58,375 [analyzer] DEBUG: Started auxiliary module DbgView
+2023-08-30 17:55:01,592 [analyzer] DEBUG: Started auxiliary module Disguise
+2023-08-30 17:55:04,608 [analyzer] DEBUG: Loaded monitor into process with pid 500
+2023-08-30 17:55:04,608 [analyzer] DEBUG: Started auxiliary module DumpTLSMasterSecrets
+2023-08-30 17:55:04,608 [analyzer] DEBUG: Started auxiliary module Human
+2023-08-30 17:55:04,608 [analyzer] DEBUG: Started auxiliary module InstallCertificate
+2023-08-30 17:55:04,608 [analyzer] DEBUG: Started auxiliary module Reboot
+2023-08-30 17:55:06,312 [analyzer] DEBUG: Started auxiliary module RecentFiles
+2023-08-30 17:55:06,328 [analyzer] DEBUG: Started auxiliary module Screenshots
+2023-08-30 17:55:06,342 [analyzer] DEBUG: Started auxiliary module LoadZer0m0n
+2023-08-30 17:55:06,421 [lib.api.process] INFO: Successfully executed process from path u'C:\\Users\\ahmed\\AppData\\Local\\Temp\\53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe' with arguments '' and pid 544
+2023-08-30 17:55:06,515 [analyzer] DEBUG: Loaded monitor into process with pid 544
+2023-08-30 17:55:07,108 [analyzer] INFO: Injected into process with pid 1324 and name u'netsh.exe'
+2023-08-30 17:55:07,265 [analyzer] DEBUG: Loaded monitor into process with pid 1324
+2023-08-30 17:55:17,562 [lib.api.process] ERROR: Failed to dump memory of 32-bit process with pid 1324.
+2023-08-30 17:55:17,578 [analyzer] INFO: Injected into process with pid 1628 and name u'netsh.exe'
+2023-08-30 17:55:18,500 [analyzer] INFO: Process with pid 1324 has terminated
+2023-08-30 17:55:20,890 [analyzer] DEBUG: Loaded monitor into process with pid 1628
+2023-08-30 17:55:59,921 [lib.api.process] INFO: Memory dump of process with pid 1628 completed
+2023-08-30 17:56:00,125 [analyzer] INFO: Injected into process with pid 2332 and name u'netsh.exe'
+2023-08-30 17:56:00,467 [analyzer] DEBUG: Loaded monitor into process with pid 2332
+2023-08-30 17:56:00,515 [analyzer] INFO: Process with pid 1628 has terminated
+2023-08-30 17:56:01,062 [lib.api.process] INFO: Memory dump of process with pid 1628 completed
+2023-08-30 17:56:05,312 [lib.api.process] INFO: Memory dump of process with pid 2332 completed
+2023-08-30 17:56:05,328 [analyzer] INFO: Injected into process with pid 2608 and name u'netsh.exe'
+2023-08-30 17:56:05,515 [analyzer] DEBUG: Loaded monitor into process with pid 2608
+2023-08-30 17:56:05,515 [analyzer] INFO: Process with pid 2332 has terminated
+2023-08-30 17:56:05,983 [lib.api.process] INFO: Memory dump of process with pid 2332 completed
+2023-08-30 17:56:06,155 [lib.api.process] INFO: Memory dump of process with pid 2608 completed
+2023-08-30 17:56:06,530 [analyzer] INFO: Process with pid 2608 has terminated
+2023-08-30 17:56:10,342 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\AppData\Local\Temp\15a7f57a\4031.tmp
+2023-08-30 17:56:11,921 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\AppData\Local\Temp\15a7f57a\dd11.tmp
+2023-08-30 17:56:14,046 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\ACROBAT.PDF
+2023-08-30 17:56:14,046 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\HELP\READER.PDF
+2023-08-30 17:56:14,062 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\_R_E_A_D___T_H_I_S___QE2T9_.hta
+2023-08-30 17:56:14,062 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\_R_E_A_D___T_H_I_S___1KV2K_.txt
+2023-08-30 17:56:14,078 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\LICENSE.PDF
+2023-08-30 17:56:14,078 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\HELP\_R_E_A_D___T_H_I_S___HXKUF6_.hta
+2023-08-30 17:56:14,078 [analyzer] INFO: Added new file to list with pid 544 and path C:\Acrobat3\Reader\HELP\_R_E_A_D___T_H_I_S___FBJC_.txt
+2023-08-30 17:56:14,092 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\analyzer.py
+2023-08-30 17:56:14,092 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\api\process.py
+2023-08-30 17:56:14,092 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\_R_E_A_D___T_H_I_S___OYJD_.hta
+2023-08-30 17:56:14,092 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\_R_E_A_D___T_H_I_S___K4KHOU_.txt
+2023-08-30 17:56:14,092 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\api\_R_E_A_D___T_H_I_S___2ZJBGX5_.hta
+2023-08-30 17:56:14,108 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\api\_R_E_A_D___T_H_I_S___7LRT_.txt
+2023-08-30 17:56:14,108 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\api\screenshot.py
+2023-08-30 17:56:14,125 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\common\abstracts.py
+2023-08-30 17:56:14,125 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\common\defines.py
+2023-08-30 17:56:14,125 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\common\_R_E_A_D___T_H_I_S___BOFN_.hta
+2023-08-30 17:56:14,125 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\common\_R_E_A_D___T_H_I_S___U84MI_.txt
+2023-08-30 17:56:14,140 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\common\registry.py
+2023-08-30 17:56:14,140 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\common\results.py
+2023-08-30 17:56:14,155 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\ioctl.py
+2023-08-30 17:56:14,155 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\driver.py
+2023-08-30 17:56:14,155 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\_R_E_A_D___T_H_I_S___5SYCG_.hta
+2023-08-30 17:56:14,155 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\_R_E_A_D___T_H_I_S___JA0I1C_.txt
+2023-08-30 17:56:14,171 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\packages.py
+2023-08-30 17:56:14,171 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\pipe.py
+2023-08-30 17:56:14,187 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\disguise.py
+2023-08-30 17:56:14,187 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\lib\core\privileges.py
+2023-08-30 17:56:14,187 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\_R_E_A_D___T_H_I_S___ALZFXU_.hta
+2023-08-30 17:56:14,187 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\_R_E_A_D___T_H_I_S___WGS0_.txt
+2023-08-30 17:56:14,203 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\procmon.py
+2023-08-30 17:56:14,203 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\human.py
+2023-08-30 17:56:14,217 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\recentfiles.py
+2023-08-30 17:56:14,217 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\auxiliary\screenshots.py
+2023-08-30 17:56:14,250 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\doc.py
+2023-08-30 17:56:14,250 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\ie.py
+2023-08-30 17:56:14,265 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\_R_E_A_D___T_H_I_S___0R2NFR_.hta
+2023-08-30 17:56:14,280 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\_R_E_A_D___T_H_I_S___5IEXL8_.txt
+2023-08-30 17:56:14,296 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\pdf.py
+2023-08-30 17:56:14,296 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\ppt.py
+2023-08-30 17:56:14,328 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\pub.py
+2023-08-30 17:56:14,342 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\xls.py
+2023-08-30 17:56:14,375 [analyzer] INFO: Added new file to list with pid 544 and path C:\tmp9dglh0\modules\packages\zip.py
+2023-08-30 17:56:14,390 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\aEOSThDnYUSK.txt
+2023-08-30 17:56:14,405 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\AjcgQolmaftz.rtf
+2023-08-30 17:56:14,437 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\_R_E_A_D___T_H_I_S___FNIAEPZ_.hta
+2023-08-30 17:56:14,437 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\_R_E_A_D___T_H_I_S___M0SG1_.txt
+2023-08-30 17:56:14,453 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\cYUXsoPCFLow.docx
+2023-08-30 17:56:14,453 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\hOuUTMvxSoefmBGF.docx
+2023-08-30 17:56:14,467 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\IVYcSIdplYQ.rtf
+2023-08-30 17:56:14,483 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\RMSByiMFcasjGcjfw.ppt
+2023-08-30 17:56:14,500 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\tvHYdrPfdzl.rtf
+2023-08-30 17:56:14,515 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Documents\ZeEDUMIwygP.pptx
+2023-08-30 17:56:14,733 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\AppData\Local\Temp\tmp6554.bmp
+2023-08-30 17:56:18,905 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Desktop\_R_E_A_D___T_H_I_S___EI38_.hta
+2023-08-30 17:56:18,983 [analyzer] INFO: Injected into process with pid 2780 and name u'mshta.exe'
+2023-08-30 17:56:18,983 [analyzer] INFO: Added new file to list with pid 544 and path C:\Users\ahmed\Desktop\_R_E_A_D___T_H_I_S___F4VDW_.txt
+2023-08-30 17:56:19,046 [analyzer] INFO: Injected into process with pid 2828 and name u'notepad.exe'
+2023-08-30 17:56:19,062 [analyzer] INFO: Added new file to list with pid 544 and path \Device\NamedPipe\wkssvc
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Loaded monitor into process with pid 2780
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-30 17:56:19,108 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-30 17:56:19,140 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-30 17:56:19,140 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-30 17:56:19,140 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-30 17:56:19,140 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-30 17:56:19,140 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-30 17:56:19,155 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-30 17:56:19,155 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-30 17:56:19,155 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-30 17:56:19,155 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-30 17:56:19,171 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-30 17:56:19,171 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-30 17:56:19,171 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-30 17:56:19,171 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-30 17:56:19,171 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-30 17:56:19,187 [analyzer] DEBUG: Loaded monitor into process with pid 2828
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-30 17:56:19,203 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-30 17:56:19,296 [analyzer] INFO: io=NULL
+2023-08-30 17:56:19,296 [analyzer] DEBUG: Error resolving function jscript!ActiveXObjectFncObj_Construct through our custom callback.
+2023-08-30 17:56:19,296 [analyzer] INFO: io=NULL
+2023-08-30 17:56:19,296 [analyzer] DEBUG: Error resolving function jscript!COleScript_Compile through our custom callback.
+2023-08-30 17:56:19,296 [analyzer] INFO: io=NULL
+2023-08-30 17:56:19,296 [analyzer] DEBUG: Error resolving function jscript!Math_random through our custom callback.
+2023-08-30 17:56:19,296 [analyzer] INFO: io=NULL
+2023-08-30 17:56:19,296 [analyzer] DEBUG: Error resolving function jscript!ActiveXObjectFncObj_Construct through our custom callback.
+2023-08-30 17:56:19,296 [analyzer] INFO: io=NULL
+2023-08-30 17:56:19,296 [analyzer] DEBUG: Error resolving function jscript!COleScript_Compile through our custom callback.
+2023-08-30 17:56:19,296 [analyzer] INFO: io=NULL
+2023-08-30 17:56:19,296 [analyzer] DEBUG: Error resolving function jscript!Math_random through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CDocument_write through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CElement_put_innerHTML through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CHyperlink_SetUrlComponent through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CIFrameElement_CreateElement through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CImgElement_put_src through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CScriptElement_put_src through our custom callback.
+2023-08-30 17:56:19,515 [analyzer] DEBUG: Error resolving function mshtml!CWindow_AddTimeoutCode through our custom callback.
+2023-08-30 17:56:36,233 [analyzer] INFO: Injected into process with pid 1416 and name u'explorer.exe'
+2023-08-30 17:56:36,265 [analyzer] INFO: Injected into process with pid 2924 and name u'cmd.exe'
+2023-08-30 17:56:36,265 [analyzer] INFO: Added new file to list with pid 544 and path 
+2023-08-30 17:56:36,483 [analyzer] DEBUG: Loaded monitor into process with pid 2924
+2023-08-30 17:56:45,187 [analyzer] INFO: Injected into process with pid 3088 and name u'taskkill.exe'
+2023-08-30 17:57:05,562 [analyzer] INFO: Analysis timeout hit, terminating analysis.
+2023-08-30 17:57:18,265 [analyzer] DEBUG: Loaded monitor into process with pid 3088
+</pre>
+        </div>
+
+        <div id="info-cuckoo" class="collapse">
+            <h4><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Cuckoo Log</h4>
+            <pre>2023-08-30 17:54:59,180 [cuckoo.core.scheduler] INFO: Task #16: acquired machine cuckoo1 (label=cuckoo1)
+2023-08-30 17:54:59,181 [cuckoo.core.resultserver] DEBUG: Now tracking machine 192.168.56.101 for task #16
+2023-08-30 17:54:59,181 [cuckoo.core.plugins] DEBUG: Started auxiliary module: Replay
+2023-08-30 17:54:59,205 [cuckoo.auxiliary.sniffer] INFO: Started sniffer with PID 4024 (interface=vboxnet0, host=192.168.56.101)
+2023-08-30 17:54:59,207 [cuckoo.core.plugins] DEBUG: Started auxiliary module: Sniffer
+2023-08-30 17:55:00,283 [cuckoo.machinery.virtualbox] DEBUG: Starting vm cuckoo1
+2023-08-30 17:55:01,955 [cuckoo.machinery.virtualbox] DEBUG: Restoring virtual machine cuckoo1 to its current snapshot
+2023-08-30 17:55:06,287 [cuckoo.core.guest] INFO: Starting analysis #16 on guest (id=cuckoo1, ip=192.168.56.101)
+2023-08-30 17:55:07,291 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet
+2023-08-30 17:55:08,300 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet
+2023-08-30 17:55:09,311 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet
+2023-08-30 17:55:09,347 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet
+2023-08-30 17:55:11,386 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet
+2023-08-30 17:55:12,417 [cuckoo.core.guest] DEBUG: cuckoo1: not ready yet
+2023-08-30 17:55:23,813 [cuckoo.core.guest] INFO: Guest is running Cuckoo Agent 0.10 (id=cuckoo1, ip=192.168.56.101)
+2023-08-30 17:55:33,555 [cuckoo.core.guest] DEBUG: Uploading analyzer to guest (id=cuckoo1, ip=192.168.56.101, monitor=latest, size=3884763)
+2023-08-30 17:55:59,322 [cuckoo.core.resultserver] DEBUG: Task #16: live log analysis.log initialized.
+2023-08-30 17:56:05,899 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:56:07,804 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:56:08,540 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:56:08,849 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0001.jpg'
+2023-08-30 17:56:08,850 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 25536
+2023-08-30 17:56:22,132 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:22,139 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:56:28,157 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:28,171 [cuckoo.core.guest] DEBUG: cuckoo1: analysis #16 still processing
+2023-08-30 17:56:34,184 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:37,755 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0002.jpg'
+2023-08-30 17:56:37,758 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 25922
+2023-08-30 17:56:38,805 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0003.jpg'
+2023-08-30 17:56:38,806 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 25536
+2023-08-30 17:56:40,203 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:46,224 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:52,235 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:57,903 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'memory/1628-1.dmp'
+2023-08-30 17:56:58,120 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 35730208
+2023-08-30 17:56:58,251 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:56:58,260 [cuckoo.core.guest] DEBUG: cuckoo1: analysis #16 still processing
+2023-08-30 17:56:58,787 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'memory/1628-2.dmp'
+2023-08-30 17:57:01,729 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:57:01,912 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 35730448
+2023-08-30 17:57:02,870 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'memory/2332-1.dmp'
+2023-08-30 17:57:03,881 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 35750928
+2023-08-30 17:57:04,272 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:06,609 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'memory/2332-2.dmp'
+2023-08-30 17:57:06,668 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 35750640
+2023-08-30 17:57:06,775 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:57:07,452 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'memory/2608-1.dmp'
+2023-08-30 17:57:07,513 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 35755048
+2023-08-30 17:57:10,291 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:16,094 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'files/e3b0c44298fc1c14_tmp6554.tmp'
+2023-08-30 17:57:16,094 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 0
+2023-08-30 17:57:16,303 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:17,793 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0004.jpg'
+2023-08-30 17:57:17,795 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 26004
+2023-08-30 17:57:18,823 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0005.jpg'
+2023-08-30 17:57:18,824 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 25533
+2023-08-30 17:57:20,397 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:57:20,475 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:57:20,870 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0006.jpg'
+2023-08-30 17:57:20,876 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 72999
+2023-08-30 17:57:21,938 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'shots/0007.jpg'
+2023-08-30 17:57:21,943 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 73166
+2023-08-30 17:57:22,315 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:28,335 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:28,337 [cuckoo.core.guest] DEBUG: cuckoo1: analysis #16 still processing
+2023-08-30 17:57:34,364 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:37,602 [cuckoo.core.resultserver] DEBUG: Task #16: File upload for 'files/53779238d1cc9ced_53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe'
+2023-08-30 17:57:37,605 [cuckoo.core.resultserver] DEBUG: Task #16 uploaded file length: 196608
+2023-08-30 17:57:37,714 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:57:40,379 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:46,394 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:52,415 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:58,435 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:57:59,591 [cuckoo.core.guest] DEBUG: cuckoo1: analysis #16 still processing
+2023-08-30 17:58:05,615 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:11,626 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:17,642 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:19,603 [cuckoo.core.resultserver] DEBUG: Task #16 is sending a BSON stream
+2023-08-30 17:58:23,663 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:29,679 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:29,685 [cuckoo.core.guest] DEBUG: cuckoo1: analysis #16 still processing
+2023-08-30 17:58:35,693 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:41,707 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:47,719 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:53,735 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:59,747 [cuckoo.core.guest] WARNING: Virtual Machine /status failed. This can indicate the guest losing network connectivity
+2023-08-30 17:58:59,755 [cuckoo.core.guest] DEBUG: cuckoo1: analysis #16 still processing
+2023-08-30 17:59:00,757 [cuckoo.core.guest] INFO: cuckoo1: end of analysis reached!
+2023-08-30 17:59:01,109 [cuckoo.core.plugins] DEBUG: Stopped auxiliary module: Replay
+2023-08-30 17:59:01,143 [cuckoo.core.plugins] DEBUG: Stopped auxiliary module: Sniffer
+2023-08-30 17:59:01,144 [cuckoo.machinery.virtualbox] DEBUG: Stopping vm cuckoo1
+2023-08-30 17:59:04,393 [cuckoo.core.resultserver] DEBUG: Stopped tracking machine 192.168.56.101 for task #16
+2023-08-30 17:59:04,394 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,395 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,395 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for LOG&gt; for task 16
+2023-08-30 17:59:04,396 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,397 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,397 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,398 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,398 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,399 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,399 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,399 [cuckoo.core.resultserver] DEBUG: Cancel &lt;Context for BSON&gt; for task 16
+2023-08-30 17:59:04,512 [cuckoo.core.scheduler] DEBUG: Released database task #16
+2023-08-30 17:59:04,552 [cuckoo.core.plugins] DEBUG: Executed processing module "AnalysisInfo" for task #16
+2023-08-30 17:59:05,290 [cuckoo.core.plugins] DEBUG: Executed processing module "BehaviorAnalysis" for task #16
+2023-08-30 17:59:05,303 [cuckoo.core.plugins] DEBUG: Executed processing module "Dropped" for task #16
+2023-08-30 17:59:05,458 [cuckoo.core.plugins] DEBUG: Executed processing module "DroppedBuffer" for task #16
+2023-08-30 17:59:07,555 [cuckoo.core.plugins] DEBUG: Executed processing module "MetaInfo" for task #16
+2023-08-30 17:59:09,255 [cuckoo.core.plugins] DEBUG: Executed processing module "ProcessMemory" for task #16
+2023-08-30 17:59:09,256 [cuckoo.core.plugins] DEBUG: Executed processing module "Procmon" for task #16
+2023-08-30 17:59:09,468 [cuckoo.core.plugins] DEBUG: Executed processing module "Screenshots" for task #16
+2023-08-30 17:59:09,851 [cuckoo.core.plugins] DEBUG: Executed processing module </pre>
+        </div>
+    </div>
+</div>
+</div>
+                    <div class="col-md-12">
+
+<section id="summary-signatures">
+    <h4><i class="fa fa-qrcode"></i> Signatures</h4>
+
+    <div class="cuckoo-analysis__panels">
+
+        
+            <section class="cuckoo-analysis__panel info">
+
+                <a href="#signature_antivm_queries_computername" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Queries for the computername
+                    
+                        
+                        (9 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_antivm_queries_computername" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameA</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="119">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="248">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="381">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="421">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="462">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="521">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="561">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="7988">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetComputerNameW</p>
+  <time>Aug. 30, 2023, 4:57 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="3088" data-cid="71">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">computer_name:</span>
+      
+        
+          <span class="mono">AHMED-PC</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel info">
+
+                <a href="#signature_console_output" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Command line console output was observed
+                    
+                        
+                        (4 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_console_output" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>WriteConsoleA</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="1324" data-cid="2487">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono">Ok.
+</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">console_handle:</span>
+      
+        
+          <span class="mono">0x00000007</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>WriteConsoleA</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="1628" data-cid="2308">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono">Ok.
+</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">console_handle:</span>
+      
+        
+          <span class="mono">0x00000007</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>WriteConsoleA</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="2332" data-cid="2314">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono">Ok.
+</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">console_handle:</span>
+      
+        
+          <span class="mono">0x00000007</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>WriteConsoleA</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="2608" data-cid="2314">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono">Ok.
+</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">console_handle:</span>
+      
+        
+          <span class="mono">0x00000007</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel info">
+
+                <a href="#signature_recon_fingerprint" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Collects information to fingerprint the system (MachineGuid, DigitalProductId, SystemBiosDate)
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_recon_fingerprint" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>registry</td>
+                                    <td>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\MachineGuid</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel info">
+
+                <a href="#signature_antivm_memory_available" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Checks amount of memory in system, this can be used 
+to detect virtual machines that have a low amount of memory available
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_antivm_memory_available" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GlobalMemoryStatusEx</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="603">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel info">
+
+                <a href="#signature_raises_exception" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    One or more processes crashed
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_raises_exception" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>__exception__</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="5343">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">stacktrace:</span>
+      
+        
+          <pre>IWICColorContext_InitializeFromMemory_Proxy+0x37187 windowscodecs+0xd8660 @ 0x73ef8660
+WICConvertBitmapSource+0x2472b WICMapGuidToShortName-0x10e74 windowscodecs+0x8f797 @ 0x73eaf797
+DllGetClassObject+0x12362 WICSerializeMetadataContent-0x7277 windowscodecs+0x23362 @ 0x73e43362
+DllGetClassObject+0x118b1 WICSerializeMetadataContent-0x7d28 windowscodecs+0x228b1 @ 0x73e428b1
+DllGetClassObject+0x11788 WICSerializeMetadataContent-0x7e51 windowscodecs+0x22788 @ 0x73e42788
+DllGetClassObject+0x12659 WICSerializeMetadataContent-0x6f80 windowscodecs+0x23659 @ 0x73e43659
+DllGetClassObject+0x8e24 WICSerializeMetadataContent-0x107b5 windowscodecs+0x19e24 @ 0x73e39e24
+DllGetClassObject+0x8c6d WICSerializeMetadataContent-0x1096c windowscodecs+0x19c6d @ 0x73e39c6d
+iconcodecservice+0x14c8 @ 0x71b514c8
+PaintMonitor+0xbc PaintDesktop-0x1db user32+0x5560 @ 0x76b05560
+GetUserObjectInformationA+0x31c AllowSetForegroundWindow-0x68c user32+0x74d4 @ 0x76b074d4
+FindWindowA+0xb3 ShowCaret-0x28e user32+0x90a6 @ 0x76b090a6
+FindWindowA+0xd2 ShowCaret-0x26f user32+0x90c5 @ 0x76b090c5
+GetDisplayConfigBufferSizes+0xa0 QueryDisplayConfig-0x37 user32+0x506e @ 0x76b0506e
+KiUserCallbackDispatcher+0x2e KiUserExceptionDispatcher-0x1a ntdll+0x46fee @ 0x77446fee
+DrawThemeParentBackground+0x582 IsThemeBackgroundPartiallyTransparent-0x744 uxtheme+0x5967 @ 0x74335967
+DrawThemeParentBackground+0x5f4 IsThemeBackgroundPartiallyTransparent-0x6d2 uxtheme+0x59d9 @ 0x743359d9
+SystemParametersInfoW+0x40 ChangeWindowMessageFilter-0x16e user32+0xe0da @ 0x76b0e0da
+53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924+0xba4a @ 0x18ba4a
+53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924+0xb0cd @ 0x18b0cd
+53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924+0x944e @ 0x18944e
+53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924+0x957a @ 0x18957a
+BaseThreadInitThunk+0x12 SetUnhandledExceptionFilter-0xbc kernel32+0x53c45 @ 0x76fd3c45
+RtlInitializeExceptionChain+0xef RtlFreeSid-0x117 ntdll+0x637f5 @ 0x774637f5
+RtlInitializeExceptionChain+0xc2 RtlFreeSid-0x144 ntdll+0x637c8 @ 0x774637c8</pre>
+        
+      
+      
+      <br>
+    
+  
+    
+      
+        <span class="grey">exception.instruction_r:</span>
+        <span class="mono">c9 c2 10 00 89 45 c0 eb ed 64 a1 18 00 00 00 8b</span>
+        <br>
+      
+        <span class="grey">exception.symbol:</span>
+        <span class="mono">RaiseException+0x54 BaseReleaseProcessDllPath-0x100 kernelbase+0xb760</span>
+        <br>
+      
+        <span class="grey">exception.instruction:</span>
+        <span class="mono">leave</span>
+        <br>
+      
+        <span class="grey">exception.module:</span>
+        <span class="mono">KERNELBASE.dll</span>
+        <br>
+      
+        <span class="grey">exception.exception_code:</span>
+        <span class="mono">0xc0000002</span>
+        <br>
+      
+        <span class="grey">exception.offset:</span>
+        <span class="mono">46944</span>
+        <br>
+      
+        <span class="grey">exception.address:</span>
+        <span class="mono">0x7560b760</span>
+        <br>
+      
+    
+  
+    
+      
+        <span class="grey">registers.esp:</span>
+        <span class="mono">4385572</span>
+        <br>
+      
+        <span class="grey">registers.edi:</span>
+        <span class="mono">5454600</span>
+        <br>
+      
+        <span class="grey">registers.eax:</span>
+        <span class="mono">4385572</span>
+        <br>
+      
+        <span class="grey">registers.ebp:</span>
+        <span class="mono">4385652</span>
+        <br>
+      
+        <span class="grey">registers.edx:</span>
+        <span class="mono">592</span>
+        <br>
+      
+        <span class="grey">registers.ebx:</span>
+        <span class="mono">4094</span>
+        <br>
+      
+        <span class="grey">registers.esi:</span>
+        <span class="mono">5453952</span>
+        <br>
+      
+        <span class="grey">registers.ecx:</span>
+        <span class="mono">593</span>
+        <br>
+      
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_dumped_buffer" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    One or more potentially interesting buffers were 
+extracted, these generally contain injected code, configuration data, 
+etc.
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_dumped_buffer" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                    </table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_antivm_disk_size" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Queries the disk size which could be used to detect 
+virtual machine with small fixed size or dynamic allocation
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_antivm_disk_size" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>GetDiskFreeSpaceExW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="602">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">total_number_of_free_bytes:</span>
+      
+        
+          <span class="mono">26253991936</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">free_bytes_available:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">root_path:</span>
+      
+        
+          <span class="mono">C:</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">total_number_of_bytes:</span>
+      
+        
+          <span class="mono">34252779520</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_creates_doc" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Creates (office) documents on the filesystem
+                    
+                        
+                        (7 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_creates_doc" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>file</td>
+                                    <td>c:\Acrobat3\Reader\LICENSE.PDF</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>c:\Users\ahmed\documents\zeedumiwygp.pptx</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>c:\Users\ahmed\documents\cyuxsopcflow.docx</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>c:\Acrobat3\Reader\HELP\READER.PDF</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>c:\Users\ahmed\documents\houutmvxsoefmbgf.docx</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>c:\Users\ahmed\documents\rmsbyimfcasjgcjfw.ppt</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>c:\Acrobat3\Reader\ACROBAT.PDF</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_creates_shortcut" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Creates a shortcut to an executable file
+                    
+                        
+                        (6 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_creates_shortcut" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Roaming\Microsoft\Windows\Recent\agent.pyw.lnk</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Roaming\Microsoft\Windows\Recent\agent.py.lnk</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Roaming\Microsoft\Windows\Recent\Téléchargements (2).lnk</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Roaming\Microsoft\Windows\Recent\Système et sécurité.lnk</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Roaming\Microsoft\Windows\Recent\Téléchargements.lnk</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Roaming\Microsoft\Windows\Recent\Réseau et Internet.lnk</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_suspicious_process" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Creates a suspicious process
+                    
+                        
+                        (2 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_suspicious_process" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\System32\cmd.exe</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>"C:\Windows\System32\mshta.exe" "C:\Users\ahmed\Desktop\_R_E_A_D___T_H_I_S___EI38_.hta" </td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_exe_appdata" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Drops an executable to the user AppData folder
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_exe_appdata" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>file</td>
+                                    <td>C:\Users\ahmed\AppData\Local\Temp\53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_has_wmi" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Executes one or more WMI queries
+                    
+                        
+                        (2 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_has_wmi" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>wmi</td>
+                                    <td>SELECT __PATH, ProcessId, 
+CSName, Caption, SessionId, ThreadCount, WorkingSetSize, KernelModeTime,
+ UserModeTime, ParentProcessId FROM Win32_Process WHERE (  Caption = 
+"53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe")</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>wmi</td>
+                                    <td>&lt;INVALID POINTER&gt;</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_stealth_window" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    A process created a hidden window
+                    
+                        
+                        (4 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_stealth_window" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>CreateProcessInternalW</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="201">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">thread_identifier:</span>
+      
+        
+          <span class="mono">580</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">thread_handle:</span>
+      
+        
+          <span class="mono">0x000000c4</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">1324</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">current_directory:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">track:</span>
+      
+        
+          <span class="mono">1</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">command_line:</span>
+      
+        
+          <span class="mono">C:\Windows\system32\netsh.exe advfirewall set allprofiles state on</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath_r:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">stack_pivoted:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">creation_flags:</span>
+      
+        
+          <span class="mono">134217728</span>
+        
+      
+      
+        <span class="grey">(CREATE_NO_WINDOW)</span>
+      
+      <br>
+    
+  
+    
+      <span class="grey">inherit_handles:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000000cc</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>CreateProcessInternalW</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="209">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">thread_identifier:</span>
+      
+        
+          <span class="mono">1840</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">thread_handle:</span>
+      
+        
+          <span class="mono">0x000000c4</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">1628</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">current_directory:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">track:</span>
+      
+        
+          <span class="mono">1</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">command_line:</span>
+      
+        
+          <span class="mono">C:\Windows\system32\netsh.exe advfirewall reset</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath_r:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">stack_pivoted:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">creation_flags:</span>
+      
+        
+          <span class="mono">134217728</span>
+        
+      
+      
+        <span class="grey">(CREATE_NO_WINDOW)</span>
+      
+      <br>
+    
+  
+    
+      <span class="grey">inherit_handles:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000000cc</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>CreateProcessInternalW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="489">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">thread_identifier:</span>
+      
+        
+          <span class="mono">2328</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">thread_handle:</span>
+      
+        
+          <span class="mono">0x000001bc</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">2332</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">current_directory:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">track:</span>
+      
+        
+          <span class="mono">1</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">command_line:</span>
+      
+        
+          <span class="mono">C:\Windows\system32\netsh.exe advfirewall 
+firewall add rule name="Hl502liiQa" dir=out action=block 
+program="C:\Program Files\Windows Defender\MpCmdRun.exe"</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath_r:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">stack_pivoted:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">creation_flags:</span>
+      
+        
+          <span class="mono">134217728</span>
+        
+      
+      
+        <span class="grey">(CREATE_NO_WINDOW)</span>
+      
+      <br>
+    
+  
+    
+      <span class="grey">inherit_handles:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000001c0</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>CreateProcessInternalW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="497">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">thread_identifier:</span>
+      
+        
+          <span class="mono">2596</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">thread_handle:</span>
+      
+        
+          <span class="mono">0x000001bc</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">2608</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">current_directory:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">track:</span>
+      
+        
+          <span class="mono">1</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">command_line:</span>
+      
+        
+          <span class="mono">C:\Windows\system32\netsh.exe advfirewall 
+firewall add rule name="ESr1wc4Kuk" dir=out action=block 
+program="C:\Program Files\Windows Defender\MSASCui.exe"</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath_r:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">stack_pivoted:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">creation_flags:</span>
+      
+        
+          <span class="mono">134217728</span>
+        
+      
+      
+        <span class="grey">(CREATE_NO_WINDOW)</span>
+      
+      <br>
+    
+  
+    
+      <span class="grey">inherit_handles:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000001c0</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_moves_self" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Moves the original executable to a new location
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_moves_self" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>MoveFileWithProgressW</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="8101">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">newfilepath_r:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">flags:</span>
+      
+        
+          <span class="mono">4</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">oldfilepath_r:</span>
+      
+        
+          <span class="mono">C:\Users\ahmed\AppData\Local\Temp\53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">newfilepath:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">oldfilepath:</span>
+      
+        
+          <span class="mono">C:\Users\ahmed\AppData\Local\Temp\53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_packer_entropy" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    The binary likely contains encrypted or compressed data indicative of a packer
+                    
+                        
+                        (2 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_packer_entropy" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    
+                                        
+                                    
+                                        
+                                            <td colspan="1">section</td>
+                                            <td colspan="4">{u'size_of_data':
+ u'0x00020000', u'virtual_address': u'0x00011000', u'entropy': 
+7.271253269174842, u'name': u'.data', u'virtual_size': u'0x00021730'}</td>
+                                        
+                                    
+                                        
+                                            <td colspan="1">entropy</td>
+                                            <td colspan="4">7.27125326917</td>
+                                        
+                                    
+                                        
+                                            <td colspan="1">description</td>
+                                            <td colspan="4">A section with a high entropy has been found</td>
+                                        
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    
+                                        
+                                    
+                                        
+                                            <td colspan="1">entropy</td>
+                                            <td colspan="4">0.670157068063</td>
+                                        
+                                    
+                                        
+                                            <td colspan="1">description</td>
+                                            <td colspan="4">Overall entropy of this PE file is high</td>
+                                        
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_privilege_luid_check" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Checks for the Locally Unique Identifier on the system for a suspicious privilege
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_privilege_luid_check" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>LookupPrivilegeValueW</p>
+  <time>Aug. 30, 2023, 4:57 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="3088" data-cid="52">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">system_name:</span>
+      
+        
+          <span class="mono"></span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">privilege_name:</span>
+      
+        
+          <span class="mono">SeDebugPrivilege</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">1</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_memdump_urls" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Potentially malicious URLs were found in the process memory dump
+                    
+                        
+                        (14 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_memdump_urls" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>url</td>
+                                    <td>http://www.iec.ch</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/rss/1.0/modules/content/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://wellformedweb.org/CommentAPI/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/rss/1.0/modules/syndication/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://www.microsoft.com/schemas/rss/core/2005</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/dc/elements/1.1/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://www.microsoft.com/schemas/rss/core/2005/internal</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://localizability/practices/XMLConfiguration.asp</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/atom/ns</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/rss/1.0/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/dc/terms/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://localizability/practices/XML.asp</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://www.microsoft.com/schemas/rss/monitoring/2007</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>url</td>
+                                    <td>http://purl.org/rss/1.0/modules/slash/</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_terminates_remote_process" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Terminates another process
+                    
+                        
+                        (6 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_terminates_remote_process" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtTerminateProcess</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="205">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">status_code:</span>
+      
+        
+          <span class="mono">0x00000000</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">1324</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000000cc</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtTerminateProcess</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="206">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">status_code:</span>
+      
+        
+          <span class="mono">0x00000000</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">1324</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000000cc</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtTerminateProcess</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="213">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">status_code:</span>
+      
+        
+          <span class="mono">0x00000000</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">1628</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000000cc</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtTerminateProcess</p>
+  <time>Aug. 30, 2023, 4:55 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="214">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">status_code:</span>
+      
+        
+          <span class="mono">0x00000000</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">1628</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000000cc</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtTerminateProcess</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="493">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">status_code:</span>
+      
+        
+          <span class="mono">0x00000000</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">2332</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000001c0</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtTerminateProcess</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="494">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">status_code:</span>
+      
+        
+          <span class="mono">0x00000000</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_identifier:</span>
+      
+        
+          <span class="mono">2332</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">process_handle:</span>
+      
+        
+          <span class="mono">0x000001c0</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel warning">
+
+                <a href="#signature_uses_windows_utilities" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Uses Windows utilities for basic Windows functionality
+                    
+                        
+                        (5 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_uses_windows_utilities" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>cmdline</td>
+                                    <td>taskkill  /f /im "53779238d1cc9ceddc3cf8a0debbfc2f3888a9c3cbfb0cbae4b1ae40b4aa5924.exe"  </td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe 
+advfirewall firewall add rule name="Hl502liiQa" dir=out action=block 
+program="C:\Program Files\Windows Defender\MpCmdRun.exe"</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe 
+advfirewall firewall add rule name="ESr1wc4Kuk" dir=out action=block 
+program="C:\Program Files\Windows Defender\MSASCui.exe"</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe advfirewall set allprofiles state on</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe advfirewall reset</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel danger">
+
+                <a href="#signature_bypass_firewall" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Operates on local firewall's policies and settings
+                    
+                        
+                        (4 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_bypass_firewall" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe 
+advfirewall firewall add rule name="Hl502liiQa" dir=out action=block 
+program="C:\Program Files\Windows Defender\MpCmdRun.exe"</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe 
+advfirewall firewall add rule name="ESr1wc4Kuk" dir=out action=block 
+program="C:\Program Files\Windows Defender\MSASCui.exe"</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe advfirewall set allprofiles state on</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                <tr>
+                                    <td>cmdline</td>
+                                    <td>C:\Windows\system32\netsh.exe advfirewall reset</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel danger">
+
+                <a href="#signature_antisandbox_cuckoo_files" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Attempts to detect Cuckoo Sandbox through the presence of a file
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_antisandbox_cuckoo_files" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                <tbody><tr>
+                                    <td>file</td>
+                                    <td>c:\tmp9dglh0\analyzer.py</td>
+                                    
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel danger">
+
+                <a href="#signature_disables_proxy" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Disables proxy possibly for traffic interception
+                    
+                        
+                        (1 event)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_disables_proxy" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>RegSetValueExA</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="2780" data-cid="3211">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">key_handle:</span>
+      
+        
+          <span class="mono">0x000003a4</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">regkey_r:</span>
+      
+        
+          <span class="mono">ProxyEnable</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">reg_type:</span>
+      
+        
+          <span class="mono">4</span>
+        
+      
+      
+        <span class="grey">(REG_DWORD)</span>
+      
+      <br>
+    
+  
+    
+      <span class="grey">value:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">regkey:</span>
+      
+        
+          <span class="mono">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyEnable</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+            <section class="cuckoo-analysis__panel danger">
+
+                <a href="#signature_ransomware_message" class="cuckoo-analysis__panel--toggle" data-toggle="collapse" aria-expanded="true">
+                    Writes a potential ransom message to disk
+                    
+                        
+                        (10 events)
+                        
+                    
+                </a>
+
+                <div class="cuckoo-analysis__panel--body collapse in" id="signature_ransomware_message" aria-expanded="true" style="">
+
+                    <table class="cuckoo-table">
+                        
+                        
+
+                            
+
+                                
+
+                                    <!--  -->
+
+                                    <thead>
+                                        <tr>
+                                            <th>Time &amp; API</th>
+                                            <th>Arguments</th>
+                                            <th>Status</th>
+                                            <th>Return</th>
+                                            <th>Repeated</th>
+                                        </tr>
+                                    </thead><tbody>
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4415">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000254</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\Acrobat3\Reader\_R_E_A_D___T_H_I_S___1KV2K_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4450">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000250</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\Acrobat3\Reader\HELP\_R_E_A_D___T_H_I_S___FBJC_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4505">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000254</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\tmp9dglh0\_R_E_A_D___T_H_I_S___K4KHOU_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4511">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000250</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\tmp9dglh0\lib\api\_R_E_A_D___T_H_I_S___7LRT_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4585">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000254</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\tmp9dglh0\lib\common\_R_E_A_D___T_H_I_S___U84MI_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4687">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000258</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\tmp9dglh0\lib\core\_R_E_A_D___T_H_I_S___JA0I1C_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4787">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000258</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\tmp9dglh0\modules\auxiliary\_R_E_A_D___T_H_I_S___WGS0_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="4933">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x0000025c</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\tmp9dglh0\modules\packages\_R_E_A_D___T_H_I_S___5IEXL8_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="5121">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x00000250</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\Users\ahmed\Documents\_R_E_A_D___T_H_I_S___M0SG1_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                            
+
+                                
+
+                                <tr>
+                                    
+<td class="date-api">
+  <p>NtWriteFile</p>
+  <time>Aug. 30, 2023, 4:56 p.m.</time>
+  
+    <a href="#" class="call-link" data-pid="544" data-cid="7204">
+      <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    </a>
+  
+</td>
+<td>
+  
+    
+      <span class="grey">buffer:</span>
+      
+        
+          <span class="mono"> 
+ CERBER RANSOMWARE
+ 
+ -----
+ 
+ YOUR DOCUMENTS, PH0TOS, DATABASES AND OTHER IMPORTANT FILES HAVE BEEN ENCRYPTED!
+ 
+ -----
+ 
+ The only way to decrypt y0ur files is to receive the private key and decryption program.
+ 
+ To receive the private key and decryption program go to any decrypted folder, 
+ inside there is the special file (*_READ_THIS_FILE_*) with complete instructions 
+ how to decrypt your files.
+ 
+ If you cannot find any (*_READ_THIS_FILE_*) file at your PC, follow the instructions below:
+ 
+ -----
+ 
+ 1. Download "Tor Browser" from https://www.torproject.org/ and install it.
+ 
+ 2. In the "Tor Browser" open your personal page here:
+ 
+ http://p27dokhpz2n7nvgr.onion/224E-D4D4-AABD-0006-45ED
+ 
+ Note! This page is available via "Tor Browser" only.
+ 
+ -----
+ 
+ Also you can use temporary addresses on your personal page without using "Tor Browser".
+ 
+ -----
+ 
+ 1. http://p27dokhpz2n7nvgr.tor2web.org/224E-D4D4-AABD-0006-45ED
+ 
+ 2. http://p27dokhpz2n7nvgr.onion.link/224E-D4D4-AABD-0006-45ED
+ 
+ 3. http://p27dokhpz2n7nvgr.onion.nu/224E-D4D4-AABD-0006-45ED
+ 
+ 4. http://p27dokhpz2n7nvgr.onion.cab/224E-D4D4-AABD-0006-45ED
+ 
+ 5. http://p27dokhpz2n7nvgr.onion.to/224E-D4D4-AABD-0006-45ED
+ 
+ -----
+ 
+ Note! These are temporary addresses! They will be available for a limited amount of time!
+ 
+ -----
+ </span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">offset:</span>
+      
+        
+          <span class="mono">0</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">file_handle:</span>
+      
+        
+          <span class="mono">0x0000025c</span>
+        
+      
+      
+      <br>
+    
+  
+    
+      <span class="grey">filepath:</span>
+      
+        
+          <span class="mono">C:\Users\ahmed\Desktop\_R_E_A_D___T_H_I_S___F4VDW_.txt</span>
+        
+      
+      
+      <br>
+    
+  
+</td>
+<td>
+    
+        1
+    
+</td>
+<td><span class="mono">0</span></td>
+<td>
+    
+        0
+    
+</td>
+
+                                </tr>
+
+                            
+
+                        
+
+                    </tbody></table>
+
+                </div>
+            </section>            
+        
+
+        
+
+    </div>
+
+</section></div>
+                    <div class="col-md-12"><section id="screenshots">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Screenshots
+            <div class="btn-group pull-right">
+                <button id="btn_screenshots_toggle" type="button" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="panel-body minified">
+            
+                <div>
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df53/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df57/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled_002.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df53/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df5b/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled_006.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df5f/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled_003.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df63/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled_004.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+                    
+                    <a style="padding: 4px;display: inline-block;" data-lightbox="screenshot" href="http://localhost:8080/file/screenshot/64ef75680b66310ab388df67/nofetch/">
+                        <img class="opaque screenshot" src="Cuckoo%20Sandbox_files/Untitled_005.jpeg" style="height: 120px;">
+                    </a>
+                    
+                
+            
+        </div>
+    </div>
+
+</div></section>
+</div>
+
+                    <div class="clearfix">
+                        <div class="col-lg-9 col-md-8 col-sm-12">
+
+<div class="network-display__outer network-display__table" id="dns-requests">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Response</th>
+                <th>Post-Analysis Lookup</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            
+                <tr>
+                    <td class="cell-fill text-center" colspan="3">No hosts contacted.</td>
+                </tr>
+            
+
+        </tbody>
+    </table>
+
+</div></div>
+                        <div class="col-lg-3 col-md-4 col-sm-12"><div class="network-display__outer network-display__table" id="hosts">
+
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+
+                <tr>
+                    <td class="cell-fill text-center" colspan="3">No hosts contacted.</td>
+                </tr>
+
+            
+
+        </tbody>
+    </table>
+
+</div></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- footer replacement to avoid double scrollbars -->
+            <footer class="flex-grid__footer spread-alignment">
+                <p class="footnote">
+                    ©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a>
+                </p>
+                <div class="logo">
+                    <img src="Cuckoo%20Sandbox_files/cuckoo_inverse.png" alt="Cuckoo Malware Analysis Sandbox">
+                    <a href="#">Back to Top</a>
+                </div>
+            </footer>
+
+        </section>
+
+    </div>
+
+
+	
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container-fluid center">
+            <a href="#">Back to the top</a>
+        </div>
+    </footer>
+    <div id="footer-extra">
+        <div class="container-fluid center">
+            <div>©2010-2018 <a href="https://www.cuckoosandbox.org/" target="_blank">Cuckoo Sandbox</a></div>
+        </div>
+    </div>
+
+    <!-- feedback form modal -->
+    <div class="modal fade modal-cuckoo" id="feedback_form">
+  <form class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fa fa-bug"></i> Feedback</h4>
+      </div>
+      <p class="modal-section arrow">Expecting different results? Share 
+this analysis report with us and we’ll investigate it. Please include a 
+brief message of what you had expected to see and what you got instead.</p>
+
+      <div class="modal-section modal-form arrow">
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="name" id="feedback-name" required="">
+            <label for="feedback-name">Your name</label>
+          </fieldset>
+          <fieldset>
+            <input type="text" name="email" id="feedback-email" required="">
+            <label for="feedback-email">Your email</label>
+          </fieldset>
+        </div>
+        <div class="form-col">
+          <fieldset>
+            <input type="text" name="company" id="feedback-company" required="">
+            <label for="feedback-company">Your company</label>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form arrow">
+        <textarea name="message" id="feedback-message" placeholder="Describe to us what does not seem to work properly."></textarea>
+      </div>
+
+      <div class="modal-section modal-form arrow arrow-center" id="feedback-includes">
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_analysis" id="feedback-analysis">
+          <label for="feedback-analysis"><span></span> Include analysis</label>
+        </div>
+        <div class="modal-form__checkbox">
+          <input type="checkbox" name="include_memdump" id="feedback-memdump">
+          <label for="feedback-memdump"><span></span> Include memory dump</label>
+        </div>
+      </div>
+
+      <div class="modal-section modal-form no-flex center">
+        <p id="feedback-size">Estimated report size: <strong class="file-estimation">55.3&nbsp;KB</strong></p>
+        <button class="modal-submit" type="submit" formnovalidate="">Send feedback report</button>
+        <p>or <a href="modal:cancel">cancel</a></p>
+      </div>
+
+      <div class="modal-section modal-footer center"></div>
+    </div>
+  </form>
+</div>
+
+
+    <!-- cuckoo freeze-page loader -->
+    <div class="page-freeze" id="page-freeze-container">
+        <div class="page-freeze__graphic">
+            <img src="Cuckoo%20Sandbox_files/cuckoo-coffee-cup.png" alt="Cuckoo">
+        </div>
+        <div class="page-freeze__animation">
+            <!-- spinner -->
+            <div class="page-freeze__spinner">
+                <div class="page-freeze__spinner--c1"></div>
+                <div class="page-freeze__spinner--c2"></div>
+            </div>
+        </div>
+        <div class="page-freeze__context">
+            <p class="page-freeze__message">We're processing your submission... This could take a few seconds.</p>
+            <div class="page-freeze__options hidden">
+                <button class="btn btn-default btn-lg close-page-freeze">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIGHLIGHT (_office.html, _pdf.html) -->
+    <script>
+        $(document).ready(function() {
+          if(!window.hljs) return;
+          hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+    <!-- RECENT PAGE CODE (analysis/index.html) -->
+    <script>
+
+        $(document).ready(function() {
+
+            // only do this if we are on the recent page
+            if(!$('table#recent').length) return;
+
+            var recent;
+
+            $('body').on('click', 'div.nav_container>div', function() {
+
+                var btn_id = $(this).find("a").attr("data-filter");
+                var btn_active = $(this).attr('class');
+                var btn_categories = ["cat_files", "cat_urls"];
+
+                if($('a[data-filter^="score"]', this).length) {
+                    var score_choice = $(this).find('a').attr('data-filter');
+
+                    $('.nav_container>div#item>a[data-filter^="score"]').each(function(i, obj){
+                        obj = $(obj);
+                        var uid = obj.attr('data-filter');
+
+                        if(uid != score_choice){
+                            obj.parent().removeClass('active');
+                        }
+                    });
+                }
+
+                if(!btn_active){
+                    // when a category button is clicked, force deselection of adjacent categories
+                    if(btn_id.startsWith("cat_")){
+                        btn_categories.forEach(function (category) {
+                            if (category != btn_id) {
+                                category = $('.nav_container>div#item>a[data-filter="' + category + '"]').parent();
+
+                                if (category.hasClass("active")) { category.removeClass("active"); }
+                            }
+                        });
+                    }
+
+                    $(this).addClass('active');
+                    var filter = $(this).attr('data-filter');
+                    recent.load();
+                } else {
+                    $(this).removeClass('active');
+                    recent.load();
+                }
+            });
+
+            recent = new Recent();
+            recent.load();
+
+            // Detect end of page scroll
+            $(window).scroll(function() {
+               if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    if(!recent.empty_results) recent.lazy_load();
+               }
+            });
+
+        });
+    </script>
+
+    <!-- IMPORT PAGE (import.html) -->
+    <script type="text/javascript">
+
+        if(document.getElementById('analysis/import') !== null) {
+
+            $(document)
+                .on('change', '.btn-file :file', function() {
+                    var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $(document).ready( function() {
+                $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        if( log ) alert(log);
+                    }
+
+                });
+            });
+
+        }
+
+    </script>
+
+    <!-- WEBIF ANALYSIS  -->
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btn_screenshots_toggle").click(function(){
+                $(this).parent().parent().parent().find('.panel-body').toggleClass("minified");
+            });
+
+            if($("table#network-hosts, table#network-dns").length) {
+
+                setTimeout(function () {
+                    ["network_hosts", "network_dns"].forEach(function (x) {
+                        $('#' + x).DataTable({
+                            responsive: true,
+                            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                            "pageLength": 10,
+                            "language": {
+                                "lengthMenu": "Show _MENU_ results",
+                                "zeroRecords": "No results",
+                                "info": "_PAGE_/_PAGES_"
+                            }
+                        });
+                    });
+                }, 200);
+
+            }
+
+        });
+
+    </script>
+
+
+
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href=""></a><a class="lb-next" href=""></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div></body></html>
