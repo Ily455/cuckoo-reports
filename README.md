@@ -2,7 +2,7 @@
 This is where I put my cuckoo sandbox analysis reports.
 
 ## web interface browsing usage
-In order to browse the analysis results as you would do in the cuckoo web interface, download the repo start a webserver in the malware directory and open http://localhost:port in your browser.
+In order to browse the analysis results as you would do in the cuckoo web interface, download the repo, start a webserver in the web directory and open http://localhost:port in your browser.
 
 
 The commands will look something like this:
@@ -10,6 +10,6 @@ The commands will look something like this:
 >
 >`cd my-Cuckoo-reports`
 >
->`cd malware-folder`
+>`cd malware/web/`
 >
 >`python3 -m http.server -b 127.0.0.1 8080`
